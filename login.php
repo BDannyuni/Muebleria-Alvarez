@@ -58,12 +58,12 @@
         <div class="overlay">
             <div class="overlay-panel overlay-left">
                 <h1>Bienvenido por primera vez!!</h1><br>
-                <img src="assets/images/Icono.png" height="120px" alt=""><h3>Muebleria Alvarez</h3><br>
+                <img src="assets/images/logo2.png" height="120px" alt=""><h3>Muebleria Alvarez</h3><br>
                 <button class="ghost" id="signIn">Iniciar Sesion</button>
             </div>
             <div class="overlay-panel overlay-right">
                 <h1>Bienvenido de Vuelta!!</h1><br>
-                <img src="assets/images/Icono.png" height="120px"  alt=""><h3>Muebleria Alvarez</h3><br>
+                <img src="assets/images/logo2.png" height="120px"  alt=""><h3>Muebleria Alvarez</h3><br>
                 <button class="ghost" id="signUp">Crear cuenta</button>
             </div>
         </div>
