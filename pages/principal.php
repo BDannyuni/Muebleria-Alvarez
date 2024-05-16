@@ -1,3 +1,6 @@
+
+
+
 <!-- Home -->
 
 <div class="home">
@@ -134,101 +137,53 @@
 	</div>
 
 	<!-- New Arrivals -->
+<div class="arrivals">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <div class="section_title_container text-center">
+                    <div class="section_subtitle">Solamente lo Mejor</div>
+                    <div class="section_title">Nuevos Productos</div>
+                </div>
+            </div>
+        </div>
+        <div class="row products_container">
 
-	<div class="arrivals">
-		<div class="container">
-			<div class="row">
-				<div class="col">
-					<div class="section_title_container text-center">
-						<div class="section_subtitle">Solamente lo Mejor</div>
-						<div class="section_title">Nuevos Productos</div>
-					</div>
-				</div>
-			</div>
-			<div class="row products_container">
+		<?php include 'productos.php'; ?>
+            <?php if (!empty($productos)): ?>
+                <?php foreach ($productos as $producto): ?>
+                    <div class="col-lg-4 product_col">
+                        <div class="product">
+                            <div class="product_image">
+                                <img src="<?php echo $producto['image']; ?>" alt="<?php echo $producto['nombre']; ?>">
+                            </div>
+                            <div class="rating rating_4">
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                            </div>
+                            <div class="product_content clearfix">
+                                <div class="product_info">
+                                    <div class="product_name"><a href="product.html"><?php echo $producto['nombre']; ?></a></div>
+                                    <div class="product_price">$<?php echo number_format($producto['precio'], 2); ?></div>
+                                </div>
+                                <div class="product_options">
+                                    <div class="product_buy product_option"><img src="plantilla/images/shopping-bag-white.svg" alt="Comprar"></div>
+                                    <div class="product_fav product_option">+</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <p>No hay productos disponibles.</p>
+            <?php endif; ?>
 
-				<!-- Product -->
-				<div class="col-lg-4 product_col">
-					<div class="product">
-						<div class="product_image">
-							<img src="plantilla/images/product_1.jpg" alt="">
-						</div>
-						<div class="rating rating_4">
-							<i class="fa fa-star"></i>
-							<i class="fa fa-star"></i>
-							<i class="fa fa-star"></i>
-							<i class="fa fa-star"></i>
-							<i class="fa fa-star"></i>
-						</div>
-						<div class="product_content clearfix">
-							<div class="product_info">
-								<div class="product_name"><a href="product.html">Woman's Long Dress</a></div>
-								<div class="product_price">$45.00</div>
-							</div>
-							<div class="product_options">
-								<div class="product_buy product_option"><img src="plantilla/images/shopping-bag-white.svg" alt=""></div>
-								<div class="product_fav product_option">+</div>
-							</div>
-						</div>
-					</div>
-				</div>
-
-				<!-- Product -->
-				<div class="col-lg-4 product_col">
-					<div class="product">
-						<div class="product_image">
-							<img src="plantilla/images/product_2.jpg" alt="">
-						</div>
-						<div class="rating rating_4">
-							<i class="fa fa-star"></i>
-							<i class="fa fa-star"></i>
-							<i class="fa fa-star"></i>
-							<i class="fa fa-star"></i>
-							<i class="fa fa-star"></i>
-						</div>
-						<div class="product_content clearfix">
-							<div class="product_info">
-								<div class="product_name"><a href="product.html">2 Piece Swimsuit</a></div>
-								<div class="product_price">$35.00</div>
-							</div>
-							<div class="product_options">
-								<div class="product_buy product_option"><img src="plantilla/images/shopping-bag-white.svg" alt=""></div>
-								<div class="product_fav product_option">+</div>
-							</div>
-						</div>
-					</div>
-				</div>
-
-				<!-- Product -->
-				<div class="col-lg-4 product_col">
-					<div class="product">
-						<div class="product_image">
-							<img src="plantilla/images/product_3.jpg" alt="">
-						</div>
-						<div class="rating rating_4">
-							<i class="fa fa-star"></i>
-							<i class="fa fa-star"></i>
-							<i class="fa fa-star"></i>
-							<i class="fa fa-star"></i>
-							<i class="fa fa-star"></i>
-						</div>
-						<div class="product_content clearfix">
-							<div class="product_info">
-								<div class="product_name"><a href="product.html">Man Blue Jacket</a></div>
-								<div class="product_price">$145.00</div>
-							</div>
-							<div class="product_options">
-								<div class="product_buy product_option"><img src="plantilla/images/shopping-bag-white.svg" alt=""></div>
-								<div class="product_fav product_option">+</div>
-							</div>
-						</div>
-					</div>
-				</div>
-
-			</div>
-		</div>
-	</div>
-
+        </div>
+    </div>
+</div>
 
 	
 	<!-- Extra -->
