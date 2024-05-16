@@ -257,7 +257,7 @@ section
 {
 	font-size: 14px;
 	font-weight: 600;
-	color: #937c6f;
+	color: #5E58CF;
 	text-transform: uppercase;
 	letter-spacing: 0.2em;
 }
@@ -273,7 +273,7 @@ section
 {
 	width: 142px;
 	height: 46px;
-	background: #937c6f;
+	background: #5E58CF;
 	text-align: center;
 	-webkit-transition: all 200ms ease;
 	-moz-transition: all 200ms ease;
@@ -383,7 +383,7 @@ section
 }
 .main_nav ul li a:hover
 {
-	color: #937c6f;
+	color: #5E58CF;
 }
 
 /*********************************
@@ -466,7 +466,7 @@ section
 	left: -5px;
 	width: 15px;
 	height: 15px;
-	background: #937c6f;
+	background: #5E58CF;
 	border-radius: 50%;
 }
 .cart_num_inner,
@@ -533,7 +533,7 @@ section
 }
 .burger_container:hover div
 {
-	background: #937c6f;
+	background: #5E58CF;
 }
 
 /*********************************
@@ -605,7 +605,7 @@ section
 }
 .breadcrumbs ul li a:hover
 {
-	color: #937c6f;
+	color: #5E58CF;
 }
 
 /*********************************
@@ -673,7 +673,7 @@ section
 }
 .menu_close:hover div
 {
-	background: #937c6f;
+	background: #5E58CF;
 }
 .menu .logo
 {
@@ -698,7 +698,7 @@ section
 }
 .menu_nav ul li a:hover
 {
-	color: #937c6f;
+	color: #5E58CF;
 }
 .menu .search
 {
@@ -757,7 +757,7 @@ section
 }
 .current_page ul li a:hover
 {
-	color: #937c6f;
+	color: #5E58CF;
 }
 
 /*********************************
@@ -1005,7 +1005,7 @@ section
 }
 .regular_radio:checked + label
 {
-	background: #937c6f;
+	background: #5E58CF;
 	color: #FFFFFF;
 }
 .regular_radio + label
@@ -1093,12 +1093,12 @@ section
 }
 .review_name a:hover
 {
-	color: #937c6f;
+	color: #5E58CF;
 }
 .review_date
 {
 	font-size: 12px;
-	color: #937c6f;
+	color: #5E58CF;
 	margin-top: 3px;
 }
 .review_rating
@@ -1214,7 +1214,7 @@ section
 	height: 46px;
 	border: none;
 	outline: none;
-	background: #937c6f;
+	background: #5E58CF;
 	color: #FFFFFF;
 	font-size: 12px;
 	text-transform: uppercase;
@@ -1320,7 +1320,7 @@ section
 	right: 0;
 	width: 142px;
 	height: 46px;
-	background: #937c6f;
+	background: #5E58CF;
 	color: #FFFFFF;
 	font-size: 12px;
 	letter-spacing: 0.2em;
@@ -1389,7 +1389,7 @@ section
 }
 .footer_nav ul li a:hover
 {
-	color: #937c6f;
+	color: #5E58CF;
 }
 .footer_social
 {
@@ -1407,7 +1407,7 @@ section
 .footer_social ul li a i
 {
 	font-size: 24px;
-	color: #937c6f;
+	color: #5E58CF;
 	-webkit-transition: all 200ms ease;
 	-moz-transition: all 200ms ease;
 	-ms-transition: all 200ms ease;

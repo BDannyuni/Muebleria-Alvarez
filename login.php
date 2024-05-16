@@ -34,12 +34,13 @@
                                 <option value="0">Selecione el Tipo de Usuario</option>
                                 <option value="1">Administrador</option>
                                 <option value="2">Usuario</option>
-                            </select>
+                            </select><br>
                         
 
-                        <div class="card-tools offset-lg-2" style="display: inline">
+                        <div class="card-tools" style="display: inline">
                             <input class='btn btn-success' type="submit" name="registrar_usuario"
                                 value="Registrar Usuario">
+            <button><a class="text-white" href="index.php">Regresar</a></button>
                         </div>
                     </form>
     </div>
@@ -52,6 +53,7 @@
             <input type="password" placeholder="Contraseña" name="Contraseña"/>
             <a href="#">¿olvidaste tu contraseña?</a>
             <input type="submit" name="btningresar" value="INICIAR SESION" class="btn"/>
+            <button><a class="text-white" href="index.php">Regresar</a></button>
         </form>
     </div>
     <div class="overlay-container">

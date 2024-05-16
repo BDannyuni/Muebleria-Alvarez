@@ -33,8 +33,8 @@
                         <li><a href="#"></a></li>
                         <li><a href="#"></a></li>
                         <li><a href="index.php">Inicio</a></li>
-                        <li><a style="cursor: pointer;" class="sidebar-link" aria-expanded="false" onclick="CargarContenido('pages/catalogo.php','content-wrapper')">Catalogo</a></li>
-                        <li><a href="nosotros.php">Sobre Nosotros</a></li>
+                        <li><a href="pages/catalogo.php">Catalogo</a></li>
+                        <li><a href="pages/nosotros.php">Sobre Nosotros</a></li>
                         <li><a href="contacto.php">Contacto</a></li>
 						<li><a href="#"></a></li>
                         <li><a href="#"></a></li>

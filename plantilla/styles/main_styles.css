@@ -252,7 +252,7 @@ section
 {
 	font-size: 14px;
 	font-weight: 600;
-	color: #937c6f;
+	color: #5E58CF;
 	text-transform: uppercase;
 	letter-spacing: 0.2em;
 }
@@ -268,7 +268,7 @@ section
 {
 	width: 142px;
 	height: 46px;
-	background: #937c6f;
+	background: #5E58CF;
 	text-align: center;
 	-webkit-transition: all 200ms ease;
 	-moz-transition: all 200ms ease;
@@ -378,7 +378,7 @@ section
 }
 .main_nav ul li a:hover
 {
-	color: #937c6f;
+	color: #5E58CF;
 }
 
 /*********************************
@@ -461,7 +461,7 @@ section
 	left: -5px;
 	width: 15px;
 	height: 15px;
-	background: #937c6f;
+	background: #5E58CF;
 	border-radius: 50%;
 }
 .cart_num_inner,
@@ -528,7 +528,7 @@ section
 }
 .burger_container:hover div
 {
-	background: #937c6f;
+	background: #5E58CF;
 }
 
 /*********************************
@@ -576,7 +576,7 @@ section
 }
 .home_slider_content_inner
 {
-	background: #937c6f;
+	background: #5E58CF;
 }
 .home_slider_title
 {
@@ -600,7 +600,7 @@ section
 	transform: translateX(-50%);
 	top: -37px;
 	height: 37px;
-	background: #2f2f2f;
+	background: #40356F;
 	color: #FFFFFF;
 	padding-left: 34px;
 	padding-right: 34px;
@@ -616,7 +616,7 @@ section
 	right: 60px;
 	width: 45px;
 	height: 45px;
-	background: #937c6f;
+	background: #5E58CF;
 	z-index: 10;
 	border-radius: 50%;
 	cursor: pointer;
@@ -751,7 +751,7 @@ section
 }
 .menu_close:hover div
 {
-	background: #937c6f;
+	background: #5E58CF;
 }
 .menu .logo
 {
@@ -776,7 +776,7 @@ section
 }
 .menu_nav ul li a:hover
 {
-	color: #937c6f;
+	color: #5E58CF;
 }
 .menu .search
 {
@@ -839,7 +839,7 @@ section
 }
 .promo_link:hover a
 {
-	color: #937c6f;
+	color: #5E58CF;
 }
 .promo_content
 {
@@ -969,7 +969,7 @@ section
 }
 .product_name a:hover
 {
-	color: #937c6f;
+	color: #5E58CF;
 }
 .product_price
 {
@@ -992,7 +992,7 @@ section
 .product_buy
 {
 	display: inline-block;
-	background: #937c6f;
+	background: #5E58CF;
 	vertical-align: middle;
 	margin-right: 4px;
 	-webkit-transition: all 200ms ease;
@@ -1080,7 +1080,7 @@ section
 	max-width: 425px;
 	height: 100%;
 	background: rgba(35, 35, 35, 0.95);
-	border: solid 2px #937c6f;
+	border: solid 2px #5E58CF;
 	padding-left: 40px;
 	padding-right: 40px;
 }
@@ -1099,7 +1099,7 @@ section
 {
 	font-family: 'Lucida', serif;
 	font-size: 30px;
-	color: #937c6f;
+	color: #5E58CF;
 	margin-top: 39px;
 }
 .extra_1_text
@@ -1115,7 +1115,7 @@ section
 }
 .extra_promo_2
 {
-	border: solid 2px #937c6f;
+	border: solid 2px #5E58CF;
 	padding-top: 43px;
 	padding-bottom: 46px;
 }
@@ -1136,7 +1136,7 @@ section
 {
 	font-family: 'Lucida', serif;
 	font-size: 200px;
-	color: #937c6f;
+	color: #5E58CF;
 	line-height: 0.75;
 	-webkit-transform: rotate(-12deg);
 	-moz-transform: rotate(-12deg);
@@ -1232,7 +1232,7 @@ section
 }
 .gallery_title ul li a:hover
 {
-	color: #937c6f;
+	color: #5E58CF;
 }
 .gallery_text
 {
@@ -1299,7 +1299,7 @@ section
 	text-transform: uppercase;
 	letter-spacing: 0.2em;
 	font-weight: 600;
-	color: #937c6f;
+	color: #5E58CF;
 	margin-top: 4px;
 }
 
@@ -1390,7 +1390,7 @@ section
 	right: 0;
 	width: 142px;
 	height: 46px;
-	background: #937c6f;
+	background: #5E58CF;
 	color: #FFFFFF;
 	font-size: 12px;
 	letter-spacing: 0.2em;
@@ -1459,7 +1459,7 @@ section
 }
 .footer_nav ul li a:hover
 {
-	color: #937c6f;
+	color: #5E58CF;
 }
 .footer_social
 {
@@ -1477,7 +1477,7 @@ section
 .footer_social ul li a i
 {
 	font-size: 24px;
-	color: #937c6f;
+	color: #5E58CF;
 	-webkit-transition: all 200ms ease;
 	-moz-transition: all 200ms ease;
 	-ms-transition: all 200ms ease;
