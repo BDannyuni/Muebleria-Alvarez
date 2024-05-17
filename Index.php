@@ -89,6 +89,30 @@
 					</div>
 				</div>
 
+
+                <!-- Home Slider Item -->
+				<div class="owl-item">
+					<div class="home_slider_background" 
+					style="background-image:url(assets/images/fondo3.png)"></div>
+					<div class="home_slider_content">
+						<div class="home_slider_content_inner">
+							<div class="home_slider_subtitle">Descansa en estilo, vive con comodidad</div>
+							<div class="home_slider_title">Muebleria Alvarez</div>
+						</div>	
+					</div>
+				</div>
+
+                <!-- Home Slider Item -->
+				<div class="owl-item">
+					<div class="home_slider_background" 
+					style="background-image:url(assets/images/fondo1.png)"></div>
+					<div class="home_slider_content">
+						<div class="home_slider_content_inner">
+							<div class="home_slider_subtitle">Solamente lo Mejor</div>
+							<div class="home_slider_title">Muebleria Alvarez</div>
+						</div>	
+					</div>
+				</div>
 			</div>
 			
 			<!-- Home Slider Nav -->
@@ -106,6 +130,8 @@
 									<li class="home_slider_custom_dot active">01.<div></div></li>
 									<li class="home_slider_custom_dot">02.<div></div></li>
 									<li class="home_slider_custom_dot">03.<div></div></li>
+                                    <li class="home_slider_custom_dot">04.<div></div></li>
+                                    <li class="home_slider_custom_dot">05.<div></div></li>
 								</ul>
 							</div>
 						</div>

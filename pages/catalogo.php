@@ -126,7 +126,7 @@ $result = $conn->query($sql);
         <!-- Home -->
 
         <div class="home">
-            <div class="home_background parallax-window" data-parallax="scroll" data-image-src="../plantilla/images/categories.jpg"
+            <div class="home_background parallax-window" data-parallax="scroll" data-image-src="../assets/images/fondo5.png"
                 data-speed="0.8"></div>
             <div class="container">
                 <div class="row">
