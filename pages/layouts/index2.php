@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <title>Muebleria Alvarez</title>
@@ -36,7 +36,7 @@
                         <li><a href="pages/catalogo.php">Catalogo</a></li>
                         <li><a href="pages/nosotros.php">Sobre Nosotros</a></li>
                         <li><a href="contacto.php">Contacto</a></li>
-						<li><a href="#"></a></li>
+						<li><a href="pages/resumen.php">Admin</a></li>
                         <li><a href="#"></a></li>
                     </ul>
                 </nav>
