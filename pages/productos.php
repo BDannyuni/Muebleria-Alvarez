@@ -16,7 +16,7 @@ if ($conn->connect_error) {
 }
 
 // Consulta para obtener los productos más nuevos (por ejemplo, los 3 más recientes)
-$sql = "SELECT * FROM productos ORDER BY id DESC LIMIT 3";
+$sql = "SELECT * FROM productos ORDER BY id_producto DESC LIMIT 3";
 $result = $conn->query($sql);
 
 $productos = [];

@@ -1,0 +1,49 @@
+.loader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 9999;
+    transition: opacity 0.75s, visibility 0.75s;
+}
+
+.loader--hidden {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.loader-large {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    background-color: #D4ADFC;
+    border-radius: 10px;
+    animation: loading 2s infinite;
+}
+
+.loader-small {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    background-color: #5C469C;
+    z-index: 2;
+    border-radius: 6px;
+    animation: loading 2s infinite reverse;
+}
+
+@keyframes loading {
+    0% {
+        transform: rotate(0deg);
+    }
+    50% {
+        transform: rotateY(180deg);
+    }
+    100% {
+        transform: rotateX(180deg);
+    }
+}

@@ -15,6 +15,7 @@
     <link href="plantilla/plugins/colorbox/colorbox.css" rel="stylesheet" type="text/css">
     <link rel="stylesheet" type="text/css" href="plantilla/styles/main_styles.css">
     <link rel="stylesheet" type="text/css" href="plantilla/styles/responsive.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
 </head>
 
 <body>
@@ -36,12 +37,10 @@
                         <li><a href="pages/catalogo.php">Catalogo</a></li>
                         <li><a href="pages/nosotros.php">Sobre Nosotros</a></li>
                         <li><a href="contacto.php">Contacto</a></li>
-						<li><a href="pages/resumen.php">Admin</a></li>
                         <li><a href="#"></a></li>
                     </ul>
                 </nav>
                 <div class="header_content ml-auto">
-
                     <div class="shopping">
                         <!-- Cart -->
                         <a href="#">
@@ -54,8 +53,25 @@
                                 </div>
                             </div>
                         </a>
+                    <?php if (!empty($user)) : ?>
 
                         <!-- Avatar -->
+                        <a >
+                            <div class="avatar">
+                                <span><?= $user['nom_usuario']; ?></span>
+                                <img src="plantilla/images/avatar.png" alt="">
+                            </div>
+                        </a>
+
+                        <!-- Logout -->
+                        <a href="controllers/logout.php" class="d-inline-block ">
+                            <div class="logout p-1">
+                                <i class="bi bi-box-arrow-right" style="width: 30px; height: 30px; color: #000;"></i>
+                            </div>
+                        </a>
+
+                    <?php else : ?>
+                         <!-- Avatar -->
                         <a href="login.php">
                             <div class="avatar">
                                 <img src="plantilla/images/avatar.png" alt="">
@@ -63,7 +79,7 @@
                         </a>
                     </div>
                 </div>
-
+                    <?php endif; ?>
                 <div class="burger_container d-flex flex-column align-items-center justify-content-around menu_mm">
                     <div></div>
                     <div></div>

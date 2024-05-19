@@ -1,5 +1,8 @@
+<?php 
+#Incluimos la sesion de usuario y de carrito
+include "controllers/user_session.php";
 
-
+?>
 
 <!doctype html>
 <html lang="es">
@@ -18,13 +21,18 @@
     <link href="plantilla/plugins/colorbox/colorbox.css" rel="stylesheet" type="text/css">
     <link rel="stylesheet" type="text/css" href="plantilla/styles/main_styles.css">
     <link rel="stylesheet" type="text/css" href="plantilla/styles/responsive.css">
-    
+    <link rel="stylesheet" href="assets/css/loader.css">
 
 
     
 </head>
 
 <body>
+	<!--LOADER -->
+	<div class="loader">
+		<div class="loader-large"></div>
+		<div class="loader-small"></div>
+	</div>
     <!--  Body Wrapper -->
     <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
         data-sidebar-position="fixed" data-header-position="fixed">
@@ -288,10 +296,12 @@
 
 
         <script>
-        function CargarContenido(pagina_php, contenedor) {
-            $("." + contenedor).load(pagina_php);
-        }
+			function CargarContenido(pagina_php, contenedor) {
+				$("." + contenedor).load(pagina_php);
+			}
+
         </script>
+		<script src="assets/js/loader.js"></script>
         
 </body>
 
