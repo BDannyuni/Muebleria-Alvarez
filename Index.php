@@ -22,7 +22,26 @@ include "controllers/user_session.php";
     <link rel="stylesheet" type="text/css" href="plantilla/styles/main_styles.css">
     <link rel="stylesheet" type="text/css" href="plantilla/styles/responsive.css">
     <link rel="stylesheet" href="assets/css/loader.css">
+<style>
+	.product_image {
+    width: 100%;
+    height: 250px; /* Altura deseada para todos los cuadros de productos */
+    overflow: hidden; /* Para recortar las imágenes más grandes */
+    position: relative; /* Para centrar verticalmente la imagen */
+}
 
+.product_image img {
+    width: auto; /* Ajusta el ancho automáticamente para mantener la proporción de la imagen */
+    height: 100%; /* Estira la imagen para que ocupe toda la altura del contenedor */
+    display: block; /* Elimina el espacio extra debajo de la imagen */
+    margin: auto; /* Centra horizontalmente */
+    position: absolute; /* Permite centrar verticalmente */
+    top: 0; /* Coloca la imagen en la parte superior */
+    bottom: 0; /* Coloca la imagen en la parte inferior */
+    left: 0; /* Coloca la imagen en la parte izquierda */
+    right: 0; /* Coloca la imagen en la parte derecha */
+}
+</style>
 
     
 </head>
@@ -228,7 +247,7 @@ include "controllers/user_session.php";
                     <div class="col-lg-4 product_col">
                         <div class="product">
                             <div class="product_image">
-                                <img src="<?php echo $producto['image']; ?>" alt="<?php echo $producto['nombre']; ?>">
+                                <img src="assets/images/uploads/<?php echo $producto['image']; ?>" alt="<?php echo $producto['nombre_prod']; ?>">
                             </div>
                             <div class="rating rating_4">
                                 <i class="fa fa-star"></i>
@@ -239,8 +258,8 @@ include "controllers/user_session.php";
                             </div>
                             <div class="product_content clearfix">
                                 <div class="product_info">
-                                    <div class="product_name"><a href="product.html"><?php echo $producto['nombre']; ?></a></div>
-                                    <div class="product_price">$<?php echo number_format($producto['precio'], 2); ?></div>
+                                    <div class="product_name"><a href="product.html"><?php echo $producto['nombre_prod']; ?></a></div>
+                                    <div class="product_price">$<?php echo number_format($producto['precio_prod'], 2); ?></div>
                                 </div>
                                 <div class="product_options">
                                     <div class="product_buy product_option"><img src="plantilla/images/shopping-bag-white.svg" alt="Comprar"></div>

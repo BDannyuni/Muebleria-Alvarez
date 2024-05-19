@@ -13,62 +13,47 @@ if ($conn->connect_error) {
 }
 
 if (isset($_POST['submit'])) {
-    $name = $conn->real_escape_string($_POST['name']);
-    $description = $conn->real_escape_string($_POST['description']);
-    $price = $conn->real_escape_string($_POST['price']);
-    $image = $_FILES['image'];
-
-    // Verificar si se subió el archivo
-    if ($image['error'] == UPLOAD_ERR_OK) {
-        $imageName = $image['name'];
-        $imageTmpName = $image['tmp_name'];
-        $imageSize = $image['size'];
-        $imageError = $image['error'];
-        $imageType = $image['type'];
-
-        // Obtener la extensión del archivo
-        $imageExt = explode('.', $imageName);
-        $imageActualExt = strtolower(end($imageExt));
-
-        // Extensiones permitidas
-        $allowed = array('jpg', 'jpeg', 'png', 'gif');
-
-        // Verificar si la extensión es permitida
-        if (in_array($imageActualExt, $allowed)) {
-            // Verificar si no hay errores
-            if ($imageError === 0) {
-                // Limitar el tamaño del archivo (por ejemplo, 5MB)
-                if ($imageSize < 5000000) {
-                    // Crear un nombre único para la imagen
-                    $imageNewName = uniqid('', true) . "." . $imageActualExt;
-                    $imageDestination = '../assets/images/uploads/' . $imageNewName;
-
-                    // Mover el archivo subido a la carpeta de destino
-                    if (move_uploaded_file($imageTmpName, $imageDestination)) {
-                        // Insertar los datos en la base de datos
-                        $sql = "INSERT INTO productos (nombre, codigo_producto , precio, image) VALUES ('$name', '$description', '$price', '$imageDestination')";
-
-                        if ($conn->query($sql) === TRUE) {
-                            echo "Producto subido exitosamente";
-                        } else {
-                            echo "Error: " . $sql . "<br>" . $conn->error;
-                        }
-                    } else {
-                        echo "Error al mover el archivo subido.";
-                    }
-                } else {
-                    echo "Tu archivo es demasiado grande.";
-                }
-            } else {
-                echo "Hubo un error subiendo tu archivo.";
-            }
-        } else {
-            echo "No puedes subir archivos de este tipo.";
-        }
+    $id_producto = $_POST['id_producto'];
+    $nombre_prod = $_POST['nombre_prod'];
+    $descripcion_prod = $_POST['descripcion_prod'];
+    $precio_prod = $_POST['precio_prod'];
+    $categoria_prod = $_POST['categoria_prod'];
+    $stock_prod = $_POST['stock_prod'];
+    $proveedor = $_POST['proveedor'];
+    $marca = $_POST['marca'];
+    $id_color = $_POST['id_color'];
+    $id_material = $_POST['id_material'];
+    $id_tapiz = $_POST['id_tapiz'];
+    
+    // Handle the file upload
+    $target_dir = "../assets/images/uploads/";
+    $target_file = $target_dir . basename($_FILES["image"]["name"]);
+    $image = $_FILES["image"]["name"];
+    if (move_uploaded_file($_FILES["image"]["tmp_name"], $target_file)) {
+        echo "The file ". htmlspecialchars(basename($_FILES["image"]["name"])). " has been uploaded.";
     } else {
-        echo "Hubo un error al subir el archivo.";
+        echo "Sorry, there was an error uploading your file.";
     }
+
+    // Database connection
+    $conexion = new mysqli("localhost", "root", "", "muebleria");
+    if ($conexion->connect_error) {
+        die("Connection failed: " . $conexion->connect_error);
+    }
+
+    // SQL query to insert the product
+    $query = "INSERT INTO productos (id_producto, nombre_prod, descripcion_prod, precio_prod, categoria_prod, stock_prod, image, proveedor, marca, id_color, id_material, id_tapiz) 
+              VALUES ('$id_producto', '$nombre_prod', '$descripcion_prod', '$precio_prod', '$categoria_prod', '$stock_prod', '$image', '$proveedor', '$marca', '$id_color', '$id_material', '$id_tapiz')";
+
+    if ($conexion->query($query) === TRUE) {
+        echo "New record created successfully";
+    } else {
+        echo "Error: " . $query . "<br>" . $conexion->error;
+    }
+
+    $conexion->close();
 }
+
 
 $conn->close();
 ?>
