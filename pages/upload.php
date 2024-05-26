@@ -13,7 +13,6 @@ if ($conn->connect_error) {
 }
 
 if (isset($_POST['submit'])) {
-    $id_producto = $_POST['id_producto'];
     $nombre_prod = $_POST['nombre_prod'];
     $descripcion_prod = $_POST['descripcion_prod'];
     $precio_prod = $_POST['precio_prod'];
@@ -42,8 +41,8 @@ if (isset($_POST['submit'])) {
     }
 
     // SQL query to insert the product
-    $query = "INSERT INTO productos (id_producto, nombre_prod, descripcion_prod, precio_prod, categoria_prod, stock_prod, image, proveedor, marca, id_color, id_material, id_tapiz) 
-              VALUES ('$id_producto', '$nombre_prod', '$descripcion_prod', '$precio_prod', '$categoria_prod', '$stock_prod', '$image', '$proveedor', '$marca', '$id_color', '$id_material', '$id_tapiz')";
+    $query = "INSERT INTO productos  (nombre_prod, descripcion_prod, precio_prod, categoria_prod, stock_prod, image, proveedor, marca, id_color, id_material, id_tapiz) 
+              VALUES ('$nombre_prod', '$descripcion_prod', '$precio_prod', '$categoria_prod', '$stock_prod', '$image', '$proveedor', '$marca', '$id_color', '$id_material', '$id_tapiz')";
 
     if ($conexion->query($query) === TRUE) {
         echo "New record created successfully";

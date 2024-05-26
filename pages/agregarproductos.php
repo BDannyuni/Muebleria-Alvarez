@@ -1,36 +1,87 @@
 <?php
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "muebleria";
+//IMPORTAR LA CONEXION A LA DB
+include '../controllers/db.php';
 
-// Crear conexión
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// Verificar conexión
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
-
+$message= '';
 // Obtener datos de la tabla "categorias"
 $query_categoria = "SELECT id_categoria, categoria_nom FROM categorias";
-$result_categoria = mysqli_query($conn, $query_categoria);
+$stmt_categoria = $conn->query($query_categoria);
+$result_categoria = $stmt_categoria->fetchAll();
 
 // Obtener datos de la tabla "proveedores"
 $query_proveedor = "SELECT id_proveedor, proveedor_nom FROM proveedores";
-$result_proveedor = mysqli_query($conn, $query_proveedor);
+$stmt_proveedor = $conn->query($query_proveedor);
+$result_proveedor = $stmt_proveedor->fetchAll();
 
 // Obtener datos de la tabla "color"
 $query_color = "SELECT id_color, color_nom FROM color";
-$result_color = mysqli_query($conn, $query_color);
+$stmt_color = $conn->query($query_color);
+$result_color = $stmt_color->fetchAll();
 
 // Obtener datos de la tabla "material"
 $query_material = "SELECT id_material, material_nom FROM material";
-$result_material = mysqli_query($conn, $query_material);
+$stmt_material = $conn->query($query_material);
+$result_material = $stmt_material->fetchAll();
 
 // Obtener datos de la tabla "tapiz"
 $query_tapiz = "SELECT id_tapiz, tapiz_nom FROM tapiz";
-$result_tapiz = mysqli_query($conn, $query_tapiz);
+$stmt_tapiz = $conn->query($query_tapiz);
+$result_tapiz = $stmt_tapiz->fetchAll();
+
+
+### AGREGAR PRODUCTOS A LA DB ###
+if (isset($_POST['submit'])) {
+    $nombre_prod = $_POST['nombre_prod'];
+    $descripcion_prod = $_POST['descripcion_prod'];
+    $precio_prod = $_POST['precio_prod'];
+    $categoria_prod = $_POST['categoria_prod'];
+    $stock_prod = $_POST['stock_prod'];
+    $proveedor = $_POST['proveedor'];
+    $marca = $_POST['marca'];
+    $id_color = $_POST['id_color'];
+    $id_material = $_POST['id_material'];
+    $id_tapiz = $_POST['id_tapiz'];
+    
+    // Handle the file upload
+    $target_dir = "../assets/images/uploads/";
+    $target_file = $target_dir . basename($_FILES["image"]["name"]);
+    $image = $_FILES["image"]["name"];
+    if (move_uploaded_file($_FILES["image"]["tmp_name"], $target_file)) {
+        #echo "The file ". htmlspecialchars(basename($_FILES["image"]["name"])). " has been uploaded.";
+    } else {
+        #echo "Sorry, there was an error uploading your file.";
+        $message = "Error al subir la imagen";
+    }
+    try{
+        // SQL query to insert the product
+        $query = "INSERT INTO productos (nombre_prod, descripcion_prod, precio_prod, categoria_prod, stock_prod, image, proveedor, marca, id_color, id_material, id_tapiz) 
+                  VALUES (:nombre_prod, :descripcion_prod, :precio_prod, :categoria_prod, :stock_prod, :image, :proveedor, :marca, :id_color, :id_material, :id_tapiz)";
+        
+        $stmt = $conn->prepare($query);
+        $stmt->bindParam(':nombre_prod', $nombre_prod);
+        $stmt->bindParam(':descripcion_prod', $descripcion_prod);
+        $stmt->bindParam(':precio_prod', $precio_prod);
+        $stmt->bindParam(':categoria_prod', $categoria_prod);
+        $stmt->bindParam(':stock_prod', $stock_prod);
+        $stmt->bindParam(':image', $image);
+        $stmt->bindParam(':proveedor', $proveedor);
+        $stmt->bindParam(':marca', $marca);
+        $stmt->bindParam(':id_color', $id_color);
+        $stmt->bindParam(':id_material', $id_material);
+        $stmt->bindParam(':id_tapiz', $id_tapiz);
+        
+    
+        if($stmt->execute()){
+            $message = "Producto agregado exitosamente";
+        }else{
+            $message = "Error al agregar el producto";
+        }
+    }catch(Exception $e){
+        $message = "Ocurrio un error inesperado, intente de nuevo";
+    }
+
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -210,16 +261,21 @@ $result_tapiz = mysqli_query($conn, $query_tapiz);
 	background-size:cover;"><br><br>
             
             <!-- row -->
-
+             <!-- MENSAJE DE ERROR-->
+            <?php if (!empty($message)): ?>
+                <div class="alert alert-danger" role="alert">
+                    <?php echo $message ?> <!-- mensaje -->
+                </div>
+            <?php endif ?>
             <div class="container-fluid">
                 <div class="col-lg-6  mx-auto">
                     <div class="card card-transparent">
                         <div class="card-body">
                             <H2 class="col-lg-5 mx-auto text-white">Agregar Productos</H2><br>
                             <div class="form-validation">
-                                <form class="form-valide" action="upload.php" method="post"
+                                <form class="form-valide" method="post" 
                                     enctype="multipart/form-data">
-                                    <div class="form-group row">
+                                    <!--<div class="form-group row">
                                         <label class="col-lg-4 col-form-label text-white" for="id_producto">ID del Producto <span
                                                 class="text-danger">*</span></label>
                                         <div class="col-lg-7">
@@ -227,7 +283,7 @@ $result_tapiz = mysqli_query($conn, $query_tapiz);
                                             <input type="number" class="form-control input-rounded" name="id_producto"
                                                 id="id_producto" placeholder="Ingrese el Id del Producto..." required>
                                         </div>
-                                    </div>
+                                    </div>-->
                                     <div class="form-group row">
                                         <label class="col-lg-4 col-form-label text-white" for="nombre_prod">Nombre del Producto
                                             <span class="text-danger">*</span>
@@ -275,9 +331,10 @@ $result_tapiz = mysqli_query($conn, $query_tapiz);
                                         <select class="form-control input-rounded" type="number" name="categoria_prod" id="categoria_prod"
                                                 required>
                                                 <option value="">Selecciona una Categoria</option>
-                                                <?php while ($row_categoria = mysqli_fetch_assoc($result_categoria)) { ?>
-                                                <option value="<?php echo $row_categoria['id_categoria']; ?>">
-                                                    <?php echo $row_categoria['categoria_nom']; ?></option>
+                                                <?php foreach ($result_categoria as $row_categoria) { ?>
+                                                    <option value="<?php echo $row_categoria['id_categoria']; ?>" <?php echo (isset($_POST['id_categoria']) && $_POST['id_categoria'] == $row_tapiz['id_categoria']) ? 'selected' : ''; ?>>
+                                                        <?php echo $row_categoria['categoria_nom']; ?>
+                                                    </option>
                                                 <?php } ?>
                                             </select>
                                         </div>
@@ -293,7 +350,7 @@ $result_tapiz = mysqli_query($conn, $query_tapiz);
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        <label class="col-lg-4 col-form-label" for="stock_prod">Stock <span
+                                        <label class="col-lg-4 col-form-label text-white" for="stock_prod">Stock <span
                                                 class="text-danger">*</span>
                                         </label>
                                         <div class="col-lg-7">
@@ -309,8 +366,8 @@ $result_tapiz = mysqli_query($conn, $query_tapiz);
                                         <div class="col-lg-7">
                                             <div class="custom-file">
                                                 <input type="file" name="image" id="image" accept="image/*"
-                                                    class="custom-file-input input-rounded" required>
-                                                <label class="custom-file-label">Ingrese la Imagen del Producto</label>
+                                                    class="custom-file-input input-rounded" required onchange="updateFileName(this)">
+                                                <label id="imageLabel" class="custom-file-label">Ingrese la Imagen del Producto</label>
                                             </div>
                                         </div>
                                     </div>
@@ -324,9 +381,10 @@ $result_tapiz = mysqli_query($conn, $query_tapiz);
                                         <select class="form-control input-rounded" type="number" name="proveedor" id="proveedor"
                                                 required>
                                                 <option value="">Selecciona un Proveedor</option>
-                                                <?php while ($row_proveedor = mysqli_fetch_assoc($result_proveedor)) { ?>
-                                                <option value="<?php echo $row_proveedor['id_proveedor']; ?>">
-                                                    <?php echo $row_proveedor['proveedor_nom']; ?></option>
+                                                <?php foreach ($result_proveedor as $row_proveedor) { ?>
+                                                    <option value="<?php echo $row_proveedor['id_proveedor']; ?>" <?php echo (isset($_POST['id_proveedor']) && $_POST['id_proveedor'] == $row_tapiz['id_proveedor']) ? 'selected' : ''; ?>>
+                                                        <?php echo $row_proveedor['proveedor_nom']; ?>
+                                                    </option>
                                                 <?php } ?>
                                             </select>
                                         </div>
@@ -351,9 +409,10 @@ $result_tapiz = mysqli_query($conn, $query_tapiz);
                                             <select class="form-control input-rounded" type="number" name="id_color" id="id_color"
                                                 required>
                                                 <option value="">Selecciona un Color</option>
-                                                <?php while ($row_color = mysqli_fetch_assoc($result_color)) { ?>
-                                                <option value="<?php echo $row_color['id_color']; ?>">
-                                                    <?php echo $row_color['color_nom']; ?></option>
+                                                <?php foreach ($result_color as $row_color) { ?>
+                                                    <option value="<?php echo $row_color['id_color']; ?>" <?php echo (isset($_POST['id_color']) && $_POST['id_color'] == $row_tapiz['id_color']) ? 'selected' : ''; ?>>
+                                                        <?php echo $row_color['color_nom']; ?>
+                                                    </option>
                                                 <?php } ?>
                                             </select>
                                         </div>
@@ -366,9 +425,10 @@ $result_tapiz = mysqli_query($conn, $query_tapiz);
                                             <select class="form-control input-rounded" type="number" name="id_material"
                                                 id="id_material" required>
                                                 <option value="">Selecciona un Material</option>
-                                                <?php while ($row_material = mysqli_fetch_assoc($result_material)) { ?>
-                                                <option value="<?php echo $row_material['id_material']; ?>">
-                                                    <?php echo $row_material['material_nom']; ?></option>
+                                                <?php foreach ($result_material as $row_material) { ?>
+                                                    <option value="<?php echo $row_material['id_material']; ?>" <?php echo (isset($_POST['id_material']) && $_POST['id_material'] == $row_tapiz['id_material']) ? 'selected' : ''; ?>>
+                                                        <?php echo $row_material['material_nom']; ?>
+                                                    </option>
                                                 <?php } ?>
                                             </select>
                                         </div>
@@ -381,9 +441,10 @@ $result_tapiz = mysqli_query($conn, $query_tapiz);
                                             <select class="form-control input-rounded" type="number" name="id_tapiz" id="id_tapiz"
                                                 required>
                                                 <option value="">Selecciona un Tapiz</option>
-                                                <?php while ($row_tapiz = mysqli_fetch_assoc($result_tapiz)) { ?>
-                                                <option value="<?php echo $row_tapiz['id_tapiz']; ?>">
-                                                    <?php echo $row_tapiz['tapiz_nom']; ?></option>
+                                                <?php foreach ($result_tapiz as $row_tapiz) { ?>
+                                                    <option value="<?php echo $row_tapiz['id_tapiz']; ?>" <?php echo (isset($_POST['id_tapiz']) && $_POST['id_tapiz'] == $row_tapiz['id_tapiz']) ? 'selected' : ''; ?>>
+                                                        <?php echo $row_tapiz['tapiz_nom']; ?>
+                                                    </option>
                                                 <?php } ?>
                                             </select>
                                         </div>
@@ -392,8 +453,7 @@ $result_tapiz = mysqli_query($conn, $query_tapiz);
 
                                     <div class="form-group row">
                                         <div class="col-lg-7 ml-auto">
-                                            <button type="submit" class="btn btn-primary" name="submit">Subir
-                                                Producto</button>
+                                            <button type="submit" class="btn btn-primary" name="submit">Añadir Producto</button>
                                         </div>
                                     </div>
                                 </form>
@@ -447,6 +507,17 @@ $result_tapiz = mysqli_query($conn, $query_tapiz);
     <!-- Main wrapper end -->
 
     <!-- Scripts -->
+    <script>
+        // evitar que cada que se refresque la pagina el formulario se vuelva a enviar.
+        if ( window.history.replaceState ) {
+            window.history.replaceState( null, null, window.location.href );
+        }
+        // Mostrar el nombre del archivo al cargarlo
+        function updateFileName(input) {
+            var fileName = input.files[0].name;
+            document.getElementById("imageLabel").innerText = fileName;
+        }
+    </script>
     <script src="../plantilla/quixlab-master/plugins/common/common.min.js"></script>
     <script src="../plantilla/quixlab-master/js/custom.min.js"></script>
     <script src="../plantilla/quixlab-master/js/settings.js"></script>

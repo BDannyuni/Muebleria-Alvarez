@@ -1,8 +1,5 @@
 <?php
   
-  // LLAVE PARA ENCRIPTAR
- 
-
   // Variables necesarias para realizar la conexion con la base de datos
   $server = 'localhost';
   $username = 'root';

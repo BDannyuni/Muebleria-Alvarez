@@ -1,0 +1,321 @@
+<?php
+#Incluimos la sesion de usuario y de carrito
+include "../controllers/user_session.php";
+?>
+
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <title>Categories</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="Wish shop project">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="../plantilla/styles/bootstrap4/bootstrap.min.css">
+    <link href="../plantilla/plugins/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="../plantilla/plugins/malihu-custom-scrollbar/jquery.mCustomScrollbar.css" rel="stylesheet"
+        type="text/css">
+    <link rel="stylesheet" type="text/css" href="../plantilla/plugins/jquery-ui-1.12.1.custom/jquery-ui.css">
+    <link rel="stylesheet" type="text/css" href="../plantilla/styles/categories.css">
+    <link rel="stylesheet" type="text/css" href="../plantilla/styles/categories_responsive.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <style>
+        .row.single-form {
+            box-shadow: 0 2px 20px 0 rgba(0,0,0,0.5);
+        }
+        .left {
+            background: blueviolet;
+            padding: 150px 98px;
+        }
+        .left h2 {
+            color: #fff;
+            font-weight: 700;
+            font-size: 48px;
+        }
+        .left h2 span {
+            font-weight: 100;
+        }
+        .single-form{
+            background: #fff;
+        }
+        .right {
+            padding: 70px 100px;
+            position: relative;
+        }
+        .right i {
+            position: absolute;
+            font-size: 80px;
+            left: -27px;
+            top: 40%;
+            color: #fff;
+        }
+        .form-control {
+            border: 2px solid #000;
+        }
+        .right button {
+            border: none;
+            border-radius: 0;
+            background: #252525;
+            width: 180px;
+            color: #fff;
+            padding: 15px 0;
+            display: inline-block;
+            font-size: 16px;
+            margin-top: 20px;
+            cursor: pointer;
+        }
+        .right button:hover{
+            background-color: #252525;
+        }
+
+
+        /*responsive*/
+
+        @media (min-width:768px) and (max-width:991px){
+            .right i {
+                top: -52px;
+                transform: rotate(90deg);
+                left: 50%;
+            }
+        }
+
+        @media (max-width:767px){
+            .left {
+                padding: 90px 15px;
+                text-align: center;
+            }
+            .left h2 {
+                font-size: 25px;
+            }
+            .right {
+                padding: 25px;
+            }
+            .right i {
+                top: -52px;
+                transform: rotate(90deg);
+                left: 46%;
+            }
+            .right button {
+                width: 150px;
+                padding: 12px 0;
+            }
+                
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header -->
+
+    <header class="header">
+        <div class="header_inner d-flex flex-row align-items-center justify-content-start">
+            <div class="logo"><a class="navbar-brand ps-5" href="index.php"><img src="../assets/images/logo.png"
+                        alt="logo" height="90px"></a></div>
+            <nav class="main_nav">
+                <ul>
+                    <li><a href="#"></a></li>
+                    <li><a href="#"></a></li>
+                    <li><a href="#"></a></li>
+                    <li><a href="../index.php">Inicio</a></li>
+                    <li><a href="catalogo.php">Catalogo</a></li>
+                    <li><a href="nosotros.php">Sobre Nosotros</a></li>
+                    <li><a href="contacto.php">Contacto</a></li>
+                    <li><a href="#"></a></li>
+                    <li><a href="#"></a></li>
+                </ul>
+            </nav>
+            <div class="header_content ml-auto">
+
+                <div class="shopping">
+                    <!-- Cart -->
+                    <a href="#">
+                        <div class="cart">
+                            <img src="../plantilla/images/shopping-bag.svg" alt="">
+                            <div class="cart_num_container">
+                                <div class="cart_num_inner">
+                                    <div class="cart_num">1</div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+
+                    <!-- Avatar -->
+                    <a href="../login.php">
+                        <div class="avatar">
+                            <img src="../plantilla/images/avatar.png" alt="">
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <div class="burger_container d-flex flex-column align-items-center justify-content-around menu_mm">
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Menu -->
+
+    <div class="menu d-flex flex-column align-items-end justify-content-start text-right menu_mm trans_400">
+        <div class="menu_close_container">
+            <div class="menu_close">
+                <div></div>
+                <div></div>
+            </div>
+        </div>
+        <div class="logo menu_mm"><a class="navbar-brand ps-5" href="index.php"><img src="../assets/images/logo.png"
+                    alt="logo" height="100px"></a></div>
+        <nav class="menu_nav">
+            <ul class="menu_mm">
+                <li class="menu_mm"><a href="../">Inicio</a></li>
+                <li class="menu_mm"><a href="catalogo.php">Catalogo</a></li>
+                <li class="menu_mm"><a href="nosotros.php">Sobre Nosotros</a></li>
+                <li class="menu_mm"><a href="contacto.php">Contacto</a></li>
+            </ul>
+        </nav>
+    </div>
+
+    <div class="super_container">
+        <!--LOADER -->
+        <div class="loader">
+            <div class="loader-large"></div>
+            <div class="loader-small"></div>
+        </div>
+
+        <!--CONTENT -->
+        <div class="form-area " style="margin-top: 150px;">
+            <div class="container">
+                <div class="row single-form g-0">
+                    <div class="col-sm-12 col-lg-6">
+                        <div class="left">
+                            <h2><span>Contáctanos,</span><br>Nos encantaría escuchar tu opinión.</h2>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-lg-6">
+                        <div class="right">
+                            <i class="fa fa-caret-left"></i>
+                            <form  action="https://formspree.io/f/xkndaywz" method="POST">
+                                <div class="mb-3">
+                                    <label for="exampleInputEmail1" class="form-label">Tu nombre</label>
+                                    <input type="text" class="form-control" name="nombre" aria-describedby="emailHelp">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="exampleInputEmail1" class="form-label">Correo electronico</label>
+                                    <input type="email" class="form-control" name="email" aria-describedby="emailHelp">
+                                </div>
+                                <div class="mb-3">
+                                    <label  class="form-label">Tu opinion</label>
+                                    <textarea class="form-control" name="opinion"></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+
+        <!-- Footer -->
+
+        <footer class="footer">
+            <div class="container">
+                <div class="row">
+                    <div class="col text-center">
+                        <div class="footer_logo"><a href="#">Muebleria Alvarez</a></div>
+                        <nav class="footer_nav">
+                            <ul>
+                                <li><a href="index.html">home</a></li>
+                                <li><a href="categories.html">clothes</a></li>
+                                <li><a href="categories.html">accessories</a></li>
+                                <li><a href="categories.html">lingerie</a></li>
+                                <li><a href="contact.html">contact</a></li>
+                            </ul>
+                        </nav>
+                        <div class="footer_social">
+                            <ul>
+                                <li><a href="#"><i class="fa fa-pinterest" aria-hidden="true"></i></a></li>
+                                <li><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
+                                <li><a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
+                                <li><a href="#"><i class="fa fa-reddit-alien" aria-hidden="true"></i></a></li>
+                                <li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+                            </ul>
+                        </div>
+                        <div class="copyright">
+                            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                            Copyright &copy;<script>
+                            document.write(new Date().getFullYear());
+                            </script> All rights reserved | This template is made with <i class="fa fa-heart-o"
+                                aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+                            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+    <script src="../assets/js/loader.js"></script>
+    <script>
+        // SCRIPT PARA MANEJAR EL ENVIO DEL FORMULARIO
+        const form = document.querySelector("form");
+        form.addEventListener("submit", handleSubmit);
+
+        async function handleSubmit(event) {
+            event.preventDefault();
+            const formData = new FormData(event.target);
+            try {
+                const response = await fetch(event.target.action, {
+                    method: event.target.method,
+                    body: formData,
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                });
+
+                if (response.ok) {
+                    event.target.reset();
+                    Swal.fire({
+                        title: "¡Buen trabajo!",
+                        text: "Tu mensaje ha sido enviado.",
+                        icon: "success"
+                    });
+                } else {
+                    Swal.fire({
+                        title: "Oops...",
+                        text: "Hubo un problema al enviar tu mensaje. Intenta nuevamente.",
+                        icon: "error"
+                    });
+                }
+            } catch (error) {
+                Swal.fire({
+                    title: "Oops...",
+                    text: "Hubo un problema al enviar tu mensaje. Intenta nuevamente.",
+                    icon: "error"
+                });
+            }
+        }
+    </script>
+    <script src="../plantilla/js/jquery-3.2.1.min.js"></script>
+    <script src="../plantilla/styles/bootstrap4/popper.js"></script>
+    <script src="../plantilla/styles/bootstrap4/bootstrap.min.js"></script>
+    <script src="../plantilla/plugins/OwlCarousel2-2.2.1/owl.carousel.js"></script>
+    <script src="../plantilla/plugins/easing/easing.js"></script>
+    <script src="../plantilla/plugins/parallax-js-master/parallax.min.js"></script>
+    <script src="../plantilla/plugins/colorbox/jquery.colorbox-min.js"></script>
+    <script src="../plantilla/js/custom.js"></script>
+
+    <script src="../plantilla/js/jquery-3.2.1.min.js"></script>
+    <script src="../plantilla/styles/bootstrap4/popper.js"></script>
+    <script src="../plantilla/styles/bootstrap4/bootstrap.min.js"></script>
+    <script src="../plantilla/plugins/easing/easing.js"></script>
+    <script src="../plantilla/plugins/parallax-js-master/parallax.min.js"></script>
+    <script src="../plantilla/plugins/Isotope/isotope.pkgd.min.js"></script>
+    <script src="../plantilla/plugins/malihu-custom-scrollbar/jquery.mCustomScrollbar.js"></script>
+    <script src="../plantilla/plugins/jquery-ui-1.12.1.custom/jquery-ui.js"></script>
+    <script src="../plantilla/js/categories_custom.js"></script>
+</body>
+
+</html>

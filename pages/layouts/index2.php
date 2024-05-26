@@ -36,14 +36,14 @@
                         <li><a href="index.php">Inicio</a></li>
                         <li><a href="pages/catalogo.php">Catalogo</a></li>
                         <li><a href="pages/nosotros.php">Sobre Nosotros</a></li>
-                        <li><a href="contacto.php">Contacto</a></li>
-                        <li><a href="#"></a></li>
+                        <li><a href="pages/contacto.php">Contacto</a></li>
+                        
                     </ul>
                 </nav>
                 <div class="header_content ml-auto">
                     <div class="shopping">
                         <!-- Cart -->
-                        <a href="#">
+                        <a href="carrito.php">
                             <div class="cart">
                                 <img src="plantilla/images/shopping-bag.svg" alt="">
                                 <div class="cart_num_container">
@@ -105,6 +105,10 @@
                     <li class="menu_mm"><a href="catalogo.php">Catalogo</a></li>
                     <li class="menu_mm"><a href="nosotros.php">Sobre Nosotros</a></li>
                     <li class="menu_mm"><a href="contacto.php">Contacto</a></li>
+                <?php if (!empty($user) && $user['rol'] == 'admin') : ?> <!-- si hay usuario y es admin -->
+                    <li><a href="pages/resumen.php">Admin</a></li>
+                <?php endif; ?>
+
                 </ul>
             </nav>
         </div>
