@@ -278,35 +278,6 @@ include "controllers/user_session.php";
 </div>
 
 	
-	<!-- Extra -->
-
-	<div class="extra clearfix">
-		<div class="extra_promo extra_promo_1">
-			<div class="extra_promo_image" style="background-image:url(plantilla/images/extra_1.jpg)"></div>
-			<div class="extra_1_content d-flex flex-column align-items-center justify-content-center text-center">
-				<div class="extra_1_price">30%<span>de Descuento</span></div>
-				<div class="extra_1_title">En Todas las Primeras Compras del dia</div>
-				<div class="extra_1_text">*Aplica Restricciones.</div>
-				<div class="button extra_1_button"><a href="checkout.html">Ir</a></div>
-			</div>
-		</div>
-		<div class="extra_promo extra_promo_2">
-			<div class="extra_promo_image" style="background-image:url(plantilla/images/extra_2.jpg)"></div>
-			<div class="extra_2_content d-flex flex-column align-items-center justify-content-center text-center">
-				<div class="extra_2_title">
-					<div class="extra_2_center">&</div>
-					<div class="extra_2_top">Uno</div>
-					<div class="extra_2_bottom">Dos</div>
-				</div>
-				<div class="extra_2_text">*Aplica Restricciones.</div>
-				<div class="button extra_2_button"><a href="checkout.html">Ir</a></div>
-			</div>
-		</div>
-	</div>
-
-            </div>
-
-        </div>
 
 <br>
         <?php
