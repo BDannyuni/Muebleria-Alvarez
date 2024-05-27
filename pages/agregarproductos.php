@@ -2,7 +2,8 @@
 //IMPORTAR LA CONEXION A LA DB
 include '../controllers/db.php';
 
-$message= '';
+$messageError= '';
+$messageSuccess = '';
 // Obtener datos de la tabla "categorias"
 $query_categoria = "SELECT id_categoria, categoria_nom FROM categorias";
 $stmt_categoria = $conn->query($query_categoria);
@@ -50,7 +51,7 @@ if (isset($_POST['submit'])) {
         #echo "The file ". htmlspecialchars(basename($_FILES["image"]["name"])). " has been uploaded.";
     } else {
         #echo "Sorry, there was an error uploading your file.";
-        $message = "Error al subir la imagen";
+        $messageError = "Error al subir la imagen";
     }
     try{
         // SQL query to insert the product
@@ -72,12 +73,12 @@ if (isset($_POST['submit'])) {
         
     
         if($stmt->execute()){
-            $message = "Producto agregado exitosamente";
+            $messageSuccess = "Producto agregado exitosamente";
         }else{
-            $message = "Error al agregar el producto";
+            $messageError = "Error al agregar el producto";
         }
     }catch(Exception $e){
-        $message = "Ocurrio un error inesperado, intente de nuevo";
+        $messageError = "Ocurrio un error inesperado, intente de nuevo";
     }
 
 }
@@ -261,10 +262,16 @@ if (isset($_POST['submit'])) {
 	background-size:cover;"><br><br>
             
             <!-- row -->
-             <!-- MENSAJE DE ERROR-->
-            <?php if (!empty($message)): ?>
-                <div class="alert alert-danger" role="alert">
-                    <?php echo $message ?> <!-- mensaje -->
+            <!-- MENSAJE DE ERROR-->
+            <?php if (!empty($messageError)): ?>
+                <div class="alert alert-danger alert-dismissible" role="alert">
+                    <?php echo $messageError ?> <!-- mensaje -->
+                </div>
+            <?php endif ?>
+            <!-- MENSAJE DE Exito-->
+            <?php if (!empty($messageSuccess)): ?>
+                <div class="alert alert-success alert-dismissible" role="alert">
+                    <?php echo $messageSuccess ?> <!-- mensaje -->
                 </div>
             <?php endif ?>
             <div class="container-fluid">
@@ -410,7 +417,7 @@ if (isset($_POST['submit'])) {
                                                 required>
                                                 <option value="">Selecciona un Color</option>
                                                 <?php foreach ($result_color as $row_color) { ?>
-                                                    <option value="<?php echo $row_color['id_color']; ?>" <?php echo (isset($_POST['id_color']) && $_POST['id_color'] == $row_tapiz['id_color']) ? 'selected' : ''; ?>>
+                                                    <option value="<?php echo $row_color['id_color']; ?>">
                                                         <?php echo $row_color['color_nom']; ?>
                                                     </option>
                                                 <?php } ?>
@@ -426,7 +433,7 @@ if (isset($_POST['submit'])) {
                                                 id="id_material" required>
                                                 <option value="">Selecciona un Material</option>
                                                 <?php foreach ($result_material as $row_material) { ?>
-                                                    <option value="<?php echo $row_material['id_material']; ?>" <?php echo (isset($_POST['id_material']) && $_POST['id_material'] == $row_tapiz['id_material']) ? 'selected' : ''; ?>>
+                                                    <option value="<?php echo $row_material['id_material']; ?>">
                                                         <?php echo $row_material['material_nom']; ?>
                                                     </option>
                                                 <?php } ?>
@@ -442,15 +449,14 @@ if (isset($_POST['submit'])) {
                                                 required>
                                                 <option value="">Selecciona un Tapiz</option>
                                                 <?php foreach ($result_tapiz as $row_tapiz) { ?>
-                                                    <option value="<?php echo $row_tapiz['id_tapiz']; ?>" <?php echo (isset($_POST['id_tapiz']) && $_POST['id_tapiz'] == $row_tapiz['id_tapiz']) ? 'selected' : ''; ?>>
+                                                    <option value="<?php echo $row_tapiz['id_tapiz']; ?>">
                                                         <?php echo $row_tapiz['tapiz_nom']; ?>
                                                     </option>
                                                 <?php } ?>
                                             </select>
                                         </div>
                                     </div>
-
-
+                                                    
                                     <div class="form-group row">
                                         <div class="col-lg-7 ml-auto">
                                             <button type="submit" class="btn btn-primary" name="submit">Añadir Producto</button>

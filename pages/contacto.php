@@ -20,6 +20,7 @@ include "../controllers/user_session.php";
     <link rel="stylesheet" type="text/css" href="../plantilla/styles/categories.css">
     <link rel="stylesheet" type="text/css" href="../plantilla/styles/categories_responsive.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <link rel="stylesheet" href="../assets/css/loader.css">
     <style>
         .row.single-form {
             box-shadow: 0 2px 20px 0 rgba(0,0,0,0.5);
@@ -108,75 +109,7 @@ include "../controllers/user_session.php";
 <body>
     <!-- Header -->
 
-    <header class="header">
-        <div class="header_inner d-flex flex-row align-items-center justify-content-start">
-            <div class="logo"><a class="navbar-brand ps-5" href="index.php"><img src="../assets/images/logo.png"
-                        alt="logo" height="90px"></a></div>
-            <nav class="main_nav">
-                <ul>
-                    <li><a href="#"></a></li>
-                    <li><a href="#"></a></li>
-                    <li><a href="#"></a></li>
-                    <li><a href="../index.php">Inicio</a></li>
-                    <li><a href="catalogo.php">Catalogo</a></li>
-                    <li><a href="nosotros.php">Sobre Nosotros</a></li>
-                    <li><a href="contacto.php">Contacto</a></li>
-                    <li><a href="#"></a></li>
-                    <li><a href="#"></a></li>
-                </ul>
-            </nav>
-            <div class="header_content ml-auto">
-
-                <div class="shopping">
-                    <!-- Cart -->
-                    <a href="#">
-                        <div class="cart">
-                            <img src="../plantilla/images/shopping-bag.svg" alt="">
-                            <div class="cart_num_container">
-                                <div class="cart_num_inner">
-                                    <div class="cart_num">1</div>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-
-                    <!-- Avatar -->
-                    <a href="../login.php">
-                        <div class="avatar">
-                            <img src="../plantilla/images/avatar.png" alt="">
-                        </div>
-                    </a>
-                </div>
-            </div>
-
-            <div class="burger_container d-flex flex-column align-items-center justify-content-around menu_mm">
-                <div></div>
-                <div></div>
-                <div></div>
-            </div>
-        </div>
-    </header>
-
-    <!-- Menu -->
-
-    <div class="menu d-flex flex-column align-items-end justify-content-start text-right menu_mm trans_400">
-        <div class="menu_close_container">
-            <div class="menu_close">
-                <div></div>
-                <div></div>
-            </div>
-        </div>
-        <div class="logo menu_mm"><a class="navbar-brand ps-5" href="index.php"><img src="../assets/images/logo.png"
-                    alt="logo" height="100px"></a></div>
-        <nav class="menu_nav">
-            <ul class="menu_mm">
-                <li class="menu_mm"><a href="../">Inicio</a></li>
-                <li class="menu_mm"><a href="catalogo.php">Catalogo</a></li>
-                <li class="menu_mm"><a href="nosotros.php">Sobre Nosotros</a></li>
-                <li class="menu_mm"><a href="contacto.php">Contacto</a></li>
-            </ul>
-        </nav>
-    </div>
+    <?php include "layouts/headerIN.php"; ?>
 
     <div class="super_container">
         <!--LOADER -->

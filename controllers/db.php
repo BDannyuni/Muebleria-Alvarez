@@ -1,5 +1,8 @@
 <?php
-  
+  // LLAVE PARA ENCRIPTAR
+  define("KEY", "MAX");
+  define("COD", "AES-128-ECB"); // metodo de encriptacion (NO CAMBIAR)
+
   // Variables necesarias para realizar la conexion con la base de datos
   $server = 'localhost';
   $username = 'root';
