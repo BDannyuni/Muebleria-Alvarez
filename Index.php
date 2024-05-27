@@ -1,7 +1,7 @@
 <?php 
 #Incluimos la sesion de usuario y de carrito
 include "controllers/user_session.php";
-
+include 'controllers/carrito.php'
 ?>
 
 <!doctype html>
@@ -22,6 +22,7 @@ include "controllers/user_session.php";
     <link rel="stylesheet" type="text/css" href="plantilla/styles/main_styles.css">
     <link rel="stylesheet" type="text/css" href="plantilla/styles/responsive.css">
     <link rel="stylesheet" href="assets/css/loader.css">
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <style>
 	.product_image {
     width: 100%;
@@ -241,34 +242,49 @@ include "controllers/user_session.php";
         </div>
         <div class="row products_container">
 
-		<?php include 'pages/productos.php'; ?>
-            <?php if (!empty($productos)): ?>
-                <?php foreach ($productos as $producto): ?>
-                    <div class="col-lg-4 product_col">
-                        <div class="product">
-                            <div class="product_image">
-                                <img src="assets/images/uploads/<?php echo $producto['image']; ?>" alt="<?php echo $producto['nombre_prod']; ?>">
-                            </div>
-                            <div class="rating rating_4">
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                            </div>
-                            <div class="product_content clearfix">
-                                <div class="product_info">
-                                    <div class="product_name"><a href="product.html"><?php echo $producto['nombre_prod']; ?></a></div>
-                                    <div class="product_price">$<?php echo number_format($producto['precio_prod'], 2); ?></div>
-                                </div>
-                                <div class="product_options">
-                                    <div class="product_buy product_option"><img src="plantilla/images/shopping-bag-white.svg" alt="Comprar"></div>
-                                    <div class="product_fav product_option">+</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                <?php endforeach; ?>
+		<?php 
+			//TRAER PRODUCTOS DE LA BASE DE DATOS  
+
+			$stmt = $conn->query("SELECT * FROM productos limit 3");
+			$stmt->execute();
+			$listaProductos = $stmt->fetchAll(PDO::FETCH_ASSOC);
+		
+		?>
+            <?php if (!empty($listaProductos)): ?>
+                <?php foreach ($listaProductos as $producto): ?>
+					<div class="col-lg-4 product_col">
+						<div class="product">
+							<div class="product_image">
+								<img src="assets/images/uploads/<?php echo $producto['image']; ?>" alt="<?php echo $producto['nombre_prod']; ?>">
+							</div>
+							<div class="rating rating_4">
+								<i class="fa fa-star"></i>
+								<i class="fa fa-star"></i>
+								<i class="fa fa-star"></i>
+								<i class="fa fa-star"></i>
+								<i class="fa fa-star"></i>
+							</div>
+							<div class="product_content clearfix">
+								<div class="product_info">
+									<div class="product_name"><a href="pages/producto.php?id=<?php echo urlencode(openssl_encrypt($producto['id_producto'], COD, KEY)); ?>"><?php echo $producto['nombre_prod']; ?></a></div>
+									<div class="product_price">$<?php echo number_format($producto['precio_prod'], 2); ?></div>
+								</div>
+								<form class="add-to-cart-form" action="" method="POST">
+									<input type="hidden" name="id" value="<?php echo  openssl_encrypt($producto['id_producto'], COD, KEY); ?>">
+									<input type="hidden" name="nombre" value="<?php echo  openssl_encrypt($producto['nombre_prod'], COD, KEY); ?>">
+									<input type="hidden" name="precio" value="<?php echo  openssl_encrypt($producto['precio_prod'], COD, KEY); ?>">
+									<input type="hidden" name="cantidad" value="<?php echo openssl_encrypt(1, COD, KEY); ?>">
+									<!-- BOTON DE AGREGAR AL CARRITO -->
+									<div class="product_options">
+										<button name="btn-accion" class="product_buy product_option" value="Agregar" type="submit">
+											<img src="plantilla/images/shopping-bag-white.svg" alt="Comprar">
+										</button>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				<?php endforeach; ?>
             <?php else: ?>
                 <p>No hay productos disponibles.</p>
             <?php endif; ?>
@@ -313,7 +329,30 @@ include "controllers/user_session.php";
         include "pages/layouts/footer.php"
   ?>
 
+		<script>
+			//MANEJO DE EL EVENTO DE AÑADIR AL CARRITO
+			$(document).ready(function() {
+				$(".add-to-cart-form").on("submit", function(event) {
+					event.preventDefault(); 
+					var form = $(this);
 
+					$.ajax({
+						type: "POST",
+						url: "controllers/carrito.php", 
+						data: form.serialize(), 
+						success: function(response) {
+							alert("Producto añadido al carrito!");
+							console.log(response); 
+						},
+						error: function(xhr, status, error) {
+							alert("Hubo un error al añadir el producto al carrito.");
+							console.error(xhr, status, error);
+						}
+					});
+				});
+			});
+
+		</script>
         <script>
 			function CargarContenido(pagina_php, contenedor) {
 				$("." + contenedor).load(pagina_php);
