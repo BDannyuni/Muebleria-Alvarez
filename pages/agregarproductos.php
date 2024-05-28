@@ -2,7 +2,7 @@
 //IMPORTAR LA CONEXION A LA DB
 include '../controllers/db.php';
 
-$messageError= '';
+$messageError = '';
 $messageSuccess = '';
 // Obtener datos de la tabla "categorias"
 $query_categoria = "SELECT id_categoria, categoria_nom FROM categorias";
@@ -42,7 +42,7 @@ if (isset($_POST['submit'])) {
     $id_color = $_POST['id_color'];
     $id_material = $_POST['id_material'];
     $id_tapiz = $_POST['id_tapiz'];
-    
+
     // Handle the file upload
     $target_dir = "../assets/images/uploads/";
     $target_file = $target_dir . basename($_FILES["image"]["name"]);
@@ -53,11 +53,11 @@ if (isset($_POST['submit'])) {
         #echo "Sorry, there was an error uploading your file.";
         $messageError = "Error al subir la imagen";
     }
-    try{
+    try {
         // SQL query to insert the product
         $query = "INSERT INTO productos (nombre_prod, descripcion_prod, precio_prod, categoria_prod, stock_prod, image, proveedor, marca, id_color, id_material, id_tapiz) 
                   VALUES (:nombre_prod, :descripcion_prod, :precio_prod, :categoria_prod, :stock_prod, :image, :proveedor, :marca, :id_color, :id_material, :id_tapiz)";
-        
+
         $stmt = $conn->prepare($query);
         $stmt->bindParam(':nombre_prod', $nombre_prod);
         $stmt->bindParam(':descripcion_prod', $descripcion_prod);
@@ -70,17 +70,16 @@ if (isset($_POST['submit'])) {
         $stmt->bindParam(':id_color', $id_color);
         $stmt->bindParam(':id_material', $id_material);
         $stmt->bindParam(':id_tapiz', $id_tapiz);
-        
-    
-        if($stmt->execute()){
+
+
+        if ($stmt->execute()) {
             $messageSuccess = "Producto agregado exitosamente";
-        }else{
+        } else {
             $messageError = "Error al agregar el producto";
         }
-    }catch(Exception $e){
+    } catch (Exception $e) {
         $messageError = "Ocurrio un error inesperado, intente de nuevo";
     }
-
 }
 
 ?>
@@ -96,11 +95,18 @@ if (isset($_POST['submit'])) {
     <link rel="icon" type="image/png" sizes="16x16" href="../plantilla/quixlab-master/images/favicon.png">
     <!-- Custom Stylesheet -->
     <link href="../plantilla/quixlab-master/css/style.css" rel="stylesheet">
-
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
-        .card-transparent {
-            background-color: rgba(128, 128, 128, 0.7); /* Fondo blanco semi-transparente */
-            border: none; /* Eliminar borde de la tarjeta */
+        .form-container {
+            max-width: 100%;
+            padding: 20px;
+            background-color: rgba(128, 128, 128, 0.7);
+            border-radius: 10px;
+        }
+
+        .form-group.row {
+            margin-bottom: 2rem;
         }
     </style>
 </head>
@@ -126,8 +132,7 @@ if (isset($_POST['submit'])) {
                     <b class="logo-abbr"><img src="../assets/images/logo-blanco.png" alt=""> </b>
                     <span class="logo-compact"><img src="../assets/images/logo-blanco.png" alt=""></span>
                     <span class="brand-title text-white mt-2">
-                        <img src="../assets/images/logo-blanco.png" height="32px" style="margin-right:5px;"
-                            alt="">Muebleria Alvarez
+                        <img src="../assets/images/logo-blanco.png" height="32px" style="margin-right:5px;" alt="">Muebleria Alvarez
                     </span>
                 </a>
             </div>
@@ -164,7 +169,7 @@ if (isset($_POST['submit'])) {
                     </div>
                 </div>
                 <div class="header-right">
-                    
+
                 </div>
             </div>
         </div>
@@ -230,263 +235,158 @@ if (isset($_POST['submit'])) {
         <!-- Content body start -->
         <div class="content-body" style="background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(../assets/images/fondologin.png); 
 	background-size:cover;"><br><br>
-            
+
             <!-- row -->
-            <!-- MENSAJE DE ERROR-->
-            <?php if (!empty($messageError)): ?>
-                <div class="alert alert-danger alert-dismissible" role="alert">
-                    <?php echo $messageError ?> <!-- mensaje -->
-                </div>
-            <?php endif ?>
-            <!-- MENSAJE DE Exito-->
-            <?php if (!empty($messageSuccess)): ?>
-                <div class="alert alert-success alert-dismissible" role="alert">
-                    <?php echo $messageSuccess ?> <!-- mensaje -->
-                </div>
-            <?php endif ?>
-            <div class="container-fluid">
-                <div class="col-lg-6  mx-auto">
-                    <div class="card card-transparent">
-                        <div class="card-body">
-                            <H2 class="col-lg-5 mx-auto text-white">Agregar Productos</H2><br>
-                            <div class="form-validation">
-                                <form class="form-valide" method="post" 
-                                    enctype="multipart/form-data">
-                                    <!--<div class="form-group row">
-                                        <label class="col-lg-4 col-form-label text-white" for="id_producto">ID del Producto <span
-                                                class="text-danger">*</span></label>
-                                        <div class="col-lg-7">
-
-                                            <input type="number" class="form-control input-rounded" name="id_producto"
-                                                id="id_producto" placeholder="Ingrese el Id del Producto..." required>
-                                        </div>
-                                    </div>-->
-                                    <div class="form-group row">
-                                        <label class="col-lg-4 col-form-label text-white" for="nombre_prod">Nombre del Producto
-                                            <span class="text-danger">*</span>
-                                        </label>
-                                        <div class="col-lg-7">
-                                            <input type="text" class="form-control input-rounded" name="nombre_prod" id="nombre_prod"
-                                                placeholder="Ingrese el Nombre del Producto..." required>
-
-                                        </div>
-                                    </div>
-                                    <!-- <div class="form-group row">
-                                        <label class="col-lg-4 col-form-label" for="val-password">Password <span
-                                                class="text-danger">*</span>
-                                        </label>
-                                        <div class="col-lg-6">
-                                            <input type="password" class="form-control" id="val-password"
-                                                name="val-password" placeholder="Choose a safe one..">
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label class="col-lg-4 col-form-label" for="val-confirm-password">Confirm
-                                            Password <span class="text-danger">*</span>
-                                        </label>
-                                        <div class="col-lg-6">
-                                            <input type="password" class="form-control" id="val-confirm-password"
-                                                name="val-confirm-password" placeholder="..and confirm it!">
-                                        </div>
-                                    </div> -->
-                                    <div class="form-group row">
-                                        <label class="col-lg-4 col-form-label text-white" for="descripcion_prod">Descripción <span
-                                                class="text-danger">*</span>
-                                        </label>
-                                        <div class="col-lg-7">
-                                            <textarea class="form-control" name="descripcion_prod" id="descripcion_prod"
-                                                rows="5" placeholder="Ingrese La Descripción del Producto..."
-                                                required></textarea>
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group row">
-                                        <label class="col-lg-4 col-form-label text-white" for="categoria_prod">Categoría <span
-                                                class="text-danger">*</span>
-                                        </label>
-                                        <div class="col-lg-7">
-                                        <select class="form-control input-rounded" type="number" name="categoria_prod" id="categoria_prod"
-                                                required>
-                                                <option value="">Selecciona una Categoria</option>
-                                                <?php foreach ($result_categoria as $row_categoria) { ?>
-                                                    <option value="<?php echo $row_categoria['id_categoria']; ?>" <?php echo (isset($_POST['id_categoria']) && $_POST['id_categoria'] == $row_tapiz['id_categoria']) ? 'selected' : ''; ?>>
-                                                        <?php echo $row_categoria['categoria_nom']; ?>
-                                                    </option>
-                                                <?php } ?>
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group row">
-                                        <label class="col-lg-4 col-form-label text-white" for="precio_prod">Precio <span
-                                                class="text-danger">*</span>
-                                        </label>
-                                        <div class="col-lg-7">
-                                            <input class="form-control input-rounded" type="number" step="0.01" name="precio_prod"
-                                                id="precio_prod" placeholder="$0.00" required>
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label class="col-lg-4 col-form-label text-white" for="stock_prod">Stock <span
-                                                class="text-danger">*</span>
-                                        </label>
-                                        <div class="col-lg-7">
-                                            <input class="form-control input-rounded" type="number" name="stock_prod" id="stock_prod"
-                                                placeholder="Ingrese la cantidad de stock" required>
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group row">
-                                        <label class="col-lg-4 col-form-label text-white" for="image">Imagen <span
-                                                class="text-danger">*</span>
-                                        </label>
-                                        <div class="col-lg-7">
-                                            <div class="custom-file">
-                                                <input type="file" name="image" id="image" accept="image/*"
-                                                    class="custom-file-input input-rounded" required onchange="updateFileName(this)">
-                                                <label id="imageLabel" class="custom-file-label">Ingrese la Imagen del Producto</label>
-                                            </div>
-                                        </div>
-                                    </div>
+            
+            <div class="container">
+                <h1 class="text-center text-white">Añadir Productos</h1>
+                <form class="form-container" method="post" enctype="multipart/form-data">
+                    <div class="form-group row">
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <input type="text" class="form-control rounded mb-3" name="nombre_prod" id="nombre_prod" placeholder="Ingrese el Nombre del Producto..." required>
+                            </div>
+                            <div class="form-group">
+                                <select class="form-control rounded mb-3" name="categoria_prod" id="categoria_prod" required>
+                                    <option value="">Selecciona una Categoria</option>
+                                    <?php foreach ($result_categoria as $row_categoria) { ?>
+                                        <option value="<?php echo $row_categoria['id_categoria']; ?>" <?php echo (isset($_POST['id_categoria']) && $_POST['id_categoria'] == $row_categoria['id_categoria']) ? 'selected' : ''; ?>>
+                                            <?php echo $row_categoria['categoria_nom']; ?>
+                                        </option>
+                                    <?php } ?>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <textarea class="form-control rounded" name="descripcion_prod" id="descripcion_prod" rows="6" placeholder="Ingrese La Descripción del Producto..." required></textarea>
+                        </div>
+                    </div>
 
 
-                                    <div class="form-group row">
-                                        <label class="col-lg-4 col-form-label text-white" for="proveedor">Proveedor <span
-                                                class="text-danger">*</span>
-                                        </label>
-                                        <div class="col-lg-7">
-                                        <select class="form-control input-rounded" type="number" name="proveedor" id="proveedor"
-                                                required>
-                                                <option value="">Selecciona un Proveedor</option>
-                                                <?php foreach ($result_proveedor as $row_proveedor) { ?>
-                                                    <option value="<?php echo $row_proveedor['id_proveedor']; ?>" <?php echo (isset($_POST['id_proveedor']) && $_POST['id_proveedor'] == $row_tapiz['id_proveedor']) ? 'selected' : ''; ?>>
-                                                        <?php echo $row_proveedor['proveedor_nom']; ?>
-                                                    </option>
-                                                <?php } ?>
-                                            </select>
-                                        </div>
-                                    </div>
 
+                    <div class="form-group row">
+                        <div class="col-lg-4">
+                            <input class="form-control rounded" type="number" step="0.01" name="precio_prod" id="precio_prod" placeholder="Ingresa el Precio: $0.00" required>
+                        </div>
+                        <div class="col-lg-4">
+                            <input class="form-control rounded" type="number" name="stock_prod" id="stock_prod" placeholder="Ingrese la cantidad de stock" required>
+                        </div>
+                        <div class="col-lg-4">
+                            <select class="form-control rounded" name="proveedor" id="proveedor" required>
+                                <option value="">Selecciona un Proveedor</option>
+                                <?php foreach ($result_proveedor as $row_proveedor) { ?>
+                                    <option value="<?php echo $row_proveedor['id_proveedor']; ?>" <?php echo (isset($_POST['id_proveedor']) && $_POST['id_proveedor'] == $row_proveedor['id_proveedor']) ? 'selected' : ''; ?>>
+                                        <?php echo $row_proveedor['proveedor_nom']; ?>
+                                    </option>
+                                <?php } ?>
+                            </select>
+                        </div>
+                    </div>
 
-                                    <div class="form-group row">
-                                        <label class="col-lg-4 col-form-label text-white" for="marca">Marca <span
-                                                class="text-danger">*</span>
-                                        </label>
-                                        <div class="col-lg-7">
-                                            <input type="text" class="form-control input-rounded" name="marca" id="marca"
-                                                placeholder="Ingrese la Marca del Producto" required>
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group row">
-                                        <label class="col-lg-4 col-form-label text-white" for="id_color">Color <span
-                                                class="text-danger">*</span>
-                                        </label>
-                                        <div class="col-lg-7">
-                                            <select class="form-control input-rounded" type="number" name="id_color" id="id_color"
-                                                required>
-                                                <option value="">Selecciona un Color</option>
-                                                <?php foreach ($result_color as $row_color) { ?>
-                                                    <option value="<?php echo $row_color['id_color']; ?>">
-                                                        <?php echo $row_color['color_nom']; ?>
-                                                    </option>
-                                                <?php } ?>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label class="col-lg-4 col-form-label text-white" for="id_material">Material <span
-                                                class="text-danger">*</span>
-                                        </label>
-                                        <div class="col-lg-7">
-                                            <select class="form-control input-rounded" type="number" name="id_material"
-                                                id="id_material" required>
-                                                <option value="">Selecciona un Material</option>
-                                                <?php foreach ($result_material as $row_material) { ?>
-                                                    <option value="<?php echo $row_material['id_material']; ?>">
-                                                        <?php echo $row_material['material_nom']; ?>
-                                                    </option>
-                                                <?php } ?>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label class="col-lg-4 col-form-label text-white" for="id_tapiz">Tapiz <span
-                                                class="text-danger">*</span>
-                                        </label>
-                                        <div class="col-lg-7">
-                                            <select class="form-control input-rounded" type="number" name="id_tapiz" id="id_tapiz"
-                                                required>
-                                                <option value="">Selecciona un Tapiz</option>
-                                                <?php foreach ($result_tapiz as $row_tapiz) { ?>
-                                                    <option value="<?php echo $row_tapiz['id_tapiz']; ?>">
-                                                        <?php echo $row_tapiz['tapiz_nom']; ?>
-                                                    </option>
-                                                <?php } ?>
-                                            </select>
-                                        </div>
-                                    </div>
-                                                    
-                                    <div class="form-group row">
-                                        <div class="col-lg-7 ml-auto">
-                                            <button type="submit" class="btn btn-primary" name="submit">Añadir Producto</button>
-                                        </div>
-                                    </div>
-                                </form>
+                    <div class="form-group row">
+                        <div class="col-lg-8">
+                            <div class="custom-file">
+                                <input type="file" name="image" id="image" accept="image/*" class="custom-file-input rounded" required onchange="updateFileName(this)">
+                                <label id="imageLabel" class="custom-file-label">Ingrese la Imagen del Producto</label>
                             </div>
                         </div>
                     </div>
-                </div>
-                <br><br><br>
 
-                <!-- <form action="upload.php" method="post" enctype="multipart/form-data">
-                    <label for="id_producto">ID del Producto:</label>
-                    <input type="number" name="id_producto" id="id_producto" required><br><br>
-                    <label for="nombre_prod">Nombre del Producto:</label>
-                    <input type="text" name="nombre_prod" id="nombre_prod" required><br><br>
-                    <label for="descripcion_prod">Descripción:</label>
-                    <textarea name="descripcion_prod" id="descripcion_prod" required></textarea><br><br>
-                    <label for="precio_prod">Precio:</label>
-                    <input type="number" step="0.01" name="precio_prod" id="precio_prod" required><br><br>
-                    <label for="categoria_prod">Categoría:</label>
-                    <input type="text" name="categoria_prod" id="categoria_prod" required><br><br>
-                    <label for="stock_prod">Stock:</label>
-                    <input type="number" name="stock_prod" id="stock_prod" required><br><br>
-                    <label for="image">Imagen:</label>
-                    <input type="file" name="image" id="image" accept="image/*" required><br><br>
-                    <label for="proveedor">Proveedor:</label>
-                    <input type="text" name="proveedor" id="proveedor" required><br><br>
-                    <label for="marca">Marca:</label>
-                    <input type="text" name="marca" id="marca" required><br><br>
-                    <label for="id_color">ID Color:</label>
-                    <input type="number" name="id_color" id="id_color" required><br><br>
-                    <label for="id_material">ID Material:</label>
-                    <input type="number" name="id_material" id="id_material" required><br><br>
-                    <label for="id_tapiz">ID Tapiz:</label>
-                    <input type="number" name="id_tapiz" id="id_tapiz" required><br><br>
-                    <input type="submit" name="submit" value="Subir Producto">
-                </form> -->
-            </div>
-            <!-- container -->
-        </div>
-        <!-- Content body end -->
+                    <div class="form-group row">
+                        <div class="col-lg-3">
+                            <input type="text" class="form-control rounded" name="marca" id="marca" placeholder="Ingrese la Marca del Producto" required>
+                        </div>
+                        <div class="col-lg-3">
+                            <select class="form-control rounded" name="id_color" id="id_color" required>
+                                <option value="">Selecciona un Color</option>
+                                <?php foreach ($result_color as $row_color) { ?>
+                                    <option value="<?php echo $row_color['id_color']; ?>">
+                                        <?php echo $row_color['color_nom']; ?>
+                                    </option>
+                                <?php } ?>
+                            </select>
+                        </div>
+                        <div class="col-lg-3">
+                            <select class="form-control rounded" name="id_material" id="id_material" required>
+                                <option value="">Selecciona un Material</option>
+                                <?php foreach ($result_material as $row_material) { ?>
+                                    <option value="<?php echo $row_material['id_material']; ?>">
+                                        <?php echo $row_material['material_nom']; ?>
+                                    </option>
+                                <?php } ?>
+                            </select>
+                        </div>
+                        <div class="col-lg-3">
+                            <select class="form-control rounded" name="id_tapiz" id="id_tapiz" required>
+                                <option value="">Selecciona un Tapiz</option>
+                                <?php foreach ($result_tapiz as $row_tapiz) { ?>
+                                    <option value="<?php echo $row_tapiz['id_tapiz']; ?>">
+                                        <?php echo $row_tapiz['tapiz_nom']; ?>
+                                    </option>
+                                <?php } ?>
+                            </select>
+                        </div>
+                    </div>
 
-        <!-- Footer start -->
-        <div class="footer">
-            <div class="copyright">
-                <p>Copyright &copy; Designed & Developed by <a href="https://themeforest.net/user/quixlab">Quixlab</a>
-                    2018</p>
+                    <div class="form-group row">
+
+
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-lg-12 text-center">
+                            <button type="submit" class="btn btn-primary" name="submit">Añadir Producto</button>
+                        </div>
+                    </div>
+                </form>
             </div>
+            <br><br><br>
+
+            <?php if (!empty($messageError)) { ?>
+                <script>
+                    Swal.fire({
+                        position: 'top-end',
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: '<?php echo $messageError; ?>',
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                </script>
+            <?php } ?>
+            <?php if (!empty($messageSuccess)) { ?>
+                <script>
+                    Swal.fire({
+                        position: 'top-end',
+                        icon: 'success',
+                        title: '¡Éxito!',
+                        text: '<?php echo $messageSuccess; ?>',
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                </script>
+            <?php } ?>
         </div>
-        <!-- Footer end -->
+        <!-- container -->
+    </div>
+    <!-- Content body end -->
+
+    <!-- Footer start -->
+    <div class="footer">
+        <div class="copyright">
+            <p>Copyright &copy; Designed & Developed by <a href="https://themeforest.net/user/quixlab">Quixlab</a>
+                2018</p>
+        </div>
+    </div>
+    <!-- Footer end -->
     </div>
     <!-- Main wrapper end -->
 
     <!-- Scripts -->
     <script>
         // evitar que cada que se refresque la pagina el formulario se vuelva a enviar.
-        if ( window.history.replaceState ) {
-            window.history.replaceState( null, null, window.location.href );
+        if (window.history.replaceState) {
+            window.history.replaceState(null, null, window.location.href);
         }
         // Mostrar el nombre del archivo al cargarlo
         function updateFileName(input) {

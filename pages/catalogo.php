@@ -1,8 +1,3 @@
-<?php 
-#Incluimos la sesion de usuario y de carrito
-include "../controllers/user_session.php";
-include '../controllers/carrito.php'
-?>
 <?php
 // traemos la sesion de usuario y carrito
 include "../controllers/user_session.php";
