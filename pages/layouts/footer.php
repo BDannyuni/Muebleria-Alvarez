@@ -4,27 +4,21 @@
 		<div class="container">
 			<div class="row">
 				<div class="col text-center">
-					<div class="footer_logo"><a href="#">Wish</a></div>
+					<div class="footer_logo"> <a class="navbar-brand ps-5"  href="index.php"><img src="assets/images/logo.png" alt="logo"></a></div>
 					<nav class="footer_nav">
 						<ul>
-							<li><a href="index.html">home</a></li>
-							<li><a href="categories.html">clothes</a></li>
-							<li><a href="categories.html">accessories</a></li>
-							<li><a href="categories.html">lingerie</a></li>
-							<li><a href="contact.html">contact</a></li>
+						<li><a href="index.php">Inicio</a></li>
+                        <li><a href="pages/catalogo.php">Catalogo</a></li>
+                        <li><a href="pages/nosotros.php">Sobre Nosotros</a></li>
+                        <li><a href="pages/contacto.php">Contacto</a></li>
+						<?php if (!empty($user) && $user['rol'] == 'admin') : ?> <!-- si hay usuario y es admin -->
+                    <li><a href="pages/resumen.php">Admin</a></li>
+                <?php endif; ?>
 						</ul>
 					</nav>
-					<div class="footer_social">
-						<ul>
-							<li><a href="#"><i class="fa fa-pinterest" aria-hidden="true"></i></a></li>
-							<li><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
-							<li><a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
-							<li><a href="#"><i class="fa fa-reddit-alien" aria-hidden="true"></i></a></li>
-							<li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
-						</ul>
-					</div>
+					
 					<div class="copyright"><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+Copyright &copy;<script>document.write(new Date().getFullYear());</script> Todos Los Derechos Reservados | Esta Pagina esta Hecha solo para fin educativo <br> Hecho por <a href="https://colorlib.com" target="_blank">Brandon</a> y <a href="https://colorlib.com" target="_blank">Maximo</a>
 <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></div>
 				</div>
 			</div>

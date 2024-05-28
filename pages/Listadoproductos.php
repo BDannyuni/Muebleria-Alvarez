@@ -1,4 +1,23 @@
+<?php
+// Establece la conexión con la base de datos
+$servername = "localhost"; // Cambia localhost por el nombre del servidor si es necesario
+$username = "root";
+$password = "";
+$dbname = "muebleria";
 
+// Crea la conexión
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+// Verifica la conexión
+if ($conn->connect_error) {
+    die("Error de conexión: " . $conn->connect_error);
+}
+
+// Consulta SQL para obtener todos los registros de la tabla "productos"
+$sql = "SELECT id_producto, nombre_prod, precio_prod, categoria_prod, stock_prod, proveedor, id_color, id_material, id_tapiz FROM productos";
+$result = $conn->query($sql);
+
+?>
 <!DOCTYPE html>
 <html lang="es">
 
@@ -11,11 +30,20 @@
     <link rel="icon" type="image/png" sizes="16x16" href="../plantilla/quixlab-master/images/favicon.png">
     <!-- Custom Stylesheet -->
     <link href="../plantilla/quixlab-master/css/style.css" rel="stylesheet">
+    <!-- Custom Stylesheet -->
+    <link href="../plantilla/quixlab-master/plugins/tables/css/datatable/dataTables.bootstrap4.min.css" rel="stylesheet">
 
+    
+    <!-- Agregar jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!-- Agregar DataTables y el archivo de idioma en español -->
+    <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/plug-ins/1.10.25/i18n/Spanish.json"></script>
 </head>
 
 <body>
-<!--*******************
+
+    <!--*******************
         Preloader start
     ********************-->
     <div id="preloader">
@@ -81,28 +109,7 @@
                     <ul class="clearfix">
                         
                         <li class="icons dropdown">
-                            <div class="user-img c-pointer position-relative"   data-toggle="dropdown">
-                                <span class="activity active"></span>
-                                <img src="../plantilla/quixlab-master/images/user/1.png" height="40" width="40" alt="">
-                            </div>
-                            <div class="drop-down dropdown-profile   dropdown-menu">
-                                <div class="dropdown-content-body">
-                                    <ul>
-                                        <li>
-                                            <a href="app-profile.html"><i class="icon-user"></i> <span>Profile</span></a>
-                                        </li>
-                                        <li>
-                                            <a href="email-inbox.html"><i class="icon-envelope-open"></i> <span>Inbox</span> <div class="badge gradient-3 badge-pill badge-primary">3</div></a>
-                                        </li>
-                                        
-                                        <hr class="my-2">
-                                        <li>
-                                            <a href="page-lock.html"><i class="icon-lock"></i> <span>Lock Screen</span></a>
-                                        </li>
-                                        <li><a href="page-login.html"><i class="icon-key"></i> <span>Logout</span></a></li>
-                                    </ul>
-                                </div>
-                            </div>
+                            
                         </li>
                     </ul>
                 </div>
@@ -136,20 +143,20 @@
                         </a>
                     </li>
                     <li class="mega-menu mega-menu-sm">
-                        <a href="#" aria-expanded="false">
+                        <a href="#.php" aria-expanded="false">
                         <i class="ti-bag"></i><span class="nav-text">Departamentos</span>
                         </a>
                     </li>
                     <li class="mega-menu mega-menu-sm">
-                        <a href="#" aria-expanded="false">
+                        <a href="#.php" aria-expanded="false">
                         <i class="ti-layers"></i><span class="nav-text">Categorias</span>
                         </a>
                     </li>
                     <li class="mega-menu mega-menu-sm">
-                        <a href="#" aria-expanded="false">
+                        <a href="#.php" aria-expanded="false">
                         <i class="ti-layers"></i><span class="nav-text">Productos con Poco Stock</span>
                         </a>
-                    </li></li>
+                    </li>
                     <li class="nav-label">Venta</li>
                     <li class="mega-menu mega-menu-sm">
                         <a href="#" aria-expanded="false">
@@ -180,23 +187,78 @@
             Content body start
         ***********************************-->
         <div class="content-body">
-
-            <div class="row page-titles mx-0">
-                <div class="col p-md-0">
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="javascript:void(0)">Dashboard</a></li>
-                        <li class="breadcrumb-item active"><a href="javascript:void(0)">Home</a></li>
-                    </ol>
-                </div>
-            </div>
             <!-- row -->
 
-            
+            <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">Inventario</h4>
+                        <div class="table-responsive">
+                            <table id="productos" class="table table-striped table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>id Producto</th>
+                                        <th>Nombre</th>
+                                        <th>Precio</th>
+                                        <th>Categoria</th>
+                                        <th>Stock</th>
+                                        <th>Proveedor</th>
+                                        <th>Color</th>
+                                        <th>Material</th>
+                                        <th>Tapiz</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php
+                                    // Itera sobre cada fila del resultado de la consulta y muestra los datos en la tabla
+                                    if ($result->num_rows > 0) {
+                                        while ($row = $result->fetch_assoc()) {
+                                            echo "<tr>";
+                                            echo "<td>" . $row["id_producto"] . "</td>";
+                                            echo "<td>" . $row["nombre_prod"] . "</td>";
+                                            echo "<td>" . $row["precio_prod"] . "</td>";
+                                            echo "<td>" . $row["categoria_prod"] . "</td>";
+                                            echo "<td>" . $row["stock_prod"] . "</td>";
+                                            echo "<td>" . $row["proveedor"] . "</td>";
+                                            // Aquí necesitas manejar la obtención de color, material y tapiz
+                                            echo "<td>" . $row["id_color"] . "</td>";
+                                            echo "<td>" . $row["id_material"] . "</td>";
+                                            echo "<td>" . $row["id_tapiz"] . "</td>";
+                                            echo "</tr>";
+                                        }
+                                    } else {
+                                        echo "<tr><td colspan='9'>0 resultados</td></tr>";
+                                    }
+                                    ?>
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th>id Producto</th>
+                                        <th>Nombre</th>
+                                        <th>Precio</th>
+                                        <th>Categoria</th>
+                                        <th>Stock</th>
+                                        <th>Proveedor</th>
+                                        <th>Color</th>
+                                        <th>Material</th>
+                                        <th>Tapiz</th>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
             <!-- #/ container -->
         </div>
         <!--**********************************
             Content body end
         ***********************************-->
+        
         
         
         <!--**********************************
@@ -215,13 +277,39 @@
         Main wrapper end
     ***********************************-->
 
-    <!--**********************************
+<!--**********************************
         Scripts
     ***********************************-->
+    
     <script src="../plantilla/quixlab-master/plugins/common/common.min.js"></script>
     <script src="../plantilla/quixlab-master/js/custom.min.js"></script>
     <script src="../plantilla/quixlab-master/js/settings.js"></script>
     <script src="../plantilla/quixlab-master/js/gleek.js"></script>
     <script src="../plantilla/quixlab-master/js/styleSwitcher.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdn.datatables.net/plug-ins/1.10.25/i18n/Spanish.json"></script>
+<script src="../plantilla/quixlab-master/plugins/tables/js/jquery.dataTables.min.js"></script>
+<script src="../plantilla/quixlab-master/plugins/tables/js/datatable/dataTables.bootstrap4.min.js"></script>
+<script src="../plantilla/quixlab-master/plugins/tables/js/datatable-init/datatable-basic.min.js"></script>
+<script>
+        // Una vez que el documento esté cargado, ejecuta esta función
+        $(document).ready(function() {
+            // Inicializa DataTables en la tabla con id "productos"
+            $('#productos').DataTable({
+                "language": {
+                    "url": "https://cdn.datatables.net/plug-ins/1.10.25/i18n/Spanish.json"
+                }
+            });
+        });
+    </script>
+    <script>
+        // Una vez que el documento esté cargado, ejecuta esta función
+        $(document).ready(function() {
+            // Inicializa DataTables en la tabla con id "productos"
+            $('#productos').DataTable();
+        });
+    </script>
 
 </body>
+
+</html>
