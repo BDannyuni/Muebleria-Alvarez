@@ -16,14 +16,14 @@ if ($conn->connect_error) {
 // Verifica si el formulario ha sido enviado
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Obtiene los datos del formulario
-    $id_categoria = $_POST['id_categoria'];
-    $nombre_categoria = $_POST['nombre_categoria'];
-    $estado_categoria = $_POST['estado_categoria'];
+   
+    $nombre_departamento = $_POST['nombre_departamento'];
+    $estado_departamento = $_POST['estado_departamento'];
 
     // Inserta los datos en la tabla "categorias"
-    $sql = "INSERT INTO categorias (id_Categoria, categoria_nom, Estado) VALUES (?, ?, ?)";
+    $sql = "INSERT INTO departamentos (departamento_nom, Estado) VALUES ( ?, ?)";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("iss", $id_categoria, $nombre_categoria, $estado_categoria);
+    $stmt->bind_param("is", $nombre_departamento, $estado_departamento);
 
     if ($stmt->execute()) {
         echo "Categoría agregada exitosamente";

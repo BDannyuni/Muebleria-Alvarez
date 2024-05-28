@@ -1,11 +1,31 @@
 <?php
-//IMPORTAR LA CONEXION A LA DB
-include '../controllers/db.php';
+// traer la sesion del usuario
+include "../controllers/user_session.php";
+// validar si no es ADMIN bloquearle esta pagina
+$userEmail = $user['email'];
+if (isset($_SESSION['user_id'])) {
+    $query = $conn->prepare("SELECT rol FROM usuarios WHERE email='$userEmail'");
+    $query->execute();
+    // Fetch the result row as an associative array
+    $row = $query->fetch(PDO::FETCH_ASSOC);
+    // REGRESA EL ROL DEL USUARIO
+    $role = $row['rol'];
 
+    if ($role == 'admin') {
+        //SI ES ADMIN
+
+    } else {
+        //NO ES ADMIN
+        header('Location: ../index.php');
+    }
+} else {
+    //NO ESTA REGISTRADO O LOGUEADO
+    header('Location: ../login.php');
+}
 $messageError = '';
 $messageSuccess = '';
 // Obtener datos de la tabla "categorias"
-$query_categoria = "SELECT id_categoria, categoria_nom FROM categorias";
+$query_categoria = "SELECT id_departamento, departamento_nom FROM departamentos where estado = null";
 $stmt_categoria = $conn->query($query_categoria);
 $result_categoria = $stmt_categoria->fetchAll();
 
@@ -139,105 +159,16 @@ if (isset($_POST['submit'])) {
         </div>
         <!-- Nav header end -->
 
-        <!-- Header start -->
-        <div class="header">
-            <div class="header-content clearfix">
-                <div class="nav-control">
-                    <div class="hamburger">
-                        <span class="toggle-icon"><i class="icon-menu"></i></span>
-                    </div>
-                </div>
-                <div class="header-left">
-                    <div class="input-group icons">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text bg-transparent border-0 pr-2 pr-sm-3" id="basic-addon1">
-                                <li><a href="../index.php">Inicio</a></li>
-                            </span>
-                            <span class="input-group-text bg-transparent border-0 pr-2 pr-sm-3" id="basic-addon1">
-                                <li><a href="catalogo.php">Catálogo</a></li>
-                            </span>
-                            <span class="input-group-text bg-transparent border-0 pr-2 pr-sm-3" id="basic-addon1">
-                                <li><a href="nosotros.php">Sobre Nosotros</a></li>
-                            </span>
-                            <span class="input-group-text bg-transparent border-0 pr-2 pr-sm-3" id="basic-addon1">
-                                <li><a href="contacto.php.php">Contacto</a></li>
-                            </span>
-                            <span class="input-group-text bg-transparent border-0 pr-2 pr-sm-3" id="basic-addon1">
-                                <li><a href="resumen.php">Admin</a></li>
-                            </span>
-                        </div>
-                    </div>
-                </div>
-                <div class="header-right">
-
-                </div>
-            </div>
-        </div>
-        <!-- Header end -->
-
-        <!-- Sidebar start -->
-        <div class="nk-sidebar">
-            <div class="nk-nav-scroll">
-                <ul class="metismenu" id="menu">
-                    <li>
-                        <a href="resumen.php" aria-expanded="false">
-                            <i class="icon-speedometer menu-icon"></i><span class="nav-text">Resumen</span>
-                        </a>
-                    </li>
-                    <li class="nav-label">Inventario</li>
-                    <li class="mega-menu mega-menu-sm">
-                        <a href="Listadoproductos.php" aria-expanded="false">
-                            <i class="ti-layout"></i><span class="nav-text">Productos</span>
-                        </a>
-                    </li>
-                    <li class="mega-menu mega-menu-sm">
-                        <a href="agregarproductos.php" aria-expanded="false">
-                            <i class="icon-note menu-icon"></i><span class="nav-text">Agregar Productos</span>
-                        </a>
-                    </li>
-                    <li class="mega-menu mega-menu-sm">
-                        <a href="#.php" aria-expanded="false">
-                            <i class="ti-bag"></i><span class="nav-text">Departamentos</span>
-                        </a>
-                    </li>
-                    <li class="mega-menu mega-menu-sm">
-                        <a href="#.php" aria-expanded="false">
-                            <i class="ti-layers"></i><span class="nav-text">Categorias</span>
-                        </a>
-                    </li>
-                    <li class="mega-menu mega-menu-sm">
-                        <a href="#.php" aria-expanded="false">
-                            <i class="ti-layers"></i><span class="nav-text">Productos con Poco Stock</span>
-                        </a>
-                    </li>
-                    <li class="nav-label">Venta</li>
-                    <li class="mega-menu mega-menu-sm">
-                        <a href="#" aria-expanded="false">
-                            <i class="ti-shopping-cart"></i><span class="nav-text">Ventas</span>
-                        </a>
-                    </li>
-                    <li class="nav-label">Extra</li>
-                    <li class="mega-menu mega-menu-sm">
-                        <a href="#" aria-expanded="false">
-                            <i class="ti-user"></i><span class="nav-text">Clientes</span>
-                        </a>
-                    </li>
-                    <li class="mega-menu mega-menu-sm">
-                        <a href="#" aria-expanded="false">
-                            <i class="ti-clipboard"></i><span class="nav-text">Admin Usuarios</span>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-        <!-- Sidebar end -->
+        <!-- Header start  and sidebar -->
+        <?php include "layouts/all.php"; ?>
+        
 
         <!-- Content body start -->
         <div class="content-body" style="background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(../assets/images/fondologin.png); 
 	background-size:cover;"><br><br>
 
             <!-- row -->
-            
+
             <div class="container">
                 <h1 class="text-center text-white">Añadir Productos</h1>
                 <form class="form-container" method="post" enctype="multipart/form-data">
