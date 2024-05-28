@@ -95,7 +95,7 @@ if (isset($_POST['submit'])) {
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="../plantilla/quixlab-master/images/favicon.png">
     <!-- Custom Stylesheet -->
-    <link href="../plantilla/quixlab-master/css/style.css" rel="stylesheet">.
+    <link href="../plantilla/quixlab-master/css/style.css" rel="stylesheet">
 
     <style>
         .card-transparent {
@@ -164,37 +164,7 @@ if (isset($_POST['submit'])) {
                     </div>
                 </div>
                 <div class="header-right">
-                    <ul class="clearfix">
-                        <li class="icons dropdown">
-                            <div class="user-img c-pointer position-relative" data-toggle="dropdown">
-                                <span class="activity active"></span>
-                                <img src="../plantilla/quixlab-master/images/user/1.png" height="40" width="40" alt="">
-                            </div>
-                            <div class="drop-down dropdown-profile dropdown-menu">
-                                <div class="dropdown-content-body">
-                                    <ul>
-                                        <li>
-                                            <a href="app-profile.html"><i class="icon-user"></i>
-                                                <span>Profile</span></a>
-                                        </li>
-                                        <li>
-                                            <a href="email-inbox.html"><i class="icon-envelope-open"></i>
-                                                <span>Inbox</span>
-                                                <div class="badge gradient-3 badge-pill badge-primary">3</div>
-                                            </a>
-                                        </li>
-                                        <hr class="my-2">
-                                        <li>
-                                            <a href="page-lock.html"><i class="icon-lock"></i> <span>Lock
-                                                    Screen</span></a>
-                                        </li>
-                                        <li><a href="page-login.html"><i class="icon-key"></i> <span>Logout</span></a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
+                    
                 </div>
             </div>
         </div>

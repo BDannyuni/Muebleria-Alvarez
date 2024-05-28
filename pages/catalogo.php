@@ -1,3 +1,8 @@
+<?php 
+#Incluimos la sesion de usuario y de carrito
+include "../controllers/user_session.php";
+include '../controllers/carrito.php'
+?>
 <?php
 $servername = "localhost";
 $username = "root"; // Usualmente es 'root' en XAMPP
@@ -83,7 +88,9 @@ $result = $conn->query($sql);
                     <li><a href="catalogo.php">Catalogo</a></li>
                     <li><a href="nosotros.php">Sobre Nosotros</a></li>
                     <li><a href="contacto.php">Contacto</a></li>
-                    <li><a href="#"></a></li>
+                    <?php if (!empty($user) && $user['rol'] == 'admin') : ?> <!-- si hay usuario y es admin -->
+                    <li><a href="resumen.php">Admin</a></li>
+                <?php endif; ?>
                     <li><a href="#"></a></li>
                 </ul>
             </nav>

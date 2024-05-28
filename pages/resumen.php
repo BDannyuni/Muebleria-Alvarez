@@ -197,7 +197,7 @@ $result = $conn->query($sql);
                         </a>
                     </li>
                     <li class="mega-menu mega-menu-sm">
-                        <a href="#" aria-expanded="false">
+                        <a href="departamentos.php" aria-expanded="false">
                             <i class="ti-bag"></i><span class="nav-text">Departamentos</span>
                         </a>
                     </li>
@@ -366,66 +366,6 @@ $result = $conn->query($sql);
                             </div>
                         </div>
                     </div>
-<!-- 
-                    <div class="col-xl-6 col-lg-6 col-sm-6 col-xxl-6">
-                        <div class="card">
-                            <div class="card-body">
-                                <h4 class="card-title">Activity</h4>
-                                <div id="activity">
-                                    <div class="media border-bottom-1 pt-3 pb-3">
-                                        <img width="35" src="./images/avatar/1.jpg" class="mr-3 rounded-circle">
-                                        <div class="media-body">
-                                            <h5>Received New Order</h5>
-                                            <p class="mb-0">I shared this on my fb wall a few months back,</p>
-                                        </div><span class="text-muted ">April 24, 2018</span>
-                                    </div>
-                                    <div class="media border-bottom-1 pt-3 pb-3">
-                                        <img width="35" src="./images/avatar/2.jpg" class="mr-3 rounded-circle">
-                                        <div class="media-body">
-                                            <h5>iPhone develered</h5>
-                                            <p class="mb-0">I shared this on my fb wall a few months back,</p>
-                                        </div><span class="text-muted ">April 24, 2018</span>
-                                    </div>
-                                    <div class="media border-bottom-1 pt-3 pb-3">
-                                        <img width="35" src="./images/avatar/2.jpg" class="mr-3 rounded-circle">
-                                        <div class="media-body">
-                                            <h5>3 Order Pending</h5>
-                                            <p class="mb-0">I shared this on my fb wall a few months back,</p>
-                                        </div><span class="text-muted ">April 24, 2018</span>
-                                    </div>
-                                    <div class="media border-bottom-1 pt-3 pb-3">
-                                        <img width="35" src="./images/avatar/2.jpg" class="mr-3 rounded-circle">
-                                        <div class="media-body">
-                                            <h5>Join new Manager</h5>
-                                            <p class="mb-0">I shared this on my fb wall a few months back,</p>
-                                        </div><span class="text-muted ">April 24, 2018</span>
-                                    </div>
-                                    <div class="media border-bottom-1 pt-3 pb-3">
-                                        <img width="35" src="./images/avatar/2.jpg" class="mr-3 rounded-circle">
-                                        <div class="media-body">
-                                            <h5>Branch open 5 min Late</h5>
-                                            <p class="mb-0">I shared this on my fb wall a few months back,</p>
-                                        </div><span class="text-muted ">April 24, 2018</span>
-                                    </div>
-                                    <div class="media border-bottom-1 pt-3 pb-3">
-                                        <img width="35" src="./images/avatar/2.jpg" class="mr-3 rounded-circle">
-                                        <div class="media-body">
-                                            <h5>New support ticket received</h5>
-                                            <p class="mb-0">I shared this on my fb wall a few months back,</p>
-                                        </div><span class="text-muted ">April 24, 2018</span>
-                                    </div>
-                                    <div class="media pt-3 pb-3">
-                                        <img width="35" src="./images/avatar/3.jpg" class="mr-3 rounded-circle">
-                                        <div class="media-body">
-                                            <h5>Facebook Post 30 Comments</h5>
-                                            <p class="mb-0">I shared this on my fb wall a few months back,</p>
-                                        </div><span class="text-muted ">April 24, 2018</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div> -->
-                    
                     
                 </div>
 
@@ -463,32 +403,6 @@ $result = $conn->query($sql);
     <!--**********************************
         Scripts
     ***********************************-->
-    <script src="../plantilla/quixlab-master/plugins/common/common.min.js"></script>
-    <script src="../plantilla/quixlab-master/js/custom.min.js"></script>
-    <script src="../plantilla/quixlab-master/js/settings.js"></script>
-    <script src="../plantilla/quixlab-master/js/gleek.js"></script>
-    <script src="../plantilla/quixlab-master/js/styleSwitcher.js"></script>
-
-    <!-- Chartjs -->
-    <script src="../plantilla/quixlab-master/plugins/chart.js/Chart.bundle.min.js"></script>
-    <!-- Circle progress -->
-    <script src="../plantilla/quixlab-master/plugins/circle-progress/circle-progress.min.js"></script>
-    <!-- Datamap -->
-    <script src="../plantilla/quixlab-master/plugins/d3v3/index.js"></script>
-    <script src="../plantilla/quixlab-master/plugins/topojson/topojson.min.js"></script>
-    <script src="../plantilla/quixlab-master/plugins/datamaps/datamaps.world.min.js"></script>
-    <!-- Morrisjs -->
-    <script src="../plantilla/quixlab-master/plugins/raphael/raphael.min.js"></script>
-    <script src="../plantilla/quixlab-master/plugins/morris/morris.min.js"></script>
-    <!-- Pignose Calender -->
-    <script src="../plantilla/quixlab-master/plugins/moment/moment.min.js"></script>
-    <script src="../plantilla/quixlab-master/plugins/pg-calendar/js/pignose.calendar.min.js"></script>
-    <!-- ChartistJS -->
-    <script src="../plantilla/quixlab-master/plugins/chartist/js/chartist.min.js"></script>
-    <script src="../plantilla/quixlab-master/plugins/chartist-plugin-tooltips/js/chartist-plugin-tooltip.min.js">
-    </script>
-
-
 
     <script src="../plantilla/quixlab-master/js/dashboard/dashboard-1.js"></script>
 
