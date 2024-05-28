@@ -154,6 +154,95 @@ $resultTapiz = $conn->query($sqlTapiz);
     .delete-btn:hover {
         color: #0056b3;
     }
+    
+
+
+    .edit-btn-material {
+        margin-right: 5px;
+        /* Ajusta el espacio entre los botones */
+        background-color: #28a745;
+        /* Verde */
+        color: white;
+        border: none;
+        padding: 8px 12px;
+        border-radius: 4px;
+        cursor: pointer;
+        /* Añade el cursor de puntero */
+    }
+
+    .delete-btn-material {
+        background-color: #dc3545;
+        /* Rojo */
+        color: white;
+        border: none;
+        padding: 8px 12px;
+        border-radius: 4px;
+        cursor: pointer;
+        /* Añade el cursor de puntero */
+    }
+
+    .edit-btn-material:hover,
+    .delete-btn-material:hover {
+        color: #0056b3;
+    }
+
+    .edit-btn-color {
+        margin-right: 5px;
+        /* Ajusta el espacio entre los botones */
+        background-color: #28a745;
+        /* Verde */
+        color: white;
+        border: none;
+        padding: 8px 12px;
+        border-radius: 4px;
+        cursor: pointer;
+        /* Añade el cursor de puntero */
+    }
+
+    .delete-btn-color {
+        background-color: #dc3545;
+        /* Rojo */
+        color: white;
+        border: none;
+        padding: 8px 12px;
+        border-radius: 4px;
+        cursor: pointer;
+        /* Añade el cursor de puntero */
+    }
+
+    .edit-btn-colorl:hover,
+    .delete-btn-color:hover {
+        color: #0056b3;
+    }
+
+    .edit-btn-tapiz {
+        margin-right: 5px;
+        /* Ajusta el espacio entre los botones */
+        background-color: #28a745;
+        /* Verde */
+        color: white;
+        border: none;
+        padding: 8px 12px;
+        border-radius: 4px;
+        cursor: pointer;
+        /* Añade el cursor de puntero */
+    }
+
+    .delete-btn-tapiz {
+        background-color: #dc3545;
+        /* Rojo */
+        color: white;
+        border: none;
+        padding: 8px 12px;
+        border-radius: 4px;
+        cursor: pointer;
+        /* Añade el cursor de puntero */
+    }
+
+    .edit-btn-tapiz:hover,
+    .delete-btn-tapiz:hover {
+        color: #0056b3;
+    }
     </style>
 </head>
 
@@ -336,15 +425,15 @@ $resultTapiz = $conn->query($sqlTapiz);
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <?php
+                                        <?php
 if ($resultMaterial->num_rows > 0) {
     while ($row = $resultMaterial->fetch_assoc()) {
         echo "<tr>";
         echo "<td>" . $row["id_material"] . "</td>";
         echo "<td>" . $row["material_nom"] . "</td>";
         echo "<td>";
-        echo "<button class='edit-btn' data-id='" . $row["id_material"] . "'><i class='fas fa-edit'></i></button>";
-        echo "<button class='delete-btn' data-id='" . $row["id_material"] . "'><i class='fas fa-trash'></i></button>";
+        echo "<button class='btn btn-primary edit-btn-material' data-toggle='modal' data-target='#modalEditarMaterial' data-id='" . $row['id_material'] . "'><i class='fas fa-edit'></i></button>";
+        echo "<button class='delete-btn-material' data-id='" . $row["id_material"] . "'><i class='fas fa-trash'></i></button>";
         echo "</td>";
         echo "</tr>";
     }
@@ -352,6 +441,7 @@ if ($resultMaterial->num_rows > 0) {
     echo "<tr><td colspan='4'>0 resultados</td></tr>";
 }
 ?>
+
                                         </tbody>
                                         <tfoot>
                                             <tr>
@@ -388,8 +478,8 @@ if ($resultColor->num_rows > 0) {
         echo "<td>" . $row["id_color"] . "</td>";
         echo "<td>" . $row["color_nom"] . "</td>";
         echo "<td>";
-        echo "<button class='edit-btn' data-id='" . $row["id_color"] . "'><i class='fas fa-edit'></i></button>";
-        echo "<button class='delete-btn' data-id='" . $row["id_color"] . "'><i class='fas fa-trash'></i></button>";
+        echo "<button class='btn btn-primary edit-btn-color' data-toggle='modal' data-target='#modalEditarColor' data-id='" . $row['id_color'] . "'><i class='fas fa-edit'></i></button>";
+        echo "<button class='delete-btn-color' data-id='" . $row["id_color"] . "'><i class='fas fa-trash'></i></button>";
         echo "</td>";
         echo "</tr>";
     }
@@ -426,15 +516,15 @@ if ($resultColor->num_rows > 0) {
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <?php
+                                        <?php
 if ($resultTapiz->num_rows > 0) {
     while ($row = $resultTapiz->fetch_assoc()) {
         echo "<tr>";
         echo "<td>" . $row["id_tapiz"] . "</td>";
         echo "<td>" . $row["tapiz_nom"] . "</td>";
         echo "<td>";
-        echo "<button class='edit-btn' data-id='" . $row["id_tapiz"] . "'><i class='fas fa-edit'></i></button>";
-        echo "<button class='delete-btn' data-id='" . $row["id_tapiz"] . "'><i class='fas fa-trash'></i></button>";
+        echo "<button class='btn btn-primary edit-btn-tapiz' data-toggle='modal' data-target='#modalEditarTapiz' data-id='" . $row['id_tapiz'] . "'><i class='fas fa-edit'></i></button>";
+        echo "<button class='delete-btn-tapiz' data-id='" . $row["id_tapiz"] . "'><i class='fas fa-trash'></i></button>";
         echo "</td>";
         echo "</tr>";
     }
@@ -512,6 +602,31 @@ if ($resultTapiz->num_rows > 0) {
         </div>
     </div>
 
+    <!-- Modal para editar materiales -->
+    <div class="modal fade" id="modalEditarMaterial" tabindex="-1" role="dialog" aria-labelledby="modalEditarMaterialLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalEditarMaterialLabel">Editar Material</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="formEditarMaterial" action="editar_eliminar/editarmaterial.php" method="post">
+                    <!-- Agrega un input hidden para enviar el ID del material -->
+                    <input type="hidden" name="id" id="editMaterialId">
+                    <div class="form-group">
+                        <label for="editMaterialNombre">Nombre del Material:</label>
+                        <input type="text" class="form-control" id="editMaterialNombre" name="nombre" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Actualizar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
     <!-- Modal para agregar colores -->
     <div class="modal fade" id="modalAgregarColor" tabindex="-1" role="dialog" aria-labelledby="modalAgregarColorLabel"
         aria-hidden="true">
@@ -526,6 +641,7 @@ if ($resultTapiz->num_rows > 0) {
                 <div class="modal-body">
                     <form id="formAgregarColor" action="agregar_Color.php" method="post">
                         <div class="form-group">
+                        <input type="hidden" name="id" id="editMaterialId">
                             <label for="nombreColor">Nombre:</label>
                             <input type="text" id="nombreColor" name="nombre" required>
                         </div>
@@ -536,6 +652,31 @@ if ($resultTapiz->num_rows > 0) {
             </div>
         </div>
     </div>
+
+    <!-- Modal para editar Color -->
+    <div class="modal fade" id="modalEditarColor" tabindex="-1" role="dialog" aria-labelledby="modalEditarMaterialLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalEditarColorLabel">Editar Material</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="formEditarColor" action="editar_eliminar/editarcolor.php" method="post">
+                    <!-- Agrega un input hidden para enviar el ID del material -->
+                    <input type="hidden" name="id" id="editColorId">
+                    <div class="form-group">
+                        <label for="editColorNombre">Nombre del Material:</label>
+                        <input type="text" class="form-control" id="editColorNombre" name="nombre" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Actualizar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 
     <!-- Modal para agregar Tapices -->
     <div class="modal fade" id="modalAgregarTapiz" tabindex="-1" role="dialog" aria-labelledby="modalAgregarTapizLabel"
@@ -561,6 +702,34 @@ if ($resultTapiz->num_rows > 0) {
             </div>
         </div>
     </div>
+
+      <!-- Modal para editar Tapiz -->
+      <div class="modal fade" id="modalEditarTapiz" tabindex="-1" role="dialog" aria-labelledby="modalEditarTapizLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalEditarTapizLabel">Editar Material</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="formEditarTapiz" action="editar_eliminar/editartapiz.php" method="post">
+                    <!-- Agrega un input hidden para enviar el ID del material -->
+                    <input type="hidden" name="id" id="editTapizId">
+                    <div class="form-group">
+                        <label for="editTapizNombre">Nombre del Material:</label>
+                        <input type="text" class="form-control" id="editTapizNombre" name="nombre" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Actualizar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+    
 
     <!--**********************************
         Scripts
@@ -721,6 +890,235 @@ if ($resultTapiz->num_rows > 0) {
         });
     });
     </script>
+
+<!-- BOTONES DE ACCIONES DE MATERIAL -->
+   <script>
+   $(document).ready(function() {
+    // Manejar el clic en los botones de edición
+    $('.edit-btn-material').click(function() {
+        // Obtener el ID del material
+        var id = $(this).data('id');
+        // Obtener el nombre del material
+        var nombre = $(this).closest('tr').find('td:nth-child(2)').text();
+        // Asignar los valores al formulario del modal
+        $('#editMaterialId').val(id);
+        $('#editMaterialNombre').val(nombre);
+    });
+});
+   </script>
+
+   <script>
+    $(document).ready(function() {
+    $('#formEditarMaterial').submit(function(event) {
+        event.preventDefault(); // Evitar el envío del formulario por defecto
+
+        // Obtener los datos del formulario
+        var id = $('#editMaterialId').val();
+        var nombre = $('#editMaterialNombre').val();
+
+        // Enviar los datos del formulario mediante AJAX
+        $.ajax({
+            url: 'editar_eliminar/editarmaterial.php', // URL del script PHP para editar el material
+            type: 'POST', // Método de envío de datos
+            data: {
+                id: id,
+                nombre: nombre
+            }, // Datos a enviar al servidor
+            success: function(response) { // Función a ejecutar si la solicitud tiene éxito
+                alert('Material actualizado correctamente');
+                // Redirige a la página categorias.php
+                window.location.href = 'categorias.php';
+            },
+            error: function(xhr, status, error) { // Función a ejecutar si hay un error en la solicitud
+                alert('Error en la solicitud AJAX: ' + error);
+            }
+        });
+    });
+});
+   </script>
+   
+
+    <!-- BOTONES DE ACCIONES DE COLOR -->
+   <script>
+   $(document).ready(function() {
+    // Manejar el clic en los botones de edición
+    $('.edit-btn-color').click(function() {
+        // Obtener el ID del material
+        var id = $(this).data('id');
+        // Obtener el nombre del material
+        var nombre = $(this).closest('tr').find('td:nth-child(2)').text();
+        // Asignar los valores al formulario del modal
+        $('#editColorId').val(id);
+        $('#editColorNombre').val(nombre);
+    });
+});
+   </script>
+
+   <script>
+    $(document).ready(function() {
+    $('#formEditarColor').submit(function(event) {
+        event.preventDefault(); // Evitar el envío del formulario por defecto
+
+        // Obtener los datos del formulario
+        var id = $('#editColorId').val();
+        var nombre = $('#editColorNombre').val();
+
+        // Enviar los datos del formulario mediante AJAX
+        $.ajax({
+            url: 'editar_eliminar/editarcolor.php', // URL del script PHP para editar el material
+            type: 'POST', // Método de envío de datos
+            data: {
+                id: id,
+                nombre: nombre
+            }, // Datos a enviar al servidor
+            success: function(response) { // Función a ejecutar si la solicitud tiene éxito
+                alert('Color actualizado correctamente');
+                // Redirige a la página categorias.php
+                window.location.href = 'categorias.php';
+            },
+            error: function(xhr, status, error) { // Función a ejecutar si hay un error en la solicitud
+                alert('Error en la solicitud AJAX: ' + error);
+            }
+        });
+    });
+});
+   </script>
+  <!-- BOTONES DE ACCIONES DE TAPIZ -->
+  <script>
+   $(document).ready(function() {
+    // Manejar el clic en los botones de edición
+    $('.edit-btn-tapiz').click(function() {
+        // Obtener el ID del tapiz
+        var id = $(this).data('id');
+        // Obtener el nombre del tapiz
+        var nombre = $(this).closest('tr').find('td:nth-child(2)').text();
+        // Asignar los valores al formulario del modal
+        $('#editTapizId').val(id);
+        $('#editTapizNombre').val(nombre);
+    });
+});
+
+   </script>
+
+   <script>
+    $(document).ready(function() {
+    $('#formEditarTapiz').submit(function(event) {
+        event.preventDefault(); // Evitar el envío del formulario por defecto
+
+        // Obtener los datos del formulario
+        var id = $('#editTapizId').val();
+        var nombre = $('#editTapizNombre').val();
+
+        // Enviar los datos del formulario mediante AJAX
+        $.ajax({
+            url: 'editar_eliminar/editartapiz.php', // URL del script PHP para editar el material
+            type: 'POST', // Método de envío de datos
+            data: {
+                id: id,
+                nombre: nombre
+            }, // Datos a enviar al servidor
+            success: function(response) { // Función a ejecutar si la solicitud tiene éxito
+                alert('Tapiz actualizado correctamente');
+                // Redirige a la página categorias.php
+                window.location.href = 'categorias.php';
+            },
+            error: function(xhr, status, error) { // Función a ejecutar si hay un error en la solicitud
+                alert('Error en la solicitud AJAX: ' + error);
+            }
+        });
+    });
+});
+   </script>
+
+<script>
+
+// Manejar el clic en los botones de eliminar
+document.querySelectorAll('.delete-btn-material').forEach(button => {
+    button.addEventListener('click', function() {
+        let id = this.getAttribute('data-id');
+        if (confirm('¿Estás seguro de que deseas eliminar este Material?')) {
+            // Realizar una solicitud AJAX para eliminar la categoría
+            fetch('editar_eliminar/eliminarmaterial.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: 'id=' + id
+            })
+            .then(response => response.text())
+            .then(data => {
+                if (data === 'success') {
+                    // Recargar la página para ver los cambios
+                    window.location.reload();
+                } else {
+                    alert('Error al eliminar el Material.');
+                }
+            });
+        }
+    });
+});
+</script>
+
+
+   <script>
+
+// Manejar el clic en los botones de eliminar
+document.querySelectorAll('.delete-btn-color').forEach(button => {
+    button.addEventListener('click', function() {
+        let id = this.getAttribute('data-id');
+        if (confirm('¿Estás seguro de que deseas eliminar este Color?')) {
+            // Realizar una solicitud AJAX para eliminar la categoría
+            fetch('editar_eliminar/eliminarcolor.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: 'id=' + id
+            })
+            .then(response => response.text())
+            .then(data => {
+                if (data === 'success') {
+                    // Recargar la página para ver los cambios
+                    window.location.reload();
+                } else {
+                    alert('Error al eliminar el Color.');
+                }
+            });
+        }
+    });
+});
+</script>
+
+
+ <script>
+
+    // Manejar el clic en los botones de eliminar
+    document.querySelectorAll('.delete-btn-tapiz').forEach(button => {
+        button.addEventListener('click', function() {
+            let id = this.getAttribute('data-id');
+            if (confirm('¿Estás seguro de que deseas eliminar esta categoría?')) {
+                // Realizar una solicitud AJAX para eliminar la categoría
+                fetch('editar_eliminar/eliminartapiz.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: 'id=' + id
+                })
+                .then(response => response.text())
+                .then(data => {
+                    if (data === 'success') {
+                        // Recargar la página para ver los cambios
+                        window.location.reload();
+                    } else {
+                        alert('Error al eliminar la categoría.');
+                    }
+                });
+            }
+        });
+    });
+    </script>
+
 
 
 </body>
