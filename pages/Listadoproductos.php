@@ -14,7 +14,7 @@ if ($conn->connect_error) {
 }
 
 // Consulta SQL para obtener todos los registros de la tabla "productos"
-$sql = "SELECT id_producto, nombre_prod, precio_prod, categoria_prod, stock_prod, proveedor, id_color, id_material, id_tapiz FROM productos";
+$sql = "SELECT * FROM productos";
 $result = $conn->query($sql);
 
 ?>
