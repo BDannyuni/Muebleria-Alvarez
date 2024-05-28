@@ -1,5 +1,4 @@
 <?php
-// Establecer conexión con la base de datos
 $servername = "localhost";
 $username = "root";
 $password = "";
@@ -11,16 +10,11 @@ if ($conn->connect_error) {
     die("Error de conexión: " . $conn->connect_error);
 }
 
-// Consulta para obtener ventas por categoría
-$sql = "SELECT c.categoria_nom AS categoria, SUM(v.monto) AS total
-        FROM ventas v
-        JOIN productos p ON v.producto_id = p.id_producto
-        JOIN categorias c ON p.categoria_id = c.id_Categoria
-        GROUP BY c.categoria_nom";
-
+$sql = "SELECT categoria_nom, COUNT(*) as count FROM productos p INNER JOIN categorias c on c.id_Categoria=p.categoria_prod GROUP BY categoria_nom ORDER BY count DESC LIMIT 10";
 $result = $conn->query($sql);
 
 $data = array();
+
 if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
         $data[] = $row;

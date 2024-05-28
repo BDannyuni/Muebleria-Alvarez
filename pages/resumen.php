@@ -202,7 +202,7 @@ $result = $conn->query($sql);
                         </a>
                     </li>
                     <li class="mega-menu mega-menu-sm">
-                        <a href="#" aria-expanded="false">
+                        <a href="categorias.php" aria-expanded="false">
                             <i class="ti-layers"></i><span class="nav-text">Categorias</span>
                         </a>
                     </li>
