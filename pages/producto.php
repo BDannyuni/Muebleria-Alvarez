@@ -100,6 +100,7 @@ if (isset($_GET['id'])) {
                                     <input type="hidden" name="id" value="<?php echo openssl_encrypt($producto['id_producto'], COD, KEY); ?>">
                                     <input type="hidden" name="image" value="<?php echo openssl_encrypt($producto['image'], COD, KEY); ?>">
                                     <input type="hidden" name="nombre" value="<?php echo openssl_encrypt($producto['nombre_prod'], COD, KEY); ?>">
+                                    <input type="hidden" name="descripcion_prod" value="<?php echo openssl_encrypt($producto['descripcion_prod'], COD, KEY); ?>">
                                     <input type="hidden" name="precio" value="<?php echo openssl_encrypt($producto['precio_prod'], COD, KEY); ?>">
                                     <input type="hidden" name="cantidad" value="<?php echo openssl_encrypt(1, COD, KEY); ?>">
                                     <button name="btn-accion" class="btn btn-primary" value="Agregar" type="submit">Agregar al carrito</button>
