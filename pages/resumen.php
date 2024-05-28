@@ -207,7 +207,7 @@ $result = $conn->query($sql);
                         </a>
                     </li>
                     <li class="mega-menu mega-menu-sm">
-                        <a href="#" aria-expanded="false">
+                        <a href="pocostock.php" aria-expanded="false">
                             <i class="ti-layers"></i><span class="nav-text">Productos con Poco Stock</span>
                         </a>
                     </li>
