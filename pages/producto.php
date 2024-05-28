@@ -94,9 +94,11 @@ if (isset($_GET['id'])) {
                                 <h2><?php echo $producto['nombre_prod']; ?></h2>
                                 <p><?php echo $producto['descripcion_prod']; ?></p>
                                 <p>Disponibles: <?php echo $producto['stock_prod']; ?></p>
+
                                 <div class="product_price">$<?php echo number_format($producto['precio_prod'], 2); ?></div>
                                 <form class="add-to-cart-form" action="" method="POST">
                                     <input type="hidden" name="id" value="<?php echo openssl_encrypt($producto['id_producto'], COD, KEY); ?>">
+                                    <input type="hidden" name="image" value="<?php echo openssl_encrypt($producto['image'], COD, KEY); ?>">
                                     <input type="hidden" name="nombre" value="<?php echo openssl_encrypt($producto['nombre_prod'], COD, KEY); ?>">
                                     <input type="hidden" name="precio" value="<?php echo openssl_encrypt($producto['precio_prod'], COD, KEY); ?>">
                                     <input type="hidden" name="cantidad" value="<?php echo openssl_encrypt(1, COD, KEY); ?>">
@@ -113,29 +115,6 @@ if (isset($_GET['id'])) {
 
     </div>
 
-    <script>
-        //MANEJO DE EL EVENTO DE AÑADIR AL CARRITO
-        $(document).ready(function() {
-            $(".add-to-cart-form").on("submit", function(event) {
-                event.preventDefault(); 
-                var form = $(this);
-
-                $.ajax({
-                    type: "POST",
-                    url: "../controllers/carrito.php", 
-                    data: form.serialize(), 
-                    success: function(response) {
-                        //alert("Producto añadido al carrito!");
-                        console.log(response); 
-                    },
-                    error: function(xhr, status, error) {
-                        alert("Hubo un error al añadir el producto al carrito.");
-                        console.error(xhr, status, error);
-                    }
-                });
-            });
-        });
-    </script>
     
 	<script src="../assets/js/loader.js"></script>
     <script src="../plantilla/styles/bootstrap4/popper.js"></script>

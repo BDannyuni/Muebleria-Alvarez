@@ -24,6 +24,14 @@ include '../controllers/carrito.php';
     <link rel="stylesheet" type="text/css" href="../plantilla/styles/responsive.css">
     <link rel="stylesheet" href="../assets/css/loader.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        .product_image{
+            width: 100%;
+            height: 250px; /* Altura deseada para todos los cuadros de productos */
+            overflow: hidden; /* Para recortar las imágenes más grandes */
+            position: relative; /* Para centrar verticalmente la imagen */
+        }
+    </style>
 </head>
 
 <body>
@@ -53,38 +61,41 @@ include '../controllers/carrito.php';
                                         <table class="table table-bordered">
                                             <thead>
                                                 <tr>
-                                                    <th>Nombre</th>
+                                                    <th>Imagen</th>
+                                                    <th>Productos</th>
                                                     <th>Cantidad</th>
                                                     <th>Precio</th>
-                                                    <th>Total</th>
                                                     <th>Acciones</th>
+                                                    <th>Total</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 <?php $total = 0; ?>
                                                 <?php foreach ($_SESSION['CARRITO'] as $producto) : ?>
                                                     <tr>
+                                                        <td><img src="../assets/images/uploads/<?php echo $producto['image']; ?>" alt="<?php echo $producto['nombre']; ?>" class="product_image"></td>
                                                         <td><?php echo $producto['nombre']; ?></td>
                                                         <td><?php echo $producto['cantidad']; ?></td>
+                                                        
                                                         <td>$<?php echo number_format($producto['precio'], 2); ?></td>
-                                                        <td>$<?php echo number_format($producto['precio'] * $producto['cantidad'], 2); ?></td>
                                                         <td>
                                                             <form action="" method="POST">
                                                                 <input type="hidden" name="id" value="<?php echo openssl_encrypt($producto['id'], COD, KEY); ?>">
                                                                 <button class="btn btn-danger" name="btn-accion" value="Eliminar" type="submit">Eliminar</button>
                                                             </form>
                                                         </td>
+                                                        <td>$<?php echo number_format($producto['precio'] * $producto['cantidad'], 2); ?></td>
                                                     </tr>
                                                     <?php $total += $producto['precio'] * $producto['cantidad']; ?>
                                                 <?php endforeach; ?>
                                                 <tr>
-                                                    <td colspan="3" align="right">
+                                                    <td colspan="5" align="right">
                                                         <h3>Total</h3>
                                                     </td>
                                                     <td align="right">
                                                         <h3>$<?php echo number_format($total, 2); ?></h3>
                                                     </td>
-                                                    <td></td>
+                                                    
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -100,10 +111,22 @@ include '../controllers/carrito.php';
                                     </ul>
                                 </div>
                                 <!-- Order Total -->
-                                <div class="order_total">
+                                <div class="order_total mt-4">
+                                    <div class="order_total_content text-md-right">
+                                        <div class="order_total_title">Sub-total:</div>
+                                        <div class="order_total_amount">$<?php echo number_format($total, 2); ?></div>
+                                    </div>
+                                    <div class="order_total_content text-md-right">
+                                        <div class="order_total_title">Envío:</div>
+                                        <div class="order_total_amount">$<?php $envio = 10.00; echo number_format($envio, 2); ?></div>
+                                    </div>
+                                    <div class="order_total_content text-md-right">
+                                        <div class="order_total_title">Impuesto:</div>
+                                        <div class="order_total_amount">$<?php $impuesto = $total * 0.15; echo number_format($impuesto, 2); ?></div>
+                                    </div>
                                     <div class="order_total_content text-md-right">
                                         <div class="order_total_title">Total:</div>
-                                        <div class="order_total_amount">$<?php echo number_format($total, 2); ?></div>
+                                        <div class="order_total_amount">$<?php $total_general = $total + $envio + $impuesto; echo number_format($total_general, 2); ?></div>
                                     </div>
                                 </div>
                                 <div class="cart_buttons">

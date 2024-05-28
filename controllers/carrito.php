@@ -7,34 +7,52 @@ if (isset($_POST['btn-accion'])) {
             if (is_numeric(openssl_decrypt($_POST['id'], COD, KEY))) {
                 $id = openssl_decrypt($_POST['id'], COD, KEY);
                 $message = "ID CORRECTO " . $id;
+                echo $message;
             } else {
                 $message = 'ID incorrecto .-.';
+                echo $message;
+            }
+            if ($image !== false && file_exists("../assets/images/uploads/" . $image && $image = openssl_decrypt($_POST['image'], COD, KEY))) {
+                $image = openssl_decrypt($_POST['image'], COD, KEY);
+                $message = "Imagen correcta";
+                echo $message;
+            } else {
+                $message = "Ups, algo pasó con la imagen del producto.";
+                echo $message;
+                break;
             }
             if (is_string(openssl_decrypt($_POST['nombre'], COD, KEY))) {
                 $nombre = openssl_decrypt($_POST['nombre'], COD, KEY);
                 $message = "Nombre no alterado.";
+                echo $message;
             } else {
                 $message = "Ups, algo paso con el nombre del producto.";
+                echo $message;
                 break;
             }
             if (is_numeric(openssl_decrypt($_POST['cantidad'], COD, KEY))) {
                 $cantidad = openssl_decrypt($_POST['cantidad'], COD, KEY);
                 $message = "la cantidad está correcta";
+                echo $message;
             } else {
                 $message = "Ups, algo paso con la cantidad del producto.";
+                echo $message;
                 break;
             }
             if (is_numeric(openssl_decrypt($_POST['precio'], COD, KEY))) {
                 $precio = openssl_decrypt($_POST['precio'], COD, KEY);
                 $message = "El precio está correcto";
+                echo $message;
             } else {
                 $message = "Ups, algo paso con el precio del producto.";
+                echo $message;
                 break;
             }
 
             if (!isset($_SESSION['CARRITO'])) {
                 $producto = array(
                     'id' => $id,
+                    'image' => $image,
                     'nombre' => $nombre,
                     'cantidad' => $cantidad,
                     'precio' => $precio
@@ -49,6 +67,7 @@ if (isset($_POST['btn-accion'])) {
                     $numeroProductos = count($_SESSION['CARRITO']);
                     $producto = array(
                         'id' => $id,
+                        'image' => $image,
                         'nombre' => $nombre,
                         'cantidad' => $cantidad,
                         'precio' => $precio
