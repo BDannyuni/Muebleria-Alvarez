@@ -1,22 +1,17 @@
 <?php
-$servername = "localhost";
-$username = "root"; // Usualmente es 'root' en XAMPP
-$password = ""; // Usualmente es vacío en XAMPP
-$dbname = "muebleria"; // Reemplaza con el nombre de tu base de datos
-
-// Crear conexión
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// Verificar conexión
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+// traemos la sesion de usuario y carrito
+include "../controllers/user_session.php";
+include "../controllers/carrito.php";
 
 // Filtros
 $whereClauses = [];
+$parameters = [];
+
 if (isset($_GET['categoria'])) {
-    $categorias = implode("','", $_GET['categoria']);
-    $whereClauses[] = "categoria IN ('$categorias')";
+    $categorias = $_GET['categoria'];
+    $placeholders = rtrim(str_repeat('?,', count($categorias)), ',');
+    $whereClauses[] = "categoria IN ($placeholders)";
+    $parameters = array_merge($parameters, $categorias);
 }
 
 $whereSql = "";
@@ -24,9 +19,12 @@ if (count($whereClauses) > 0) {
     $whereSql = "WHERE " . implode(" AND ", $whereClauses);
 }
 
-// Obtener los productos de la base de datos
+// Obtener los productos de la base de datos 
 $sql = "SELECT * FROM productos $whereSql";
-$result = $conn->query($sql);
+$statement = $conn->prepare($sql);
+$statement->execute($parameters);
+$products = $statement->fetchAll(PDO::FETCH_ASSOC);
+?>
 ?>
 
 <!DOCTYPE html>
@@ -40,31 +38,42 @@ $result = $conn->query($sql);
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" href="../plantilla/styles/bootstrap4/bootstrap.min.css">
     <link href="../plantilla/plugins/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-    <link href="../plantilla/plugins/malihu-custom-scrollbar/jquery.mCustomScrollbar.css" rel="stylesheet"
-        type="text/css">
+    <link href="../plantilla/plugins/malihu-custom-scrollbar/jquery.mCustomScrollbar.css" rel="stylesheet" type="text/css">
     <link rel="stylesheet" type="text/css" href="../plantilla/plugins/jquery-ui-1.12.1.custom/jquery-ui.css">
     <link rel="stylesheet" type="text/css" href="../plantilla/styles/categories.css">
     <link rel="stylesheet" type="text/css" href="../plantilla/styles/categories_responsive.css">
     <style>
-	.product_image {
-    width: 100%;
-    height: 250px; /* Altura deseada para todos los cuadros de productos */
-    overflow: hidden; /* Para recortar las imágenes más grandes */
-    position: relative; /* Para centrar verticalmente la imagen */
-}
+        .product_image {
+            width: 100%;
+            height: 250px;
+            /* Altura deseada para todos los cuadros de productos */
+            overflow: hidden;
+            /* Para recortar las imágenes más grandes */
+            position: relative;
+            /* Para centrar verticalmente la imagen */
+        }
 
-.product_image img {
-    width: auto; /* Ajusta el ancho automáticamente para mantener la proporción de la imagen */
-    height: 100%; /* Estira la imagen para que ocupe toda la altura del contenedor */
-    display: block; /* Elimina el espacio extra debajo de la imagen */
-    margin: auto; /* Centra horizontalmente */
-    position: absolute; /* Permite centrar verticalmente */
-    top: 0; /* Coloca la imagen en la parte superior */
-    bottom: 0; /* Coloca la imagen en la parte inferior */
-    left: 0; /* Coloca la imagen en la parte izquierda */
-    right: 0; /* Coloca la imagen en la parte derecha */
-}
-</style>
+        .product_image img {
+            width: auto;
+            /* Ajusta el ancho automáticamente para mantener la proporción de la imagen */
+            height: 100%;
+            /* Estira la imagen para que ocupe toda la altura del contenedor */
+            display: block;
+            /* Elimina el espacio extra debajo de la imagen */
+            margin: auto;
+            /* Centra horizontalmente */
+            position: absolute;
+            /* Permite centrar verticalmente */
+            top: 0;
+            /* Coloca la imagen en la parte superior */
+            bottom: 0;
+            /* Coloca la imagen en la parte inferior */
+            left: 0;
+            /* Coloca la imagen en la parte izquierda */
+            right: 0;
+            /* Coloca la imagen en la parte derecha */
+        }
+    </style>
 </head>
 
 <body>
@@ -72,8 +81,7 @@ $result = $conn->query($sql);
 
     <header class="header">
         <div class="header_inner d-flex flex-row align-items-center justify-content-start">
-            <div class="logo"><a class="navbar-brand ps-5" href="index.php"><img src="../assets/images/logo.png"
-                        alt="logo" height="90px"></a></div>
+            <div class="logo"><a class="navbar-brand ps-5" href="index.php"><img src="../assets/images/logo.png" alt="logo" height="90px"></a></div>
             <nav class="main_nav">
                 <ul>
                     <li><a href="#"></a></li>
@@ -91,12 +99,12 @@ $result = $conn->query($sql);
 
                 <div class="shopping">
                     <!-- Cart -->
-                    <a href="#">
+                    <a href="carrito.php">
                         <div class="cart">
                             <img src="../plantilla/images/shopping-bag.svg" alt="">
                             <div class="cart_num_container">
                                 <div class="cart_num_inner">
-                                    <div class="cart_num">1</div>
+                                    <div class="cart_num"><?php echo (empty($_SESSION['CARRITO'])) ? 0 : count($_SESSION['CARRITO']); ?></div>
                                 </div>
                             </div>
                         </div>
@@ -128,8 +136,7 @@ $result = $conn->query($sql);
                 <div></div>
             </div>
         </div>
-        <div class="logo menu_mm"><a class="navbar-brand ps-5" href="index.php"><img src="assets/images/logo.png"
-                    alt="logo" height="100px"></a></div>
+        <div class="logo menu_mm"><a class="navbar-brand ps-5" href="index.php"><img src="assets/images/logo.png" alt="logo" height="100px"></a></div>
         <nav class="menu_nav">
             <ul class="menu_mm">
                 <li class="menu_mm"><a href="../">Inicio</a></li>
@@ -146,8 +153,7 @@ $result = $conn->query($sql);
         <!-- Home -->
 
         <div class="home">
-            <div class="home_background parallax-window" data-parallax="scroll"
-                data-image-src="../assets/images/fondo5.png" data-speed="0.8"></div>
+            <div class="home_background parallax-window" data-parallax="scroll" data-image-src="../assets/images/fondo5.png" data-speed="0.8"></div>
             <div class="container">
                 <div class="row">
                     <div class="col">
@@ -195,8 +201,7 @@ $result = $conn->query($sql);
                             <!-- Color -->
                             <div class="sidebar_section">
                                 <div class="sidebar_title">Color</div>
-                                <div class="sidebar_section_content sidebar_color_content mCustomScrollbar"
-                                    data-mcs-theme="minimal-dark">
+                                <div class="sidebar_section_content sidebar_color_content mCustomScrollbar" data-mcs-theme="minimal-dark">
                                     <ul>
                                         <li><a href="#"><span style="background:#a3ccff"></span>Azul (23)</a></li>
                                         <li><a href="#"><span style="background:#937c6f"></span>Caje (11)</a></li>
@@ -229,8 +234,7 @@ $result = $conn->query($sql);
                                 <div class="sidebar_section_content">
                                     <div class="filter_price">
                                         <div id="slider-range" class="slider_range"></div>
-                                        <p><input type="text" id="amount" class="amount" readonly
-                                                style="border:0; font-weight:bold;"></p>
+                                        <p><input type="text" id="amount" class="amount" readonly style="border:0; font-weight:bold;"></p>
                                         <div class="clear_price_btn">Eliminar Precio</div>
                                     </div>
                                 </div>
@@ -297,8 +301,7 @@ $result = $conn->query($sql);
                                 <div class="sidebar_section_content">
 
                                     <!-- Option Item -->
-                                    <div
-                                        class="sidebar_option d-flex flex-row align-items-center justify-content-start">
+                                    <div class="sidebar_option d-flex flex-row align-items-center justify-content-start">
                                         <div class="option_image"><img src="../plantilla/images/option_1.png" alt="">
                                         </div>
                                         <div class="option_content">
@@ -308,8 +311,7 @@ $result = $conn->query($sql);
                                     </div>
 
                                     <!-- Option Item -->
-                                    <div
-                                        class="sidebar_option d-flex flex-row align-items-center justify-content-start">
+                                    <div class="sidebar_option d-flex flex-row align-items-center justify-content-start">
                                         <div class="option_image"><img src="../plantilla/images/option_2.png" alt="">
                                         </div>
                                         <div class="option_content">
@@ -319,8 +321,7 @@ $result = $conn->query($sql);
                                     </div>
 
                                     <!-- Option Item -->
-                                    <div
-                                        class="sidebar_option d-flex flex-row align-items-center justify-content-start">
+                                    <div class="sidebar_option d-flex flex-row align-items-center justify-content-start">
                                         <div class="option_image"><img src="../plantilla/images/option_3.png" alt="">
                                         </div>
                                         <div class="option_content">
@@ -330,8 +331,7 @@ $result = $conn->query($sql);
                                     </div>
 
                                     <!-- Option Item -->
-                                    <div
-                                        class="sidebar_option d-flex flex-row align-items-center justify-content-start">
+                                    <div class="sidebar_option d-flex flex-row align-items-center justify-content-start">
                                         <div class="option_image"><img src="../plantilla/images/option_4.png" alt="">
                                         </div>
                                         <div class="option_content">
@@ -359,8 +359,7 @@ $result = $conn->query($sql);
                                         <span class="sorting_text">Mostrar Todos</span>
                                         <i class="fa fa-caret-down" aria-hidden="true"></i>
                                         <ul>
-                                            <li class="product_sorting_btn"
-                                                data-isotope-option='{ "sortBy": "original-order" }'><span>Mostrar
+                                            <li class="product_sorting_btn" data-isotope-option='{ "sortBy": "original-order" }'><span>Mostrar
                                                     Todos</span></li>
                                             <li class="product_sorting_btn" data-isotope-option='{ "sortBy": "price" }'>
                                                 <span>Precio</span>
@@ -395,30 +394,44 @@ $result = $conn->query($sql);
 
                         <div class="product_grid">
                             <?php
-    if ($result->num_rows > 0) {
-        // Mostrar los productos
-        while($row = $result->fetch_assoc()) {
-            // Ajustar la ruta de la imagen
-            $image_path = "../assets/images/uploads/" . $row['image'];
+                            if ($products) {
+                                foreach ($products as $product) {
+                                    // Ajustar la ruta de la imagen
+                                    $image_path = "../assets/images/uploads/" . $product['image'];
 
-            echo "<div class='product'>";
-            echo "<div class='product_image'><img src='" . $image_path . "' alt='" . $row['nombre_prod'] . "'></div>";
-            echo "<div class='product_content clearfix'>";
-            echo "<div class='product_info'>";
-            echo "<div class='product_name'><h2>" . $row['nombre_prod'] . "</h2></div>";
-            echo "<div class='product_price'>$" . $row['precio_prod'] . "</div>";
-            echo "</div>"; // Cierre de product_info
-            echo "<div class='product_options'><div class='product_buy product_option'><img src='../plantilla/images/shopping-bag-white.svg' alt=''></div><div class='product_fav product_option'>+</div></div>";
-            echo "</div>"; // Cierre de product_content
-            echo "</div>"; // Cierre de product
-        }
-    } else {
-        echo "No hay productos disponibles.";
-    }
-    
-    $conn->close();
-    ?>
+                                    echo "<div class='product'>";
+                                    echo "<div class='product_image'><img src='" . $image_path . "' alt='" . $product['nombre_prod'] . "'></div>";
+                                    echo "<div class='product_content clearfix'>";
+                                    echo "<div class='product_info'>";
+                                    // Enlace al detalle del producto
+                                    echo "<div class='product_name'><h2><a href='producto.php?id=" . urlencode(openssl_encrypt($product['id_producto'], COD, KEY)) . "'>" . $product['nombre_prod'] . "</a></h2></div>";
+                                    echo "<div class='product_price'>$" . $product['precio_prod'] . "</div>";
+                                    echo "</div>"; // Cierre de product_info
+                                    echo "<div class='product_options'>";
+                                    echo "<div class='product_buy product_option'>";
+                                    echo "<form class='add-to-cart-form' action='' method='POST'>";
+                                    echo "<input type='hidden' name='id' value='" . openssl_encrypt($product['id_producto'], COD, KEY) . "'>";
+                                    echo "<input type='hidden' name='image' value='" . openssl_encrypt($product['image'], COD, KEY) . "'>";
+                                    echo "<input type='hidden' name='nombre' value='" . openssl_encrypt($product['nombre_prod'], COD, KEY) . "'>";
+                                    echo "<input type='hidden' name='descripcion_prod' value='" . openssl_encrypt($product['descripcion_prod'], COD, KEY) . "'>";
+                                    echo "<input type='hidden' name='precio' value='" . openssl_encrypt($product['precio_prod'], COD, KEY) . "'>";
+                                    echo "<input type='hidden' name='cantidad' value='" . openssl_encrypt(1, COD, KEY) . "'>";
+                                    echo "<button name='btn-accion' value='Agregar' type='submit'>";
+                                    echo "<img src='../plantilla/images/shopping-bag-white.svg' alt='bag'>";
+                                    echo "</button>";
+                                    echo "</form>";
+                                    echo "</div>"; // Cierre de product_buy
+                                    #echo "<div class='product_fav product_option'>+</div>";
+                                    echo "</div>"; // Cierre de product_options
+                                    echo "</div>"; // Cierre de product_content
+                                    echo "</div>"; // Cierre de product
+                                }
+                            } else {
+                                echo "No hay productos disponibles.";
+                            }
+                            ?>
                         </div>
+
 
 
 
@@ -445,8 +458,7 @@ $result = $conn->query($sql);
 
                 <!-- Promo 1 -->
                 <div class="sidebar_promo_1 sidebar_promo d-flex flex-column align-items-center justify-content-center">
-                    <div class="sidebar_promo_image"
-                        style="background-image: url(../plantilla/images/sidebar_promo_1.jpg)"></div>
+                    <div class="sidebar_promo_image" style="background-image: url(../plantilla/images/sidebar_promo_1.jpg)"></div>
                     <div class="sidebar_promo_content text-center">
                         <div class="sidebar_promo_title">30%<span>off</span></div>
                         <div class="sidebar_promo_subtitle">On all shoes</div>
@@ -456,8 +468,7 @@ $result = $conn->query($sql);
 
                 <!-- Promo 2 -->
                 <div class="sidebar_promo_2 sidebar_promo">
-                    <div class="sidebar_promo_image"
-                        style="background-image: url(../plantilla/images/sidebar_promo_2.jpg)"></div>
+                    <div class="sidebar_promo_image" style="background-image: url(../plantilla/images/sidebar_promo_2.jpg)"></div>
                     <div class="sidebar_promo_content text-center">
                         <div class="sidebar_promo_title">30%<span>off</span></div>
                         <div class="sidebar_promo_subtitle">On all shoes</div>
@@ -491,8 +502,7 @@ $result = $conn->query($sql);
                         <div class="col-lg-10 offset-lg-1">
                             <div class="newsletter_form_container">
                                 <form action="#">
-                                    <input type="email" class="newsletter_input" required="required"
-                                        placeholder="E-mail here">
+                                    <input type="email" class="newsletter_input" required="required" placeholder="E-mail here">
                                     <button type="submit" class="newsletter_button">subscribe</button>
                                 </form>
                             </div>
@@ -534,9 +544,8 @@ $result = $conn->query($sql);
                         <div class="copyright">
                             <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
                             Copyright &copy;<script>
-                            document.write(new Date().getFullYear());
-                            </script> All rights reserved | This template is made with <i class="fa fa-heart-o"
-                                aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+                                document.write(new Date().getFullYear());
+                            </script> All rights reserved | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
                             <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
                         </div>
                     </div>

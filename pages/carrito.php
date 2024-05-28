@@ -202,7 +202,7 @@ include '../controllers/carrito.php';
         </div>
     </div>
     <br>
-    <?php include "layouts/footer.php"; ?>
+    <?php include "layouts/footer2.php"; ?>
     <script src="../assets/js/loader.js"></script>
 </body>
 </html>

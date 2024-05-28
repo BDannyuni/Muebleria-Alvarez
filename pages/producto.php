@@ -94,6 +94,7 @@ if (isset($_GET['id'])) {
                                 <h2><?php echo $producto['nombre_prod']; ?></h2>
                                 <p><?php echo $producto['descripcion_prod']; ?></p>
                                 <p>Disponibles: <?php echo $producto['stock_prod']; ?></p>
+                                <p></p>
 
                                 <div class="product_price">$<?php echo number_format($producto['precio_prod'], 2); ?></div>
                                 <form class="add-to-cart-form" action="" method="POST">
@@ -112,7 +113,7 @@ if (isset($_GET['id'])) {
             </div>
         </div>
 
-        <?php include "layouts/footer.php"; ?>
+        <?php include "layouts/footer2.php"; ?>
 
     </div>
 

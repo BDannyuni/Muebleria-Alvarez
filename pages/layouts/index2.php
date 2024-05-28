@@ -51,7 +51,7 @@
                                 <img src="plantilla/images/shopping-bag.svg" alt="">
                                 <div class="cart_num_container">
                                     <div class="cart_num_inner">
-                                        <div class="cart_num">1</div>
+                                        <div class="cart_num"><?php echo (empty($_SESSION['CARRITO'])) ? 0 : count($_SESSION['CARRITO']); ?></div>
                                     </div>
                                 </div>
                             </div>
