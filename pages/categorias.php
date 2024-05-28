@@ -527,7 +527,7 @@ if ($resultTapiz->num_rows > 0) {
                     <form id="formAgregarColor" action="agregar_Color.php" method="post">
                         <div class="form-group">
                             <label for="nombreColor">Nombre:</label>
-                            <input type="text" id="nombre" name="nombre" required>
+                            <input type="text" id="nombreColor" name="nombre" required>
                         </div>
                         <button type="submit" class="btn btn-primary">Agregar Color</button>
                     </form>
@@ -552,7 +552,7 @@ if ($resultTapiz->num_rows > 0) {
                     <form id="formAgregarTapiz" action="agregar_Tapiz.php" method="post">
                         <div class="form-group">
                             <label for="nombreTapiz">Nombre:</label>
-                            <input type="text" id="nombre" name="nombre" required>
+                            <input type="text" id="nombreTapiz" name="nombre" required>
                         </div>
                         <button type="submit" class="btn btn-primary">Agregar Tapiz</button>
                     </form>
@@ -669,7 +669,7 @@ if ($resultTapiz->num_rows > 0) {
             event.preventDefault(); // Evitar el envío del formulario por defecto
 
             // Obtener los datos del formulario
-            var nombre = $('#nombre').val();
+            var nombre = $('#nombreColor').val();
 
             // Enviar los datos del formulario mediante AJAX
             $.ajax({
@@ -679,7 +679,7 @@ if ($resultTapiz->num_rows > 0) {
                     nombre: nombre
                 }, // Datos a enviar al servidor
                 success: function() { // Función a ejecutar si la solicitud tiene éxito
-                    alert('Material agregado correctamente');
+                    alert('Color agregado correctamente');
                     // Redirige a la página categorias.php
                     window.location.href = 'categorias.php';
                 },
@@ -699,7 +699,7 @@ if ($resultTapiz->num_rows > 0) {
             event.preventDefault(); // Evitar el envío del formulario por defecto
 
             // Obtener los datos del formulario
-            var nombre = $('#nombre').val();
+            var nombre = $('#nombreTapiz').val();
 
             // Enviar los datos del formulario mediante AJAX
             $.ajax({
@@ -709,7 +709,7 @@ if ($resultTapiz->num_rows > 0) {
                     nombre: nombre
                 }, // Datos a enviar al servidor
                 success: function() { // Función a ejecutar si la solicitud tiene éxito
-                    alert('Material agregado correctamente');
+                    alert('Tapiz agregado correctamente');
                     // Redirige a la página categorias.php
                     window.location.href = 'categorias.php';
                 },
