@@ -73,7 +73,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <!-- Custom Stylesheet -->
     <link href="../plantilla/quixlab-master/css/style.css" rel="stylesheet">
     <!-- Custom Stylesheet -->
-    <link href="../plantilla/quixlab-master/plugins/tables/css/datatable/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <link href="../plantilla/quixlab-master/plugins/tables/css/datatable/dataTables.bootstrap4.min.css"
+        rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 
     <!-- Agregar jQuery -->
@@ -84,110 +85,110 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <!-- Custom CSS for the "agregar" card -->
     <style>
-        #agregar {
-            background-color: #7571F9;
-            /* Fondo de la tarjeta */
-            border: 1px solid #ddd;
-            /* Borde de la tarjeta */
-            border-radius: 8px;
-            /* Bordes redondeados */
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            /* Sombra */
-            padding: 15px;
-            /* Espacio interno */
-        }
+    #agregar {
+        background-color: #7571F9;
+        /* Fondo de la tarjeta */
+        border: 1px solid #ddd;
+        /* Borde de la tarjeta */
+        border-radius: 8px;
+        /* Bordes redondeados */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        /* Sombra */
+        padding: 15px;
+        /* Espacio interno */
+    }
 
-        #agregar .card-title {
-            font-size: 18px;
-            /* Tamaño de la fuente del título */
-            font-weight: bold;
-            /* Grosor de la fuente del título */
-            color: #333;
-            /* Color del título */
-            margin-bottom: 20px;
-            /* Margen inferior */
-        }
+    #agregar .card-title {
+        font-size: 18px;
+        /* Tamaño de la fuente del título */
+        font-weight: bold;
+        /* Grosor de la fuente del título */
+        color: #333;
+        /* Color del título */
+        margin-bottom: 20px;
+        /* Margen inferior */
+    }
 
-        #agregar label {
-            display: block;
-            /* Mostrar etiquetas como bloque */
-            margin-bottom: 10px;
-            /* Margen inferior */
-            font-weight: bold;
-            /* Grosor de la fuente de la etiqueta */
-            color: #555;
-            /* Color de la etiqueta */
-        }
+    #agregar label {
+        display: block;
+        /* Mostrar etiquetas como bloque */
+        margin-bottom: 10px;
+        /* Margen inferior */
+        font-weight: bold;
+        /* Grosor de la fuente de la etiqueta */
+        color: #555;
+        /* Color de la etiqueta */
+    }
 
-        #agregar input[type="number"],
-        #agregar input[type="text"] {
-            width: 100%;
-            /* Ancho completo */
-            padding: 10px;
-            /* Espacio interno */
-            margin-bottom: 15px;
-            /* Margen inferior */
-            border: 1px solid #ccc;
-            /* Borde */
-            border-radius: 4px;
-            /* Bordes redondeados */
-            box-sizing: border-box;
-            /* Incluye padding y borde en el ancho total */
-        }
+    #agregar input[type="number"],
+    #agregar input[type="text"] {
+        width: 100%;
+        /* Ancho completo */
+        padding: 10px;
+        /* Espacio interno */
+        margin-bottom: 15px;
+        /* Margen inferior */
+        border: 1px solid #ccc;
+        /* Borde */
+        border-radius: 4px;
+        /* Bordes redondeados */
+        box-sizing: border-box;
+        /* Incluye padding y borde en el ancho total */
+    }
 
-        #agregar input[type="submit"] {
-            background-color: #4CAF50;
-            /* Color de fondo del botón */
-            color: white;
-            /* Color del texto del botón */
-            padding: 10px 20px;
-            /* Espacio interno */
-            border: none;
-            /* Sin borde */
-            border-radius: 4px;
-            /* Bordes redondeados */
-            cursor: pointer;
-            /* Cursor de puntero */
-        }
+    #agregar input[type="submit"] {
+        background-color: #4CAF50;
+        /* Color de fondo del botón */
+        color: white;
+        /* Color del texto del botón */
+        padding: 10px 20px;
+        /* Espacio interno */
+        border: none;
+        /* Sin borde */
+        border-radius: 4px;
+        /* Bordes redondeados */
+        cursor: pointer;
+        /* Cursor de puntero */
+    }
 
-        #agregar input[type="submit"]:hover {
-            background-color: #45a049;
-            /* Color de fondo del botón al pasar el ratón */
-        }
+    #agregar input[type="submit"]:hover {
+        background-color: #45a049;
+        /* Color de fondo del botón al pasar el ratón */
+    }
 
-        #agregar2 {
-            padding: 30px;
-            /* Espacio interno */
-        }
+    #agregar2 {
+        padding: 30px;
+        /* Espacio interno */
+    }
 
-        .edit-btn {
-            margin-right: 5px;
-            /* Ajusta el espacio entre los botones */
-            background-color: #28a745;
-            /* Verde */
-            color: white;
-            border: none;
-            padding: 8px 12px;
-            border-radius: 4px;
-            cursor: pointer;
-            /* Añade el cursor de puntero */
-        }
+    .edit-btn {
+        margin-right: 5px;
+        /* Ajusta el espacio entre los botones */
+        background-color: #28a745;
+        /* Verde */
+        color: white;
+        border: none;
+        padding: 8px 12px;
+        border-radius: 4px;
+        cursor: pointer;
+        /* Añade el cursor de puntero */
+    }
 
-        .delete-btn {
-            background-color: #dc3545;
-            /* Rojo */
-            color: white;
-            border: none;
-            padding: 8px 12px;
-            border-radius: 4px;
-            cursor: pointer;
-            /* Añade el cursor de puntero */
-        }
+    .delete-btn {
+        background-color: #dc3545;
+        /* Rojo */
+        color: white;
+        border: none;
+        padding: 8px 12px;
+        border-radius: 4px;
+        cursor: pointer;
+        /* Añade el cursor de puntero */
+    }
 
-        .edit-btn:hover,
-        .delete-btn:hover {
-            color: #0056b3;
-        }
+    .edit-btn:hover,
+    .delete-btn:hover {
+        color: #0056b3;
+    }
     </style>
 </head>
 
@@ -234,19 +235,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                         </thead>
                                         <tbody>
                                             <?php foreach ($departamentos as $departamento) : ?>
-                                                <tr>
-                                                    <td><?php echo $departamento['id_departamento']; ?></td>
-                                                    <td><?php echo $departamento['departamento_nom']; ?></td>
-                                                    <td><?php echo $departamento['Estado']; ?></td>
-                                                    <td>
-                                                        <button type="button" class="btn btn-success edit-btn" data-id="<?php echo $departamento['id_departamento']; ?>" data-nombre="<?php echo $departamento['departamento_nom']; ?>" data-estado="<?php echo $departamento['Estado']; ?>" data-toggle="modal" data-target="#editModal">
-                                                            <i class="fas fa-edit"></i>
-                                                        </button>
-                                                        <button type="button" class="btn btn-danger delete-btn" data-id="<?php echo $departamento['id_departamento']; ?>" data-toggle="modal" data-target="#deleteModal">
-                                                            <i class="fas fa-trash-alt"></i>
-                                                        </button>
-                                                    </td>
-                                                </tr>
+                                            <tr>
+                                                <td><?php echo $departamento['id_departamento']; ?></td>
+                                                <td><?php echo $departamento['departamento_nom']; ?></td>
+                                                <td><?php echo $departamento['Estado']; ?></td>
+                                                <td>
+                                                    <button type="button" class="btn btn-success edit-btn"
+                                                        data-id="<?php echo $departamento['id_departamento']; ?>"
+                                                        data-nombre="<?php echo $departamento['departamento_nom']; ?>"
+                                                        data-estado="<?php echo $departamento['Estado']; ?>"
+                                                        data-toggle="modal" data-target="#editModal">
+                                                        <i class="fas fa-edit"></i>
+                                                    </button>
+                                                    <button type="button" class="btn btn-danger delete-btn"
+                                                        data-id="<?php echo $departamento['id_departamento']; ?>"
+                                                        data-toggle="modal" data-target="#deleteModal">
+                                                        <i class="fas fa-trash-alt"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
                                             <?php endforeach; ?>
                                         </tbody>
                                         <tfoot>
@@ -285,7 +292,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </div>
 
                 <!-- Modal para editar -->
-                <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+                <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel"
+                    aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <form id="editForm" method="post" action="departamentos.php">
@@ -299,7 +307,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     <input type="hidden" name="id_departamento" id="modal_id_departamento">
                                     <div class="form-group">
                                         <label for="modal_departamento_nom">Nombre del Departamento:</label>
-                                        <input type="text" name="departamento_nom" id="modal_departamento_nom" class="form-control" required>
+                                        <input type="text" name="departamento_nom" id="modal_departamento_nom"
+                                            class="form-control" required>
                                     </div>
                                     <div class="form-group">
                                         <label for="modal_Estado">Estado del Departamento:</label>
@@ -316,7 +325,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </div>
 
                 <!-- Modal para eliminar -->
-                <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel"
+                    aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <form id="deleteForm" method="post" action="departamentos.php">
@@ -331,62 +341,77 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     <p>¿Estás seguro de que deseas eliminar este departamento?</p>
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                    <button type="button" class="btn btn-secondary"
+                                        data-dismiss="modal">Cancelar</button>
                                     <button type="submit" class="btn btn-danger">Eliminar</button>
                                 </div>
                             </form>
                         </div>
                     </div>
                 </div>
-
-                <!--**********************************
+            </div>
+        </div>
+        <!--**********************************
+            Footer start
+        ***********************************-->
+        <div class="footer">
+            <div class="copyright">
+                <p>Copyright &copy; Todos Los Derechos Reservados | Esta Pagina esta Hecha solo para fin educativo <br>
+                    Hecho por <a href="https://colorlib.com" target="_blank">Brandon</a> y <a
+                        href="https://colorlib.com" target="_blank">Maximo</a></p>
+            </div>
+        </div>
+        <!--**********************************
+            Footer end
+        ***********************************-->
+        <!--**********************************
         Main wrapper end
     ***********************************-->
 
-                <!--**********************************
+        <!--**********************************
         Scripts
     ***********************************-->
 
-                <script src="../plantilla/quixlab-master/plugins/common/common.min.js"></script>
-                <script src="../plantilla/quixlab-master/js/custom.min.js"></script>
-                <script src="../plantilla/quixlab-master/js/settings.js"></script>
-                <script src="../plantilla/quixlab-master/js/gleek.js"></script>
-                <script src="../plantilla/quixlab-master/js/styleSwitcher.js"></script>
-                <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-                <script src="https://cdn.datatables.net/plug-ins/1.10.25/i18n/Spanish.json"></script>
-                <script src="../plantilla/quixlab-master/plugins/tables/js/jquery.dataTables.min.js"></script>
-                <script src="../plantilla/quixlab-master/plugins/tables/js/datatable/dataTables.bootstrap4.min.js"></script>
-                <script src="../plantilla/quixlab-master/plugins/tables/js/datatable-init/datatable-basic.min.js"></script>
+        <script src="../plantilla/quixlab-master/plugins/common/common.min.js"></script>
+        <script src="../plantilla/quixlab-master/js/custom.min.js"></script>
+        <script src="../plantilla/quixlab-master/js/settings.js"></script>
+        <script src="../plantilla/quixlab-master/js/gleek.js"></script>
+        <script src="../plantilla/quixlab-master/js/styleSwitcher.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://cdn.datatables.net/plug-ins/1.10.25/i18n/Spanish.json"></script>
+        <script src="../plantilla/quixlab-master/plugins/tables/js/jquery.dataTables.min.js"></script>
+        <script src="../plantilla/quixlab-master/plugins/tables/js/datatable/dataTables.bootstrap4.min.js"></script>
+        <script src="../plantilla/quixlab-master/plugins/tables/js/datatable-init/datatable-basic.min.js"></script>
 
-                <!-- ChartistJS -->
-                <script src="../plantilla/quixlab-master/plugins/chartist/js/chartist.min.js"></script>
-                <script src="../plantilla/quixlab-master/plugins/chartist-plugin-tooltips/js/chartist-plugin-tooltip.min.js">
-                </script>
+        <!-- ChartistJS -->
+        <script src="../plantilla/quixlab-master/plugins/chartist/js/chartist.min.js"></script>
+        <script src="../plantilla/quixlab-master/plugins/chartist-plugin-tooltips/js/chartist-plugin-tooltip.min.js">
+        </script>
 
-                <script>
-                    $(document).ready(function() {
-                        $('#productos').DataTable({
-                            language: {
-                                url: '//cdn.datatables.net/plug-ins/1.10.25/i18n/Spanish.json'
-                            }
-                        });
+        <script>
+        $(document).ready(function() {
+            $('#productos').DataTable({
+                language: {
+                    url: '//cdn.datatables.net/plug-ins/1.10.25/i18n/Spanish.json'
+                }
+            });
 
-                        $('.edit-btn').on('click', function() {
-                            let id = $(this).data('id');
-                            let nombre = $(this).data('nombre');
-                            let estado = $(this).data('estado');
+            $('.edit-btn').on('click', function() {
+                let id = $(this).data('id');
+                let nombre = $(this).data('nombre');
+                let estado = $(this).data('estado');
 
-                            $('#modal_id_departamento').val(id);
-                            $('#modal_departamento_nom').val(nombre);
-                            $('#modal_Estado').val(estado);
-                        });
+                $('#modal_id_departamento').val(id);
+                $('#modal_departamento_nom').val(nombre);
+                $('#modal_Estado').val(estado);
+            });
 
-                        $('.delete-btn').on('click', function() {
-                            let id = $(this).data('id');
-                            $('#delete_id_departamento').val(id);
-                        });
-                    });
-                </script>
+            $('.delete-btn').on('click', function() {
+                let id = $(this).data('id');
+                $('#delete_id_departamento').val(id);
+            });
+        });
+        </script>
 </body>
 
 </html>

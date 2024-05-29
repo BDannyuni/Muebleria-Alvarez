@@ -198,13 +198,21 @@ $conn->close();
                 </div>
             </div>
 
-            <div class="footer">
-                <div class="copyright">
-                    <p>Copyright © Designed & Developed by <a href="#" target="_blank">Quixlab</a> 2018</p>
-                </div>
-            </div>
         </div>
     </div>
+
+
+     <!--**********************************
+            Footer start
+        ***********************************-->
+        <div class="footer">
+            <div class="copyright">
+                <p>Copyright &copy; Todos Los Derechos Reservados | Esta Pagina esta Hecha solo para fin educativo <br> Hecho por <a href="https://colorlib.com" target="_blank">Brandon</a> y <a href="https://colorlib.com" target="_blank">Maximo</a></p>
+            </div>
+        </div>
+        <!--**********************************
+            Footer end
+        ***********************************-->
 
     <!-- Scripts -->
     <script src="../plantilla/quixlab-master/plugins/common/common.min.js"></script>

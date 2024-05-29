@@ -468,24 +468,13 @@ $products = $statement->fetchAll(PDO::FETCH_ASSOC);
                         <div class="sidebar_promo_subtitle">En todas las salas</div>
                         <div class="sidebar_promo_button"><a href="checkout.html">check out</a></div>
                     </div>
-                </div>
-
-                <!-- Promo 2 -->
-                <div class="sidebar_promo_2 sidebar_promo">
-                    <div class="sidebar_promo_image"
-                        style="background-image: url(../assets/images/productos/comedorprincipal.png)"></div>
-                    <div class="sidebar_promo_content text-center">
-                        <div class="sidebar_promo_title">-40% <span>descuento</span></div>
-                        <div class="sidebar_promo_subtitle">En todos los comedores completos</div>
-                        <div class="sidebar_promo_button"><a href="checkout.html">check out</a></div>
-                    </div>
                 </div><br>
 
                 
                 <!-- Promo 3 -->
                 <div class="sidebar_promo_1 sidebar_promo d-flex flex-column align-items-center justify-content-center">
                     <div class="sidebar_promo_image"
-                        style="background-image: url(../assets/images/productos/salaprincipal.jpg)"></div>
+                        style="background-image: url(../assets/images/productos/comedorprincipal.png)"></div>
                     <div class="sidebar_promo_content text-center">
                         <div class="sidebar_promo_title">-10% <span>descuento</span></div>
                         <div class="sidebar_promo_subtitle">En todas las cocinas completas</div>

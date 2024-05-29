@@ -13,7 +13,7 @@ if ($conn->connect_error) {
 }
 // Consulta para obtener los productos más populares
 $sql = "SELECT LEFT(p.nombre_prod, 20) AS nombre_acortado, SUM(v.cantidad) as total_vendido
-        FROM ventas v
+        FROM detalles_venta v
         INNER JOIN productos p ON v.id_producto = p.id_producto
         GROUP BY v.id_producto
         ORDER BY total_vendido DESC
