@@ -328,7 +328,7 @@ $products = $statement->fetchAll(PDO::FETCH_ASSOC);
                                         <?php foreach ($colores as $color): ?>
                                         <li><a href="#" class="filter-link" data-filter="color"
                                                 data-value="<?= $color['id_color'] ?>"><span
-                                                    style="background:<?= $color['color_nom'] ?>"></span><?= $color['color_nom'] ?></a>
+                                                    style="background:<?= $color['colorHex'] ?>"></span><?= $color['color_nom'] ?></a>
                                         </li>
                                         <?php endforeach; ?>
                                     </ul>

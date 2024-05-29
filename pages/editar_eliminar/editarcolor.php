@@ -17,11 +17,12 @@ if ($conn->connect_error) {
 if (isset($_POST['id']) && isset($_POST['nombre'])) {
     $id = $_POST['id'];
     $nombre = $_POST['nombre'];
+    $hex = $_POST['color'];
 
     // Actualiza el material en la base de datos
-    $sql = "UPDATE color SET color_nom = ? WHERE id_color = ?";
+    $sql = "UPDATE color SET color_nom = ?, colorHex = ? WHERE id_color = ?";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("si", $nombre, $id);
+    $stmt->bind_param("ssi", $nombre, $hex, $id);
 
     if ($stmt->execute()) {
         echo "Color actualizado correctamente";
