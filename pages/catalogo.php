@@ -42,6 +42,7 @@ $products = $statement->fetchAll(PDO::FETCH_ASSOC);
     <link rel="stylesheet" type="text/css" href="../plantilla/plugins/jquery-ui-1.12.1.custom/jquery-ui.css">
     <link rel="stylesheet" type="text/css" href="../plantilla/styles/categories.css">
     <link rel="stylesheet" type="text/css" href="../plantilla/styles/categories_responsive.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
     <style>
         .product_image {
             width: 100%;
@@ -92,8 +93,8 @@ $products = $statement->fetchAll(PDO::FETCH_ASSOC);
                     <li><a href="nosotros.php">Sobre Nosotros</a></li>
                     <li><a href="contacto.php">Contacto</a></li>
                     <?php if (!empty($user) && $user['rol'] == 'admin') : ?> <!-- si hay usuario y es admin -->
-                    <li><a href="resumen.php">Admin</a></li>
-                <?php endif; ?>
+                        <li><a href="resumen.php">Admin</a></li>
+                    <?php endif; ?>
                     <li><a href="#"></a></li>
                 </ul>
             </nav>
@@ -112,20 +113,40 @@ $products = $statement->fetchAll(PDO::FETCH_ASSOC);
                         </div>
                     </a>
 
-                    <!-- Avatar -->
-                    <a href="../login.php">
-                        <div class="avatar">
-                            <img src="../plantilla/images/avatar.png" alt="">
-                        </div>
-                    </a>
+                    <?php if (!empty($user)) : ?>
+
+                        <!-- Avatar -->
+                        <a>
+                            <div class="avatar">
+                                <span><?= $user['nom_usuario']; ?></span>
+                                <img src="../plantilla/images/avatar.png" alt="">
+                            </div>
+                        </a>
+
+                        <!-- Logout -->
+                        <a href="../controllers/logout.php" class="d-inline-block ">
+                            <div class="logout p-1">
+                                <i class="bi bi-box-arrow-right" style="width: 30px; height: 30px; color: #000;"></i>
+                            </div>
+                        </a>
+
+                    <?php else : ?>
+                        <!-- Avatar -->
+                        <a href="login.php">
+                            <div class="avatar">
+                                <img src="../plantilla/images/avatar.png" alt="">
+                            </div>
+                        </a>
                 </div>
             </div>
+        <?php endif; ?>
+        </div>
 
-            <div class="burger_container d-flex flex-column align-items-center justify-content-around menu_mm">
-                <div></div>
-                <div></div>
-                <div></div>
-            </div>
+        <div class="burger_container d-flex flex-column align-items-center justify-content-around menu_mm">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
         </div>
     </header>
 
