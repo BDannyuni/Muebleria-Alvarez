@@ -1,79 +1,170 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
+
 <head>
     <title>Muebleria Alvarez</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="description" content="Wish shop project">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css" rel="stylesheet">
-</head>
-<body>
+    <link rel="stylesheet" type="text/css" href="../plantilla/styles/bootstrap4/bootstrap.min.css">
+    <link href="../plantilla/plugins/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" type="text/css" href="../plantilla/plugins/OwlCarousel2-2.2.1/owl.carousel.css">
+    <link rel="stylesheet" type="text/css" href="../plantilla/plugins/OwlCarousel2-2.2.1/owl.theme.default.css">
+    <link rel="stylesheet" type="text/css" href="../plantilla/plugins/OwlCarousel2-2.2.1/animate.css">
+    <link href="../plantilla/plugins/colorbox/colorbox.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" type="text/css" href="../plantilla/styles/main_styles.css">
+    <link rel="stylesheet" type="text/css" href="../plantilla/styles/responsive.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+
     <style>
-        .nav-item:hover,
-        .nav-item.active {
-            background-color: #635FCC;
-            border-radius: 5px;
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+        }
+
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #f1f1f1;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        .avatar a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .avatar span {
             font-weight: bold;
-            transition: .2s ease;
         }
     </style>
-	<!-- Header -->
-    <nav class="navbar navbar-expand-sm navbar-light" style="background-color: #AEB8CC;">
-       <button 
-        type="button"
-        data-bs-toggle="collapse"
-        data-bs-target="#navbar"
-        class="navbar-toggler"
-        aria-controls="navbar"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
-       >
-            <span class="navbar-toogler-icon"></span>
-       </button>
-        <div class="collapse navbar-collapse" id="navbar" >
-            <a class="navbar-brand ps-5"  href="index.php"><img src="assets/images/logo.png" alt="logo"></a>
-            <ul class="navbar-nav mr-auto mt-2 mt-lg-0 rounded d-flex p-4 justify-content-between w-100" style="background-color: #727070;">
-                <div class="d-flex justify-content-start flex-grow-1">
-                    <li class="nav-item active">
-                        <a class="nav-link fs-4 text-white" href="#index.php">Inicio</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link fs-4 text-white" href="#">Catalogo</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link fs-4 text-white" href="#">Sobre Nosotros</a>
-                    </li>
-                </div>
-                <div class="d-flex justify-content-end pe-5">
-                    <li class="nav-item">
-                        <a class="nav-link fs-3 text-white" href="login.php"><i class="bi bi-person-fill">Mi cuenta</i></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link fs-3 text-white" href="carrito.php"><i class="bi bi-cart-fill">Carrito</i></a>
-                    </li>
-                </div>
-            </ul>
-        </div>
-    </nav>
-	
-    <script>
-        // selecciona todos los elementos de navegación
-        var navItems = document.querySelectorAll('.nav-item');
+</head>
 
-        // Lrecorre cada elemento de navegación
-        for (var i = 0; i < navItems.length; i++) {
-            
-            navItems[i].addEventListener('click', function() {
-                // Cuando se hace click en un elemento, primero quita la clase 'active' de todos los elementos
-                for (var j = 0; j < navItems.length; j++) {
-                    navItems[j].classList.remove('active');
-                }
-                // Luego, agrega la clase 'active' al elemento que fue clickeado
-                this.classList.add('active');
-            });
-        }
-    </script>
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
+<body>
+
+    <div class="super_container">
+
+        <!-- Header -->
+
+        <header class="header">
+            <div class="header_inner d-flex flex-row align-items-center justify-content-start">
+                <div class="logo"><a class="navbar-brand ps-5" href="index.php"><img src="../assets/images/logo.png"
+                            alt="logo" height="90px"></a></div>
+                <nav class="main_nav">
+                    <ul>
+                        <li><a href="#"></a></li>
+                        <li><a href="#"></a></li>
+                        <li><a href="#"></a></li>
+                        <li><a href="../index.php">Inicio</a></li>
+                        <li><a href="catalogo.php">Catalogo</a></li>
+                        <li><a href="nosotros.php">Sobre Nosotros</a></li>
+                        <li><a href="contacto.php">Contacto</a></li>
+                        <?php if (!empty($user) && $user['rol'] == 'admin') : ?> <!-- si hay usuario y es admin -->
+                    <li><a href="resumen.php">Admin</a></li>
+                <?php endif; ?>
+                        
+                    </ul>
+                </nav>
+                <div class="header_content ml-auto">
+                    <div class="shopping">
+                        <!-- Cart -->
+                        <a href="carrito.php">
+                            <div class="cart">
+                                <img src="../plantilla/images/shopping-bag.svg" alt="">
+                                <div class="cart_num_container">
+                                    <div class="cart_num_inner">
+                                        <div class="cart_num"><?php echo (empty($_SESSION['CARRITO'])) ? 0 : count($_SESSION['CARRITO']); ?></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    <?php if (!empty($user)) : ?>
+
+                         <!-- Dropdown Menu -->
+                         <div class="dropdown">
+                            <div class="avatar">
+                            <a href="resumen.php" class="avatar">
+                                <img src="../plantilla/images/avatar.png" alt="">
+                                <span><?= $user['nom_usuario']; ?></span>  
+                            </a>
+                            </div>
+                            <div class="dropdown-content">
+                                <a href="../controllers/logout.php"><i class="bi bi-box-arrow-right"></i> Logout</a>
+                            </div>
+                        </div>
+
+                    <?php else : ?>
+                         <!-- Avatar -->
+                        <a href="login.php">
+                            <div class="avatar">
+                                <img src="../plantilla/images/avatar.png" alt="">
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                    <?php endif; ?>
+                <div class="burger_container d-flex flex-column align-items-center justify-content-around menu_mm">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Menu -->
+
+        <div class="menu d-flex flex-column align-items-end justify-content-start text-right menu_mm trans_400">
+            <div class="menu_close_container">
+                <div class="menu_close">
+                    <div></div>
+                    <div></div>
+                </div>
+            </div>
+            <div class="logo menu_mm"><a class="navbar-brand ps-5" href="index.php"><img src="assets/images/logo.png"
+                        alt="logo" height="100px"></a></div>
+            <nav class="menu_nav">
+                <ul class="menu_mm">
+                    <li class="menu_mm"><a href="index.php">Inicio</a></li>
+                    <li class="menu_mm"><a href="catalogo.php">Catalogo</a></li>
+                    <li class="menu_mm"><a href="nosotros.php">Sobre Nosotros</a></li>
+                    <li class="menu_mm"><a href="contacto.php">Contacto</a></li>
+                <?php if (!empty($user) && $user['rol'] == 'admin') : ?> <!-- si hay usuario y es admin -->
+                    <li><a href="resumen.php">Admin</a></li>
+                <?php endif; ?>
+
+                </ul>
+            </nav>
+        </div>
+
+
+		        	
+<script src="plantilla/js/jquery-3.2.1.min.js"></script>
+<script src="plantilla/styles/bootstrap4/popper.js"></script>
+<script src="plantilla/styles/bootstrap4/bootstrap.min.js"></script>
+<script src="plantilla/plugins/OwlCarousel2-2.2.1/owl.carousel.js"></script>
+<script src="plantilla/plugins/easing/easing.js"></script>
+<script src="plantilla/plugins/parallax-js-master/parallax.min.js"></script>
+<script src="plantilla/plugins/colorbox/jquery.colorbox-min.js"></script>
+<script src="plantilla/js/custom.js"></script>
+
+</body>
+
+</html>

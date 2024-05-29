@@ -16,6 +16,46 @@
     <link rel="stylesheet" type="text/css" href="plantilla/styles/main_styles.css">
     <link rel="stylesheet" type="text/css" href="plantilla/styles/responsive.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+
+    <style>
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+        }
+
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #f1f1f1;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        .avatar a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .avatar span {
+            font-weight: bold;
+        }
+    </style>
 </head>
 
 <body>
@@ -58,20 +98,18 @@
                         </a>
                     <?php if (!empty($user)) : ?>
 
-                        <!-- Avatar -->
-                        <a >
+                         <!-- Dropdown Menu -->
+                         <div class="dropdown">
                             <div class="avatar">
-                                <span><?= $user['nom_usuario']; ?></span>
+                            <a href="pages/resumen.php" class="avatar">
                                 <img src="plantilla/images/avatar.png" alt="">
+                                <span><?= $user['nom_usuario']; ?></span>  
+                            </a>
                             </div>
-                        </a>
-
-                        <!-- Logout -->
-                        <a href="controllers/logout.php" class="d-inline-block ">
-                            <div class="logout p-1">
-                                <i class="bi bi-box-arrow-right" style="width: 30px; height: 30px; color: #000;"></i>
+                            <div class="dropdown-content">
+                                <a href="controllers/logout.php"><i class="bi bi-box-arrow-right"></i> Logout</a>
                             </div>
-                        </a>
+                        </div>
 
                     <?php else : ?>
                          <!-- Avatar -->
