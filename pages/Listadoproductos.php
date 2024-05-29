@@ -219,7 +219,7 @@ $result = $conn->query($sql);
                                             echo "<td>" . $row["id_producto"] . "</td>";
                                             echo "<td>" . $row["nombre_prod"] . "</td>";
                                             echo "<td>" . $row["precio_prod"] . "</td>";
-                                            echo "<td>" . $row["categoria_prod"] . "</td>";
+                                            echo "<td>" . $row["id_departamento"] . "</td>";
                                             echo "<td>" . $row["stock_prod"] . "</td>";
                                             echo "<td>" . $row["proveedor"] . "</td>";
                                             // Aquí necesitas manejar la obtención de color, material y tapiz

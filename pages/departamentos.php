@@ -1,11 +1,64 @@
 <?php
 //traemos la sesion del usuario
 include "../controllers/user_session.php";
-// Consulta SQL para obtener todos los registros de la tabla "productos"
+
+// Consulta SQL para obtener todos los registros de la tabla "departamentos"
 $sql = "SELECT * FROM departamentos";
 $stmt = $conn->query($sql);
 $departamentos = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+// Agregar departamento
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    if (isset($_POST['nombre_departamento']) && isset($_POST['estado_departamento'])) {
+        // Agregar nuevo departamento
+        $nombre_departamento = $_POST['nombre_departamento'];
+        $estado_departamento = $_POST['estado_departamento'];
+
+        $sql = "INSERT INTO departamentos (departamento_nom, Estado) VALUES (:nombre_departamento, :Estado)";
+        $stmt = $conn->prepare($sql);
+        $stmt->bindParam(':nombre_departamento', $nombre_departamento);
+        $stmt->bindParam(':Estado', $estado_departamento);
+
+        if ($stmt->execute()) {
+            header("Location: departamentos.php"); // Redirige a la página principal después de agregar.
+            exit();
+        } else {
+            echo "Error al agregar el departamento.";
+        }
+    } elseif (isset($_POST['id_departamento']) && isset($_POST['departamento_nom']) && isset($_POST['Estado'])) {
+        // Editar departamento existente
+        $id_departamento = $_POST['id_departamento'];
+        $nombre_departamento = $_POST['departamento_nom'];
+        $estado_departamento = $_POST['Estado'];
+
+        $sql = "UPDATE departamentos SET departamento_nom = :departamento_nom, Estado = :Estado WHERE id_departamento = :id_departamento";
+        $stmt = $conn->prepare($sql);
+        $stmt->bindParam(':id_departamento', $id_departamento);
+        $stmt->bindParam(':departamento_nom', $nombre_departamento);
+        $stmt->bindParam(':Estado', $estado_departamento);
+
+        if ($stmt->execute()) {
+            header("Location: departamentos.php"); // Redirige a la página principal después de editar.
+            exit();
+        } else {
+            echo "Error al editar el departamento.";
+        }
+    } elseif (isset($_POST['delete_id_departamento'])) {
+        // Eliminar departamento
+        $id_departamento = $_POST['delete_id_departamento'];
+
+        $sql = "DELETE FROM departamentos WHERE id_departamento = :id_departamento";
+        $stmt = $conn->prepare($sql);
+        $stmt->bindParam(':id_departamento', $id_departamento);
+
+        if ($stmt->execute()) {
+            header("Location: departamentos.php"); // Redirige a la página principal después de eliminar.
+            exit();
+        } else {
+            echo "Error al eliminar el departamento.";
+        }
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -160,41 +213,10 @@ $departamentos = $stmt->fetchAll(PDO::FETCH_ASSOC);
     ***********************************-->
     <div id="main-wrapper">
 
-        <!--**********************************
-            Nav header start and sidebar 
-        ***********************************-->
-       <?php include('layouts/all.php'); ?>
-        <!--**********************************
-            Content body start
-        ***********************************-->
+        <?php include('layouts/all.php'); ?>
+
         <div class="content-body">
-            <!-- row -->
-
             <div class="container-fluid">
-                <div class="row">
-
-                    <!-- Card para Categorías Más Usadas -->
-                    <div class="col-lg-6">
-                        <div class="card" id="categoriasUsadas">
-                            <div class="card-body">
-                                <h4 class="card-title">Departamentos Más Usados</h4>
-                                <canvas id="categoriasUsadasChart"></canvas>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Card para Categorías Más Vendidas -->
-                    <div class="col-lg-6">
-                        <div class="card" id="categoriasVendidas">
-                            <div class="card-body">
-                                <h4 class="card-title">Departamentos Más Vendidos</h4>
-                                <canvas id="categoriasVendidasChart"></canvas>
-                            </div>
-                        </div>
-                    </div>
-
-
-                </div>
                 <div class="row">
                     <div class="col-8">
                         <div class="card">
@@ -215,9 +237,14 @@ $departamentos = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                                 <tr>
                                                     <td><?php echo $departamento['id_departamento']; ?></td>
                                                     <td><?php echo $departamento['departamento_nom']; ?></td>
+                                                    <td><?php echo $departamento['Estado']; ?></td>
                                                     <td>
-                                                        <a href="editardepartamento.php?id=<?php echo $departamento['id_departamento']; ?>" class="edit-btn"><i class="fas fa-edit"></i></a>
-                                                        <a href="editar_eliminar/eliminar_departamento.php?id=<?php echo $departamento['id_departamento']; ?>" class="delete-btn"><i class="fas fa-trash-alt"></i></a>
+                                                        <button type="button" class="btn btn-success edit-btn" data-id="<?php echo $departamento['id_departamento']; ?>" data-nombre="<?php echo $departamento['departamento_nom']; ?>" data-estado="<?php echo $departamento['Estado']; ?>" data-toggle="modal" data-target="#editModal">
+                                                            <i class="fas fa-edit"></i>
+                                                        </button>
+                                                        <button type="button" class="btn btn-danger delete-btn" data-id="<?php echo $departamento['id_departamento']; ?>" data-toggle="modal" data-target="#deleteModal">
+                                                            <i class="fas fa-trash-alt"></i>
+                                                        </button>
                                                     </td>
                                                 </tr>
                                             <?php endforeach; ?>
@@ -235,231 +262,131 @@ $departamentos = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         </div>
                     </div>
 
-
                     <div class="col-4">
                         <div class="card" id="agregar">
                             <div class="card-body">
                                 <div class="card" id="agregar2">
-                                    <div class="text-center"> <!-- Contenedor para centrar el botón -->
-                                        <h4 class="card-tittle">Agregar un nuevo Departamento</h4>
+                                    <div class="text-center">
+                                        <h4 class="card-title">Agregar un nuevo Departamento</h4>
                                     </div><br>
-                                    <form id="agregardepartamento" action="editar_eliminar/agregardepartamento.php" method="post" enctype="multipart/form-data">
+                                    <form action="departamentos.php" method="post">
                                         <label for="nombre_departamento">Nombre del Departamento:</label>
-                                        <input type="text" name="nombre_departamento" id="nombre_departamento" required><br>
+                                        <input type="text" id="nombre_departamento" name="nombre_departamento" required>
+
                                         <label for="estado_departamento">Estado del Departamento:</label>
-                                        <input type="text" name="estado_departamento" id="estado_departamento"><br><br>
-                                        <div class="text-center"> <!-- Contenedor para centrar el botón -->
-                                            <button type="submit" class="btn mb-1 btn-outline-primary  btn-lg">Agregar Departamento</button>
-                                        </div>
-                                        <br><br>
+                                        <input type="text" id="estado_departamento" name="estado_departamento">
+
+                                        <input type="submit" value="Agregar Departamento">
                                     </form>
                                 </div>
                             </div>
                         </div>
                     </div>
-
                 </div>
 
-            </div>
-            <!-- #/ container -->
-        </div>
-        <!--**********************************
-            Content body end
-        ***********************************-->
+                <!-- Modal para editar -->
+                <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <form id="editForm" method="post" action="departamentos.php">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="editModalLabel">Editar Departamento</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <input type="hidden" name="id_departamento" id="modal_id_departamento">
+                                    <div class="form-group">
+                                        <label for="modal_departamento_nom">Nombre del Departamento:</label>
+                                        <input type="text" name="departamento_nom" id="modal_departamento_nom" class="form-control" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="modal_Estado">Estado del Departamento:</label>
+                                        <input type="text" name="Estado" id="modal_Estado" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                                    <button type="submit" class="btn btn-primary">Guardar cambios</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
 
+                <!-- Modal para eliminar -->
+                <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <form id="deleteForm" method="post" action="departamentos.php">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="deleteModalLabel">Eliminar Departamento</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <input type="hidden" name="delete_id_departamento" id="delete_id_departamento">
+                                    <p>¿Estás seguro de que deseas eliminar este departamento?</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                    <button type="submit" class="btn btn-danger">Eliminar</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
 
-
-        <!--**********************************
-            Footer start
-        ***********************************-->
-        <div class="footer">
-            <div class="copyright">
-                <p>Copyright &copy; Designed & Developed by <a href="https://themeforest.net/user/quixlab">Quixlab</a>
-                    2018</p>
-            </div>
-        </div>
-        <!--**********************************
-            Footer end
-        ***********************************-->
-    </div>
-    <!--**********************************
+                <!--**********************************
         Main wrapper end
     ***********************************-->
 
-    <!--**********************************
+                <!--**********************************
         Scripts
     ***********************************-->
 
-    <script src="../plantilla/quixlab-master/plugins/common/common.min.js"></script>
-    <script src="../plantilla/quixlab-master/js/custom.min.js"></script>
-    <script src="../plantilla/quixlab-master/js/settings.js"></script>
-    <script src="../plantilla/quixlab-master/js/gleek.js"></script>
-    <script src="../plantilla/quixlab-master/js/styleSwitcher.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdn.datatables.net/plug-ins/1.10.25/i18n/Spanish.json"></script>
-    <script src="../plantilla/quixlab-master/plugins/tables/js/jquery.dataTables.min.js"></script>
-    <script src="../plantilla/quixlab-master/plugins/tables/js/datatable/dataTables.bootstrap4.min.js"></script>
-    <script src="../plantilla/quixlab-master/plugins/tables/js/datatable-init/datatable-basic.min.js"></script>
+                <script src="../plantilla/quixlab-master/plugins/common/common.min.js"></script>
+                <script src="../plantilla/quixlab-master/js/custom.min.js"></script>
+                <script src="../plantilla/quixlab-master/js/settings.js"></script>
+                <script src="../plantilla/quixlab-master/js/gleek.js"></script>
+                <script src="../plantilla/quixlab-master/js/styleSwitcher.js"></script>
+                <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+                <script src="https://cdn.datatables.net/plug-ins/1.10.25/i18n/Spanish.json"></script>
+                <script src="../plantilla/quixlab-master/plugins/tables/js/jquery.dataTables.min.js"></script>
+                <script src="../plantilla/quixlab-master/plugins/tables/js/datatable/dataTables.bootstrap4.min.js"></script>
+                <script src="../plantilla/quixlab-master/plugins/tables/js/datatable-init/datatable-basic.min.js"></script>
 
-    <!-- ChartistJS -->
-    <script src="../plantilla/quixlab-master/plugins/chartist/js/chartist.min.js"></script>
-    <script src="../plantilla/quixlab-master/plugins/chartist-plugin-tooltips/js/chartist-plugin-tooltip.min.js">
-    </script>
+                <!-- ChartistJS -->
+                <script src="../plantilla/quixlab-master/plugins/chartist/js/chartist.min.js"></script>
+                <script src="../plantilla/quixlab-master/plugins/chartist-plugin-tooltips/js/chartist-plugin-tooltip.min.js">
+                </script>
 
-    <!-- Chartjs -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script>
-        // Una vez que el documento esté cargado, ejecuta esta función
-        $(document).ready(function() {
-            // Inicializa DataTables en la tabla con id "productos"
-            $('#productos').DataTable({
-                "language": {
-                    "url": "https://cdn.datatables.net/plug-ins/1.10.25/i18n/Spanish.json"
-                }
-            });
-        });
-    </script>
-    <script>
-        // Una vez que el documento esté cargado, ejecuta esta función
-        $(document).ready(function() {
-            // Inicializa DataTables en la tabla con id "productos"
-            $('#productos').DataTable();
-        });
-    </script>
-
-
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            // Gráfico de Categorías Más Usadas
-            fetch('getCategoriasUsadasData.php')
-                .then(response => response.json())
-                .then(data => {
-                    const categorias = data.map(item => item.categoria_nom);
-                    const counts = data.map(item => item.count);
-
-                    const ctx = document.getElementById('categoriasUsadasChart').getContext('2d');
-                    new Chart(ctx, {
-                        type: 'bar',
-                        data: {
-                            labels: categorias,
-                            datasets: [{
-                                label: 'Cantidad de Productos',
-                                data: counts,
-                                backgroundColor: [
-                                    'rgba(255, 99, 132, 0.2)',
-                                    'rgba(54, 162, 235, 0.2)',
-                                    'rgba(255, 206, 86, 0.2)',
-                                    'rgba(75, 192, 192, 0.2)',
-                                    'rgba(153, 102, 255, 0.2)',
-                                    'rgba(255, 159, 64, 0.2)'
-                                ], // Colores de fondo para cada segmento del gráfico de polarArea
-                                borderColor: [
-                                    'rgba(255, 99, 132, 1)',
-                                    'rgba(54, 162, 235, 1)',
-                                    'rgba(255, 206, 86, 1)',
-                                    'rgba(75, 192, 192, 1)',
-                                    'rgba(153, 102, 255, 1)',
-                                    'rgba(255, 159, 64, 1)'
-                                ], // Colores del borde para cada segmento del gráfico de polarArea
-                                borderWidth: 1
-                            }]
-                        },
-                        options: {
-                            scales: {
-                                y: {
-                                    beginAtZero: true
-                                }
+                <script>
+                    $(document).ready(function() {
+                        $('#productos').DataTable({
+                            language: {
+                                url: '//cdn.datatables.net/plug-ins/1.10.25/i18n/Spanish.json'
                             }
-                        }
+                        });
+
+                        $('.edit-btn').on('click', function() {
+                            let id = $(this).data('id');
+                            let nombre = $(this).data('nombre');
+                            let estado = $(this).data('estado');
+
+                            $('#modal_id_departamento').val(id);
+                            $('#modal_departamento_nom').val(nombre);
+                            $('#modal_Estado').val(estado);
+                        });
+
+                        $('.delete-btn').on('click', function() {
+                            let id = $(this).data('id');
+                            $('#delete_id_departamento').val(id);
+                        });
                     });
-                })
-                .catch(error => console.error('Error fetching categories data:', error));
-
-            // Gráfico de Categorías Más Vendidas
-            fetch('getCategoriasVendidasData.php')
-                .then(response => response.json())
-                .then(data => {
-                    const categorias = data.map(item => item.categoria_nom);
-                    const totalVendido = data.map(item => item.total_vendido);
-
-                    const ctx = document.getElementById('categoriasVendidasChart').getContext('2d');
-                    new Chart(ctx, {
-                        type: 'bar',
-                        data: {
-                            labels: categorias,
-                            datasets: [{
-                                label: 'Total Vendido',
-                                data: totalVendido,
-                                backgroundColor: [
-                                    'rgba(255, 99, 132, 0.2)',
-                                    'rgba(54, 162, 235, 0.2)',
-                                    'rgba(255, 206, 86, 0.2)',
-                                    'rgba(75, 192, 192, 0.2)',
-                                    'rgba(153, 102, 255, 0.2)',
-                                    'rgba(255, 159, 64, 0.2)'
-                                ], // Colores de fondo para cada segmento del gráfico de polarArea
-                                borderColor: [
-                                    'rgba(255, 99, 132, 1)',
-                                    'rgba(54, 162, 235, 1)',
-                                    'rgba(255, 206, 86, 1)',
-                                    'rgba(75, 192, 192, 1)',
-                                    'rgba(153, 102, 255, 1)',
-                                    'rgba(255, 159, 64, 1)'
-                                ], // Colores del borde para cada segmento del gráfico de polarArea
-                                borderWidth: 1
-                            }]
-                        },
-                        options: {
-                            scales: {
-                                y: {
-                                    beginAtZero: true
-                                }
-                            }
-                        }
-                    });
-                })
-                .catch(error => console.error('Error fetching sales data:', error));
-        });
-    </script>
-
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            // Manejar el clic en los botones de editar
-            document.querySelectorAll('.edit-btn').forEach(button => {
-                button.addEventListener('click', function() {
-                    let id = this.getAttribute('data-id');
-                    // Redirigir a una página de edición con el ID de la categoría
-                    window.location.href = 'editar_eliminar/editarcategoria.php?id=' + id;
-                });
-            });
-
-            // Manejar el clic en los botones de eliminar
-            document.querySelectorAll('.delete-btn').forEach(button => {
-                button.addEventListener('click', function() {
-                    let id = this.getAttribute('data-id');
-                    if (confirm('¿Estás seguro de que deseas eliminar esta categoría?')) {
-                        // Realizar una solicitud AJAX para eliminar la categoría
-                        fetch('editar_eliminar/eliminarcategoria.php', {
-                                method: 'POST',
-                                headers: {
-                                    'Content-Type': 'application/x-www-form-urlencoded',
-                                },
-                                body: 'id=' + id
-                            })
-                            .then(response => response.text())
-                            .then(data => {
-                                if (data === 'success') {
-                                    // Recargar la página para ver los cambios
-                                    window.location.reload();
-                                } else {
-                                    alert('Error al eliminar la categoría.');
-                                }
-                            });
-                    }
-                });
-            });
-        });
-    </script>
+                </script>
 </body>
 
 </html>
