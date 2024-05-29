@@ -25,9 +25,9 @@ if (isset($_SESSION['user_id'])) {
 $messageError = '';
 $messageSuccess = '';
 // Obtener datos de la tabla "categorias"
-$query_categoria = "SELECT id_departamento, departamento_nom FROM departamentos where estado = null";
-$stmt_categoria = $conn->query($query_categoria);
-$result_categoria = $stmt_categoria->fetchAll();
+$query_departamento = "SELECT id_departamento, departamento_nom FROM departamentos ";
+$stmt_departamento = $conn->query($query_departamento);
+$result_departamento = $stmt_departamento->fetchAll();
 
 // Obtener datos de la tabla "proveedores"
 $query_proveedor = "SELECT id_proveedor, proveedor_nom FROM proveedores";
@@ -55,7 +55,7 @@ if (isset($_POST['submit'])) {
     $nombre_prod = $_POST['nombre_prod'];
     $descripcion_prod = $_POST['descripcion_prod'];
     $precio_prod = $_POST['precio_prod'];
-    $categoria_prod = $_POST['id_departamento'];
+    $id_departamento= $_POST['id_departamento'];
     $stock_prod = $_POST['stock_prod'];
     $proveedor = $_POST['proveedor'];
     $marca = $_POST['marca'];
@@ -82,7 +82,7 @@ if (isset($_POST['submit'])) {
         $stmt->bindParam(':nombre_prod', $nombre_prod);
         $stmt->bindParam(':descripcion_prod', $descripcion_prod);
         $stmt->bindParam(':precio_prod', $precio_prod);
-        $stmt->bindParam(':id_departamento', $categoria_prod);
+        $stmt->bindParam(':id_departamento', $id_departamento);
         $stmt->bindParam(':stock_prod', $stock_prod);
         $stmt->bindParam(':image', $image);
         $stmt->bindParam(':proveedor', $proveedor);
@@ -178,11 +178,11 @@ if (isset($_POST['submit'])) {
                                 <input type="text" class="form-control rounded mb-3" name="nombre_prod" id="nombre_prod" placeholder="Ingrese el Nombre del Producto..." required>
                             </div>
                             <div class="form-group">
-                                <select class="form-control rounded mb-3" name="categoria_prod" id="categoria_prod" required>
-                                    <option value="">Selecciona una Categoria</option>
-                                    <?php foreach ($result_categoria as $row_categoria) { ?>
-                                        <option value="<?php echo $row_categoria['id_departamento']; ?>" <?php echo (isset($_POST['id_departamento']) && $_POST['id_departamento'] == $row_categoria['id_departamento']) ? 'selected' : ''; ?>>
-                                            <?php echo $row_categoria['departamento_nom']; ?>
+                                <select class="form-control rounded mb-3" name="id_departamento" id="id_departamento" required>
+                                    <option value="">Selecciona un departamento</option>
+                                    <?php foreach ($result_departamento as $row_departamento) { ?>
+                                        <option value="<?php echo $row_departamento['id_departamento']; ?>" <?php echo (isset($_POST['id_departamento']) && $_POST['id_departamento'] == $row_departamento['id_departamento']) ? 'selected' : ''; ?>>
+                                            <?php echo $row_departamento['departamento_nom']; ?>
                                         </option>
                                     <?php } ?>
                                 </select>
