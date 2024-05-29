@@ -14,7 +14,7 @@ if ($conn->connect_error) {
 }
 
 // Consulta SQL para obtener todos los registros de la tabla "productos"
-$sql = "SELECT * FROM productos";
+$sql = "SELECT * FROM usuarios";
 $result = $conn->query($sql);
 
 ?>
@@ -70,7 +70,7 @@ $result = $conn->query($sql);
 
             <div class="container-fluid">
         <div class="row">
-            <div class="col-12">
+            <div class="col-6">
                 <div class="card">
                     <div class="card-body">
                         <h4 class="card-title">Inventario</h4>
@@ -78,15 +78,10 @@ $result = $conn->query($sql);
                             <table id="productos" class="table table-striped table-bordered">
                                 <thead>
                                     <tr>
-                                        <th>id Producto</th>
-                                        <th>Nombre</th>
-                                        <th>Precio</th>
-                                        <th>Categoria</th>
-                                        <th>Stock</th>
-                                        <th>Proveedor</th>
-                                        <th>Color</th>
-                                        <th>Material</th>
-                                        <th>Tapiz</th>
+                                        <th>ID</th>
+                                        <th>Nombre Completo</th>
+                                        <th>Email</th>
+                                        <th>Nombre de Usuario</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -95,16 +90,10 @@ $result = $conn->query($sql);
                                     if ($result->num_rows > 0) {
                                         while ($row = $result->fetch_assoc()) {
                                             echo "<tr>";
-                                            echo "<td>" . $row["id_producto"] . "</td>";
-                                            echo "<td>" . $row["nombre_prod"] . "</td>";
-                                            echo "<td>" . $row["precio_prod"] . "</td>";
-                                            echo "<td>" . $row["id_departamento"] . "</td>";
-                                            echo "<td>" . $row["stock_prod"] . "</td>";
-                                            echo "<td>" . $row["proveedor"] . "</td>";
-                                            // Aquí necesitas manejar la obtención de color, material y tapiz
-                                            echo "<td>" . $row["id_color"] . "</td>";
-                                            echo "<td>" . $row["id_material"] . "</td>";
-                                            echo "<td>" . $row["id_tapiz"] . "</td>";
+                                            echo "<td>" . $row["Id_usuario"] . "</td>";
+                                            echo "<td>" . $row["nombre_completo"] . "</td>";
+                                            echo "<td>" . $row["email"] . "</td>";
+                                            echo "<td>" . $row["nom_usuario"] . "</td>";
                                             echo "</tr>";
                                         }
                                     } else {
@@ -114,15 +103,10 @@ $result = $conn->query($sql);
                                 </tbody>
                                 <tfoot>
                                     <tr>
-                                        <th>id Producto</th>
-                                        <th>Nombre</th>
-                                        <th>Precio</th>
-                                        <th>Categoria</th>
-                                        <th>Stock</th>
-                                        <th>Proveedor</th>
-                                        <th>Color</th>
-                                        <th>Material</th>
-                                        <th>Tapiz</th>
+                                    <th>ID</th>
+                                        <th>Nombre Completo</th>
+                                        <th>Email</th>
+                                        <th>Nombre de Usuario</th>
                                     </tr>
                                 </tfoot>
                             </table>
