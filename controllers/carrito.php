@@ -1,7 +1,7 @@
 <?php
 $message = '';
 
-if (isset($_POST['btn-accion'])) {
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['btn-accion'])) {
     switch ($_POST['btn-accion']) {
         case 'Agregar':
             if (is_numeric(openssl_decrypt($_POST['id'], COD, KEY))) {
@@ -153,10 +153,64 @@ if (isset($_POST['btn-accion'])) {
                 $message = 'No se pudo eliminar';
             }
             break;
-        case 'buy':
-            $mensaje = "Compra realizada con éxito.";
+
+        default:
+            // Recupera los datos JSON enviados en la solicitud
+            $data = json_decode(file_get_contents('php://input'), true);
+
+            // Extrae los detalles de la orden del JSON
+            $orderID = $data['orderID'];
+            $orderData = $data['orderData'];
+            $purchaseUnits = $orderData['purchase_units'][0];
+            $amount = $purchaseUnits['amount']['value'];
+            $currency = $purchaseUnits['amount']['currency_code'];
+            $userId = $data['userId']; // Asumiendo que el ID del usuario se envía en los datos JSON
+
+            // Inicia la transacción
+            $conn->beginTransaction();
+            try {
+                // Inserta la orden en la tabla ventas
+                $stmtVenta = $conn->prepare("INSERT INTO ventas (id_usuario, monto_total, fecha_venta, estado, orderID, currency, orderData) VALUES (?, ?, NOW(), 'COMPLETED', ?, ?, ?)");
+                $stmtVenta->bindParam(1, $userId, PDO::PARAM_INT);
+                $stmtVenta->bindParam(2, $amount, PDO::PARAM_STR);
+                $stmtVenta->bindParam(3, $orderID, PDO::PARAM_STR);
+                $stmtVenta->bindParam(4, $currency, PDO::PARAM_STR);
+                $stmtVenta->bindParam(5, json_encode($orderData), PDO::PARAM_STR);
+                $stmtVenta->execute();
+                $idVenta = $conn->lastInsertId();
+
+                // Inserta los detalles de los productos en la tabla detalles_venta
+                foreach ($purchaseUnits['items'] as $item) {
+                    $productID = $item['product_id'];
+                    $quantity = $item['quantity'];
+                    $price = $item['unit_amount']['value'];
+
+                    $stmtDetalle = $conn->prepare("INSERT INTO detalles_venta (id_venta, id_producto, cantidad, precio_unitario) VALUES (?, ?, ?, ?)");
+                    $stmtDetalle->bindParam(1, $idVenta, PDO::PARAM_INT);
+                    $stmtDetalle->bindParam(2, $productID, PDO::PARAM_INT);
+                    $stmtDetalle->bindParam(3, $quantity, PDO::PARAM_INT);
+                    $stmtDetalle->bindParam(4, $price, PDO::PARAM_STR);
+                    $stmtDetalle->execute();
+
+                    // Actualiza el stock del producto
+                    $stmtStock = $conn->prepare("UPDATE productos SET stock_prod = stock_prod - ? WHERE id_producto = ?");
+                    $stmtStock->bindParam(1, $quantity, PDO::PARAM_INT);
+                    $stmtStock->bindParam(2, $productID, PDO::PARAM_INT);
+                    $stmtStock->execute();
+                }
+
+                // Confirma la transacción
+                $conn->commit();
+                echo json_encode(['status' => 'success', 'orderID' => $orderID]);
+            } catch (Exception $e) {
+                // Revierte la transacción en caso de error
+                $conn->rollBack();
+                echo json_encode(['status' => 'error', 'message' => 'Failed to save order: ' . $e->getMessage()]);
+            }
+
+
+
             unset($_SESSION['CARRITO']);
-            exit;
             break;
     }
 }

@@ -1,7 +1,7 @@
 <?php
 include "../controllers/user_session.php";
 include '../controllers/carrito.php';
-
+include "../controllers/config.php";
 
 ?>
 
@@ -24,7 +24,22 @@ include '../controllers/carrito.php';
     <link rel="stylesheet" type="text/css" href="../plantilla/styles/responsive.css">
     <link rel="stylesheet" href="../assets/css/loader.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
+        /* Media query for mobile viewport */
+        @media screen and (max-width: 400px) {
+            #paypal-button-container {
+                width: 100%;
+            }
+        }
+
+        /* Media query for desktop viewport */
+        @media screen and (min-width: 400px) {
+            #paypal-button-container {
+                width: 310px;
+            }
+        }
+
         .product_row {
             display: flex;
             align-items: center;
@@ -84,7 +99,8 @@ include '../controllers/carrito.php';
         .btn-danger .bi {
             font-size: 18px;
         }
-        .product_title{
+
+        .product_title {
             cursor: pointer;
             text-decoration: none;
             color: black;
@@ -128,71 +144,75 @@ include '../controllers/carrito.php';
                                                     </a>
                                                     
                                                     <p><?php echo $producto['descripcion_prod']; ?></p>
-                                                    <div class="quantity_buttons">
-                                                        <form action="" method="POST" style="display: inline;">
-                                                            <input type="hidden" name="id" value="<?php echo openssl_encrypt($producto['id'], COD, KEY); ?>">
-                                                            <input type="hidden" name="cantidad" value="<?php echo $producto['cantidad'] - 1; ?>">
-                                                            <button name="btn-accion"  value="Actualizar" type="submit" class="btn btn-secondary" >-</button>
-                                                        </form>
-                                                        <p style="display: inline; margin: 0 10px;"><?php echo $producto['cantidad']; ?></p>
-                                                        <form action="" method="POST" style="display: inline;">
-                                                            <input type="hidden" name="id" value="<?php echo openssl_encrypt($producto['id'], COD, KEY); ?>">
-                                                            <input type="hidden" name="cantidad" value="<?php echo  $producto['cantidad'] + 1; ?>">
-                                                            <button name="btn-accion"  value="Actualizar" type="submit"  class="btn btn-secondary">+</button>
-                                                        </form>
-                                                    </div>
-                                                    <p>Precio: $<?php echo number_format($producto['precio'], 2); ?></p>
-                                                    <p>Total: $<?php echo number_format($producto['precio'] * $producto['cantidad'], 2); ?></p>
+                                                    <div class=" quantity_buttons">
+                                                            <form action="" method="POST" style="display: inline;">
+                                                                <input type="hidden" name="id" value="<?php echo openssl_encrypt($producto['id'], COD, KEY); ?>">
+                                                                <input type="hidden" name="cantidad" value="<?php echo $producto['cantidad'] - 1; ?>">
+                                                                <button name="btn-accion" value="Actualizar" type="submit" class="btn btn-secondary">-</button>
+                                                            </form>
+                                                            <p style="display: inline; margin: 0 10px;"><?php echo $producto['cantidad']; ?></p>
+                                                            <form action="" method="POST" style="display: inline;">
+                                                                <input type="hidden" name="id" value="<?php echo openssl_encrypt($producto['id'], COD, KEY); ?>">
+                                                                <input type="hidden" name="cantidad" value="<?php echo  $producto['cantidad'] + 1; ?>">
+                                                                <button name="btn-accion" value="Actualizar" type="submit" class="btn btn-secondary">+</button>
+                                                            </form>
                                                 </div>
-                                                <div class="product_actions">
-                                                    <form action="" method="POST">
-                                                        <input type="hidden" name="id" value="<?php echo openssl_encrypt($producto['id'], COD, KEY); ?>">
-                                                        <button class="btn btn-danger btn-lg d-flex align-items-center justify-content-center" name="btn-accion" value="Eliminar" type="submit">
-                                                            <i class="bi bi-trash fs-2"></i>
-                                                        </button>
-                                                    </form>
-                                                </div>
+                                                <p>Precio: $<?php echo number_format($producto['precio'], 2); ?></p>
+                                                <p>Total: $<?php echo number_format($producto['precio'] * $producto['cantidad'], 2); ?></p>
                                             </div>
-                                            <?php $total += $producto['precio'] * $producto['cantidad']; ?>
-                                        <?php endforeach; ?>
-                                    <?php else : ?>
-                                        <div class="alert alert-success">
-                                            No hay productos en el carrito.
-                                        </div>
-                                    <?php endif; ?>
-                                    <div class="cart_buttons">
-                                        <button type="button" class="btn "><a href="../index.php"><i class="bi bi-arrow-left"></i>Continuar comprando</a></button>
-                                    </div>
+                                            <div class="product_actions">
+                                                <form action="" method="POST">
+                                                    <input type="hidden" name="id" value="<?php echo openssl_encrypt($producto['id'], COD, KEY); ?>">
+                                                    <button class="btn btn-danger btn-lg d-flex align-items-center justify-content-center" name="btn-accion" value="Eliminar" type="submit">
+                                                        <i class="bi bi-trash fs-2"></i>
+                                                    </button>
+                                                </form>
+                                            </div>
                                 </div>
+                                <?php $total += $producto['precio'] * $producto['cantidad']; ?>
+                            <?php endforeach; ?>
+                        <?php else : ?>
+                            <div class="alert alert-success">
+                                No hay productos en el carrito.
                             </div>
-                            <div class="col-lg-4" style="padding-top: 90px;">
-                                <div class="order_summary">
-                                    <h4>Resumen del Pedido</h4>
-                                    <div class="order_total mt-4">
-                                        <div class="order_total_title">Sub-total:</div>
-                                        <div class="order_total_amount">$<?php echo number_format($total, 2); ?></div>
+                        <?php endif; ?>
+                        <div class="cart_buttons">
+                            <button type="button" class="btn "><a href="../index.php"><i class="bi bi-arrow-left"></i>Continuar comprando</a></button>
+                        </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4" style="padding-top: 90px;">
+                            <div class="order_summary">
+                                <h4>Resumen del Pedido</h4>
+                                <div class="order_total mt-4">
+                                    <div class="order_total_title">Sub-total:</div>
+                                    <div class="order_total_amount">$<?php echo number_format($total, 2); ?></div>
+                                </div>
+                                <div class="order_total mt-4">
+                                    <div class="order_total_title">Envío:</div>
+                                    <div class="order_total_amount">$<?php $envio = 10.00;
+                                                                        echo number_format($envio, 2); ?></div>
+                                </div>
+                                <div class="order_total mt-4">
+                                    <div class="order_total_title">Impuesto:</div>
+                                    <div class="order_total_amount">$<?php $impuesto = $total * 0.16;
+                                                                        echo number_format($impuesto, 2); ?></div>
+                                </div>
+                                <div class="order_total mt-4">
+                                    <div class="order_total_title">Total:</div>
+                                    <div class="order_total_amount">$<?php $total_general = $total + $envio + $impuesto;
+                                                                        echo number_format($total_general, 2); ?></div>
+                                </div>
+                                <form action="" method="POST">
+                                    <div id="paypal-button-container">
+
                                     </div>
-                                    <div class="order_total mt-4">
-                                        <div class="order_total_title">Envío:</div>
-                                        <div class="order_total_amount">$<?php $envio = 10.00; echo number_format($envio, 2); ?></div>
-                                    </div>
-                                    <div class="order_total mt-4">
-                                        <div class="order_total_title">Impuesto:</div>
-                                        <div class="order_total_amount">$<?php $impuesto = $total * 0.16; echo number_format($impuesto, 2); ?></div>
-                                    </div>
-                                    <div class="order_total mt-4">
-                                        <div class="order_total_title">Total:</div>
-                                        <div class="order_total_amount">$<?php $total_general = $total + $envio + $impuesto; echo number_format($total_general, 2); ?></div>
-                                    </div>
-                                    <form action="" method="POST">
-                                        <button class="btn btn-success btn-lg btn-block" name="btn-accion" value="buy" type="submit">Ir a Pagar</button>
-                                    </form>
-                                    <div class="payment_methods mt-4">
-                                        <p>Aceptamos:</p>
-                                        <img src="../assets/images/visa.png" alt="Visa" style="width:50px; margin-right:10px;">
-                                        <img src="../assets/images/paypal.png" alt="PayPal" style="width:50px; margin-right:10px;">
-                                        <!-- Agrega más métodos de pago según sea necesario -->
-                                    </div>
+
+                                </form>
+                                <div class="payment_methods mt-4">
+                                    <p>Aceptamos:</p>
+                                    <img src="../assets/images/paypal.png" alt="PayPal" style="width:50px; margin-right:10px;">
+                                    <!-- Agrega más métodos de pago según sea necesario -->
                                 </div>
                             </div>
                         </div>
@@ -201,8 +221,63 @@ include '../controllers/carrito.php';
             </div>
         </div>
     </div>
+
+    </div>
     <br>
     <?php include "layouts/footer2.php"; ?>
     <script src="../assets/js/loader.js"></script>
+
+    <script src="https://www.paypal.com/sdk/js?client-id=<?php echo CLIENTE_ID; ?>&currency=MXN"></script>
+
+    <script>
+        // Render the PayPal button into #paypal-button-container
+        paypal.Buttons({
+
+            // Call your server to set up the transaction
+            createOrder: function(data, actions) {
+                return actions.order.create({
+                    aplication_context: {
+                        shipping_preference: 'NO_SHIPPING'
+                    },
+                    purchase_units: [{
+                        amount: {
+                            value: '<?php echo number_format($total_general, 2, '.', ''); ?>'
+                        }
+                    }]
+                })
+            },
+
+            // Call your server to finalize the transaction
+            onApprove: function(data, actions) {
+                return actions.order.capture().then(function(orderData) {
+                    console.log('Capture result', orderData, JSON.stringify(orderData, null, 2));
+
+                    // Send data to server
+                    return fetch('../controllers/carrito.php', {
+                        method: 'post',
+                        headers: {
+                            'content-type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            orderID: data.orderID,
+                            orderData: orderData
+                        })
+                    }).then(function(res) {
+                        return res.json();
+                    }).then(function(response) {
+                        console.log('Server response', response);
+                        // Redirect or show a success message
+                    });
+                });
+            },
+            /*
+            onError: function(err) {
+                console.error('Error occurred during the transaction', err);
+                // Show an error message or redirect
+            }*/
+
+        }).render('#paypal-button-container');
+    </script>
 </body>
+
 </html>

@@ -55,7 +55,7 @@ if (isset($_POST['submit'])) {
     $nombre_prod = $_POST['nombre_prod'];
     $descripcion_prod = $_POST['descripcion_prod'];
     $precio_prod = $_POST['precio_prod'];
-    $categoria_prod = $_POST['categoria_prod'];
+    $categoria_prod = $_POST['id_departamento'];
     $stock_prod = $_POST['stock_prod'];
     $proveedor = $_POST['proveedor'];
     $marca = $_POST['marca'];
@@ -75,14 +75,14 @@ if (isset($_POST['submit'])) {
     }
     try {
         // SQL query to insert the product
-        $query = "INSERT INTO productos (nombre_prod, descripcion_prod, precio_prod, categoria_prod, stock_prod, image, proveedor, marca, id_color, id_material, id_tapiz) 
-                  VALUES (:nombre_prod, :descripcion_prod, :precio_prod, :categoria_prod, :stock_prod, :image, :proveedor, :marca, :id_color, :id_material, :id_tapiz)";
+        $query = "INSERT INTO productos (nombre_prod, descripcion_prod, precio_prod, id_departamento, stock_prod, image, proveedor, marca, id_color, id_material, id_tapiz) 
+                  VALUES (:nombre_prod, :descripcion_prod, :precio_prod, :id_departamento, :stock_prod, :image, :proveedor, :marca, :id_color, :id_material, :id_tapiz)";
 
         $stmt = $conn->prepare($query);
         $stmt->bindParam(':nombre_prod', $nombre_prod);
         $stmt->bindParam(':descripcion_prod', $descripcion_prod);
         $stmt->bindParam(':precio_prod', $precio_prod);
-        $stmt->bindParam(':categoria_prod', $categoria_prod);
+        $stmt->bindParam(':id_departamento', $categoria_prod);
         $stmt->bindParam(':stock_prod', $stock_prod);
         $stmt->bindParam(':image', $image);
         $stmt->bindParam(':proveedor', $proveedor);
@@ -181,8 +181,8 @@ if (isset($_POST['submit'])) {
                                 <select class="form-control rounded mb-3" name="categoria_prod" id="categoria_prod" required>
                                     <option value="">Selecciona una Categoria</option>
                                     <?php foreach ($result_categoria as $row_categoria) { ?>
-                                        <option value="<?php echo $row_categoria['id_categoria']; ?>" <?php echo (isset($_POST['id_categoria']) && $_POST['id_categoria'] == $row_categoria['id_categoria']) ? 'selected' : ''; ?>>
-                                            <?php echo $row_categoria['categoria_nom']; ?>
+                                        <option value="<?php echo $row_categoria['id_departamento']; ?>" <?php echo (isset($_POST['id_departamento']) && $_POST['id_departamento'] == $row_categoria['id_departamento']) ? 'selected' : ''; ?>>
+                                            <?php echo $row_categoria['departamento_nom']; ?>
                                         </option>
                                     <?php } ?>
                                 </select>

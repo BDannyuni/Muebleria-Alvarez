@@ -221,7 +221,7 @@ $products = $statement->fetchAll(PDO::FETCH_ASSOC);
 
                     <?php else : ?>
                     <!-- Avatar -->
-                    <a href="login.php">
+                    <a href="../login.php">
                         <div class="avatar">
                             <img src="../plantilla/images/avatar.png" alt="">
                         </div>

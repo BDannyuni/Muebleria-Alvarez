@@ -81,7 +81,7 @@ $result = $conn->query($sql);
                                         <th>id Producto</th>
                                         <th>Nombre</th>
                                         <th>Precio</th>
-                                        <th>Categoria</th>
+                                        <th>Departamento</th>
                                         <th>Stock</th>
                                         <th>Proveedor</th>
                                         <th>Color</th>
@@ -117,7 +117,7 @@ $result = $conn->query($sql);
                                         <th>id Producto</th>
                                         <th>Nombre</th>
                                         <th>Precio</th>
-                                        <th>Categoria</th>
+                                        <th>Departamento</th>
                                         <th>Stock</th>
                                         <th>Proveedor</th>
                                         <th>Color</th>
