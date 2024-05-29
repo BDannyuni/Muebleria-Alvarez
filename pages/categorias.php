@@ -48,6 +48,17 @@ $resultTapiz = $conn->query($sqlTapiz);
     <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/plug-ins/1.10.25/i18n/Spanish.json"></script>
 
+    <!-- Page plugins css -->
+    <link href="../plantilla/quixlab-master/plugins/clockpicker/dist/jquery-clockpicker.min.css" rel="stylesheet">
+    <!-- Color picker plugins css -->
+    <link href="../plantilla/quixlab-master/plugins/jquery-asColorPicker-master/css/asColorPicker.css" rel="stylesheet">
+    <!-- Date picker plugins css -->
+    <link href="../plantilla/quixlab-master/plugins/bootstrap-datepicker/bootstrap-datepicker.min.css" rel="stylesheet">
+    <!-- Daterange picker plugins css -->
+    <link href="../plantilla/quixlab-master/plugins/timepicker/bootstrap-timepicker.min.css" rel="stylesheet">
+    <link href="../plantilla/quixlab-master/plugins/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
+
+
     <!-- Custom CSS for the "agregar" card -->
     <style>
     #agregar {
@@ -294,7 +305,7 @@ $resultTapiz = $conn->query($sqlTapiz);
                                         <thead>
                                             <tr>
                                                 <th>Id</th>
-                                                <th>Departamento</th>
+                                                <th>Nombre</th>
                                                 <th>Acciones</th>
                                             </tr>
                                         </thead>
@@ -320,7 +331,7 @@ if ($resultMaterial->num_rows > 0) {
                                         <tfoot>
                                             <tr>
                                                 <th>Id</th>
-                                                <th>Departamento</th>
+                                                <th>Nombre</th>
                                                 <th>Acciones</th>
                                             </tr>
                                         </tfoot>
@@ -340,7 +351,8 @@ if ($resultMaterial->num_rows > 0) {
                                         <thead>
                                             <tr>
                                                 <th>Id</th>
-                                                <th>Departamento</th>
+                                                <th>Nombre</th>
+                                                <th>Color</th>
                                                 <th>Acciones</th>
                                             </tr>
                                         </thead>
@@ -351,8 +363,9 @@ if ($resultColor->num_rows > 0) {
         echo "<tr>";
         echo "<td>" . $row["id_color"] . "</td>";
         echo "<td>" . $row["color_nom"] . "</td>";
+        echo "<td style='background-color: " . $row["colorHex"] . "'></td>"; // Celda con color de fondo
         echo "<td>";
-        echo "<button class='btn btn-primary edit-btn-color' data-toggle='modal' data-target='#modalEditarColor' data-id='" . $row['id_color'] . "'><i class='fas fa-edit'></i></button>";
+        echo "<button class='btn btn-primary edit-btn-color' data-toggle='modal' data-target='#modalEditarColor'  data-id='" . $row['id_color'] . "' data-color='" . $row['colorHex'] . "'><i class='fas fa-edit'></i></button>";
         echo "<button class='delete-btn-color' data-id='" . $row["id_color"] . "'><i class='fas fa-trash'></i></button>";
         echo "</td>";
         echo "</tr>";
@@ -365,7 +378,8 @@ if ($resultColor->num_rows > 0) {
                                         <tfoot>
                                             <tr>
                                                 <th>Id</th>
-                                                <th>Departamento</th>
+                                                <th>Nombre</th>
+                                                <th>Color</th>
                                                 <th>Acciones</th>
                                             </tr>
                                         </tfoot>
@@ -385,7 +399,7 @@ if ($resultColor->num_rows > 0) {
                                         <thead>
                                             <tr>
                                                 <th>Id</th>
-                                                <th>Departamento</th>
+                                                <th>Nombre</th>
                                                 <th>Acciones</th>
                                             </tr>
                                         </thead>
@@ -410,7 +424,7 @@ if ($resultTapiz->num_rows > 0) {
                                         <tfoot>
                                             <tr>
                                                 <th>Id</th>
-                                                <th>Departamento</th>
+                                                <th>Nombre</th>
                                                 <th>Acciones</th>
                                             </tr>
                                         </tfoot>
@@ -424,6 +438,8 @@ if ($resultTapiz->num_rows > 0) {
                     
 
                 </div>
+
+            
 
             </div>
             <!-- #/ container -->
@@ -516,9 +532,15 @@ if ($resultTapiz->num_rows > 0) {
                     <form id="formAgregarColor" action="agregar_Color.php" method="post">
                         <div class="form-group">
                         <input type="hidden" name="id" id="editMaterialId">
-                            <label for="nombreColor">Nombre:</label>
+                            <label for="nombreColor">Agregue el Nombre</label>
                             <input type="text" id="nombreColor" name="nombre" required>
                         </div>
+                        <!-- Agrega el input de tipo color para seleccionar el color -->
+                    
+                    <div class="form-group">
+                        <label for="colorSeleccionado">Agregue el Color</label>
+                        <input type="color" class="form-control" id="colorSeleccionado" name="color">
+                    </div>
                         <button type="submit" class="btn btn-primary">Agregar Color</button>
                     </form>
 
@@ -545,6 +567,11 @@ if ($resultTapiz->num_rows > 0) {
                         <label for="editColorNombre">Nombre del Material:</label>
                         <input type="text" class="form-control" id="editColorNombre" name="nombre" required>
                     </div>
+                    <div class="form-group">
+                        <label for="colorEditar">Color:</label>
+                        <input type="color" class="form-control" id="colorEditar" name="colorEditar">
+                    </div>
+                    <input type="hidden" id="idColorEditar" name="idColorEditar">
                     <button type="submit" class="btn btn-primary">Actualizar</button>
                 </form>
             </div>
@@ -627,6 +654,25 @@ if ($resultTapiz->num_rows > 0) {
 
     <!-- Chartjs -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
+    <script src="../plantilla/quixlab-master/plugins/moment/moment.js"></script>
+    <script src="../plantilla/quixlab-master/plugins/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js"></script>
+    <!-- Clock Plugin JavaScript -->
+    <script src="../plantilla/quixlab-master/plugins/clockpicker/dist/jquery-clockpicker.min.js"></script>
+    <!-- Color Picker Plugin JavaScript -->
+    <script src="../plantilla/quixlab-master/plugins/jquery-asColorPicker-master/libs/jquery-asColor.js"></script>
+    <script src="../plantilla/quixlab-master/plugins/jquery-asColorPicker-master/libs/jquery-asGradient.js"></script>
+    <script src="../plantilla/quixlab-master/plugins/jquery-asColorPicker-master/dist/jquery-asColorPicker.min.js"></script>
+    <!-- Date Picker Plugin JavaScript -->
+    <script src="../plantilla/quixlab-master/plugins/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
+    <!-- Date range Plugin JavaScript -->
+    <script src="../plantilla/quixlab-master/plugins/timepicker/bootstrap-timepicker.min.js"></script>
+    <script src="../plantilla/quixlab-master/plugins/bootstrap-daterangepicker/daterangepicker.js"></script>
+
+    <script src="../plantilla/quixlab-master/js/plugins-init/form-pickers-init.js"></script>
+
+
     <script>
     // Una vez que el documento esté cargado, ejecuta esta función
     $(document).ready(function() {
@@ -713,13 +759,16 @@ if ($resultTapiz->num_rows > 0) {
 
             // Obtener los datos del formulario
             var nombre = $('#nombreColor').val();
+            var color = $('#colorSeleccionado').val(); // Obtener el valor hexadecimal del color seleccionado
 
             // Enviar los datos del formulario mediante AJAX
             $.ajax({
                 url: 'editar_eliminar/agregar_Color.php', // URL del script PHP para agregar el material
                 type: 'POST', // Método de envío de datos
                 data: {
-                    nombre: nombre
+                    nombre: nombre,
+                    color: color // Enviar también el valor hexadecimal del color
+
                 }, // Datos a enviar al servidor
                 success: function() { // Función a ejecutar si la solicitud tiene éxito
                     alert('Color agregado correctamente');
@@ -817,13 +866,16 @@ if ($resultTapiz->num_rows > 0) {
    $(document).ready(function() {
     // Manejar el clic en los botones de edición
     $('.edit-btn-color').click(function() {
-        // Obtener el ID del material
+        // Obtener el ID del color
         var id = $(this).data('id');
-        // Obtener el nombre del material
+        // Obtener el nombre del color
         var nombre = $(this).closest('tr').find('td:nth-child(2)').text();
+        // Obtener el color hexadecimal desde el botón de edición
+        var color1 = $(this).data('color');
         // Asignar los valores al formulario del modal
         $('#editColorId').val(id);
         $('#editColorNombre').val(nombre);
+        $('#colorEditar').val(color1); // Establecer el color en el input de tipo "color"
     });
 });
    </script>
@@ -836,6 +888,7 @@ if ($resultTapiz->num_rows > 0) {
         // Obtener los datos del formulario
         var id = $('#editColorId').val();
         var nombre = $('#editColorNombre').val();
+        var color = $('#colorEditar').val(); // Nuevo color seleccionado por el usuario
 
         // Enviar los datos del formulario mediante AJAX
         $.ajax({
@@ -843,7 +896,8 @@ if ($resultTapiz->num_rows > 0) {
             type: 'POST', // Método de envío de datos
             data: {
                 id: id,
-                nombre: nombre
+                nombre: nombre,
+                color: color // Incluye el nuevo color en los datos a enviar al servidor
             }, // Datos a enviar al servidor
             success: function(response) { // Función a ejecutar si la solicitud tiene éxito
                 alert('Color actualizado correctamente');

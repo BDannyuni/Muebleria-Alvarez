@@ -108,11 +108,6 @@
                     </li>
                     <li class="nav-label">Extra</li>
                     <li class="mega-menu mega-menu-sm">
-                        <a href="clientes.php" aria-expanded="false">
-                            <i class="ti-user"></i><span class="nav-text">Clientes</span>
-                        </a>
-                    </li>
-                    <li class="mega-menu mega-menu-sm">
                         <a href="admusuarios.php" aria-expanded="false">
                             <i class="ti-clipboard"></i><span class="nav-text">Admin Usuarios</span>
                         </a>

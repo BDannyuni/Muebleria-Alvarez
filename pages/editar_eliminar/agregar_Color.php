@@ -16,9 +16,10 @@ if ($conn->connect_error) {
 // Verifica si se ha recibido el nombre del material
 if(isset($_POST['nombre'])) {
     $nombre = $_POST['nombre'];
+    $color = $_POST['color'];
 
     // Inserta el material en la base de datos
-    $sql = "INSERT INTO color (color_nom) VALUES ('$nombre')";
+    $sql = "INSERT INTO color (color_nom, colorHex) VALUES ('$nombre','$color')";
 
     if ($conn->query($sql) === TRUE) {
         // Envía una respuesta JSON de éxito
