@@ -13,7 +13,7 @@ if ($conn->connect_error) {
 }
 
 // Obtener las ventas del mes actual
-$sql = "SELECT DATE_FORMAT(fecha_venta, '%Y-%m-%d') AS fecha, SUM(total_venta) AS total
+$sql = "SELECT DATE_FORMAT(fecha_venta, '%Y-%m-%d') AS fecha, SUM(monto_total) AS total
         FROM ventas
         WHERE MONTH(fecha_venta) = MONTH(CURRENT_DATE())
         AND YEAR(fecha_venta) = YEAR(CURRENT_DATE())

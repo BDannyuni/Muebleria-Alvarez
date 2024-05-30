@@ -15,7 +15,7 @@ if ($conn->connect_error) {
 
 // Consulta para obtener los productos más populares
 $sql = "SELECT p.id_producto, p.nombre_prod, SUM(v.cantidad) as total_vendido
-        FROM ventas v
+        FROM detalles_venta v
         INNER JOIN productos p ON v.id_producto = p.id_producto
         GROUP BY v.id_producto
         ORDER BY total_vendido DESC
@@ -26,7 +26,7 @@ $result = $conn->query($sql);
 // Consulta para obtener las ventas por fechas
 $sql = "SELECT
 DATE(fecha_venta) AS fecha,
-SUM(total_venta) AS total_ventas
+SUM(monto_total) AS total_ventas
 FROM
 ventas
 GROUP BY
@@ -195,13 +195,12 @@ $result = $conn->query($sql);
         ***********************************-->
 
 
-        <!--**********************************
+      <!--**********************************
             Footer start
         ***********************************-->
         <div class="footer">
             <div class="copyright">
-                <p>Copyright &copy; Designed & Developed by <a href="https://themeforest.net/user/quixlab">Quixlab</a>
-                    2018</p>
+                <p>Copyright &copy; Todos Los Derechos Reservados | Esta Pagina esta Hecha solo para fin educativo <br> Hecho por <a href="https://colorlib.com" target="_blank">Brandon</a> y <a href="https://colorlib.com" target="_blank">Maximo</a></p>
             </div>
         </div>
         <!--**********************************

@@ -160,6 +160,46 @@ $products = $statement->fetchAll(PDO::FETCH_ASSOC);
         border-color: #4e4dc1;
     }
     </style>
+
+<style>
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+        }
+
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #f1f1f1;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        .avatar a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .avatar span {
+            font-weight: bold;
+        }
+    </style>
 </head>
 
 <body>
@@ -203,21 +243,23 @@ $products = $statement->fetchAll(PDO::FETCH_ASSOC);
                     </a>
 
                     <?php if (!empty($user)) : ?>
-
-                    <!-- Avatar -->
-                    <a>
-                        <div class="avatar">
-                            <span><?= $user['nom_usuario']; ?></span>
-                            <img src="../plantilla/images/avatar.png" alt="">
+                        
+                    <!-- Dropdown Menu -->
+                    <div class="dropdown">
+                            <div class="avatar">
+                            <?php if (!empty($user) && $user['rol'] == 'admin') : ?>
+                            <a href="resumen.php" class="avatar">
+                    <?php endif; ?>
+                                <img src="../plantilla/images/avatar.png" alt="">
+                                <span><?= $user['nom_usuario']; ?></span>  
+                                <?php if (!empty($user) && $user['rol'] == 'admin') : ?>
+                                </a>
+                    <?php endif; ?>
+                            </div>
+                            <div class="dropdown-content">
+                                <a href="../controllers/logout.php"><i class="bi bi-box-arrow-right"></i> Logout</a>
+                            </div>
                         </div>
-                    </a>
-
-                    <!-- Logout -->
-                    <a href="../controllers/logout.php" class="d-inline-block ">
-                        <div class="logout p-1">
-                            <i class="bi bi-box-arrow-right" style="width: 30px; height: 30px; color: #000;"></i>
-                        </div>
-                    </a>
 
                     <?php else : ?>
                     <!-- Avatar -->
@@ -248,7 +290,7 @@ $products = $statement->fetchAll(PDO::FETCH_ASSOC);
                 <div></div>
             </div>
         </div>
-        <div class="logo menu_mm"><a class="navbar-brand ps-5" href="index.php"><img src="assets/images/logo.png"
+        <div class="logo menu_mm"><a class="navbar-brand ps-5" href="index.php"><img src="../assets/images/logo.png"
                     alt="logo" height="100px"></a></div>
         <nav class="menu_nav">
             <ul class="menu_mm">
@@ -468,24 +510,13 @@ $products = $statement->fetchAll(PDO::FETCH_ASSOC);
                         <div class="sidebar_promo_subtitle">En todas las salas</div>
                         <div class="sidebar_promo_button"><a href="checkout.html">check out</a></div>
                     </div>
-                </div>
-
-                <!-- Promo 2 -->
-                <div class="sidebar_promo_2 sidebar_promo">
-                    <div class="sidebar_promo_image"
-                        style="background-image: url(../assets/images/productos/comedorprincipal.png)"></div>
-                    <div class="sidebar_promo_content text-center">
-                        <div class="sidebar_promo_title">-40% <span>descuento</span></div>
-                        <div class="sidebar_promo_subtitle">En todos los comedores completos</div>
-                        <div class="sidebar_promo_button"><a href="checkout.html">check out</a></div>
-                    </div>
                 </div><br>
 
                 
                 <!-- Promo 3 -->
                 <div class="sidebar_promo_1 sidebar_promo d-flex flex-column align-items-center justify-content-center">
                     <div class="sidebar_promo_image"
-                        style="background-image: url(../assets/images/productos/salaprincipal.jpg)"></div>
+                        style="background-image: url(../assets/images/productos/comedorprincipal.png)"></div>
                     <div class="sidebar_promo_content text-center">
                         <div class="sidebar_promo_title">-10% <span>descuento</span></div>
                         <div class="sidebar_promo_subtitle">En todas las cocinas completas</div>

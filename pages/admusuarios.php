@@ -22,9 +22,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $nombre_completo = $_POST['nombre_completo'];
         $email = $_POST['email'];
         $nom_usuario = $_POST['nom_usuario'];
+        $rol = $_POST['rol'];  // Agregar la nueva columna
 
         // Actualizar el registro en la base de datos
-        $update_sql = "UPDATE usuarios SET nombre_completo='$nombre_completo', email='$email', nom_usuario='$nom_usuario' WHERE Id_usuario=$id";
+        $update_sql = "UPDATE usuarios SET nombre_completo='$nombre_completo', email='$email', nom_usuario='$nom_usuario', rol='$rol' WHERE Id_usuario=$id";
         if ($conn->query($update_sql) === TRUE) {
             $_SESSION['success_message'] = "Registro actualizado exitosamente";
         } else {
@@ -93,44 +94,47 @@ $conn->close();
                                 <h4 class="card-title">Usuarios en el Sistema</h4>
                                 <div class="table-responsive">
                                     <table id="productos" class="table table-striped table-bordered">
-                                        <thead>
-                                            <tr>
-                                                <th>ID</th>
-                                                <th>Nombre Completo</th>
-                                                <th>Email</th>
-                                                <th>Nombre de Usuario</th>
-                                                <th>Acciones</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <?php
-                                            if ($result->num_rows > 0) {
-                                                while ($row = $result->fetch_assoc()) {
-                                                    echo "<tr>";
-                                                    echo "<td>" . $row["Id_usuario"] . "</td>";
-                                                    echo "<td>" . $row["nombre_completo"] . "</td>";
-                                                    echo "<td>" . $row["email"] . "</td>";
-                                                    echo "<td>" . $row["nom_usuario"] . "</td>";
-                                                    echo "<td>
-                                                        <button type='button' class='btn btn-success edit-btn' data-id='" . $row['Id_usuario'] . "' data-nombre='" . $row['nombre_completo'] . "' data-email='" . $row['email'] . "' data-usuario='" . $row['nom_usuario'] . "' data-toggle='modal' data-target='#editModal'><i class='fas fa-edit'></i></button>
-                                                        <button type='button' class='btn btn-danger delete-btn' data-id='" . $row['Id_usuario'] . "' data-toggle='modal' data-target='#deleteModal'><i class='fas fa-trash-alt'></i></button>
-                                                    </td>";
-                                                    echo "</tr>";
-                                                }
-                                            } else {
-                                                echo "<tr><td colspan='9'>0 resultados</td></tr>";
-                                            }
-                                            ?>
-                                        </tbody>
-                                        <tfoot>
-                                            <tr>
-                                                <th>ID</th>
-                                                <th>Nombre Completo</th>
-                                                <th>Email</th>
-                                                <th>Nombre de Usuario</th>
-                                                <th>Acciones</th>
-                                            </tr>
-                                        </tfoot>
+                                    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Nombre Completo</th>
+        <th>Email</th>
+        <th>Nombre de Usuario</th>
+        <th>Rol</th>  <!-- Nueva columna -->
+        <th>Acciones</th>
+    </tr>
+</thead>
+<tbody>
+    <?php
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            echo "<tr>";
+            echo "<td>" . $row["Id_usuario"] . "</td>";
+            echo "<td>" . $row["nombre_completo"] . "</td>";
+            echo "<td>" . $row["email"] . "</td>";
+            echo "<td>" . $row["nom_usuario"] . "</td>";
+            echo "<td>" . $row["rol"] . "</td>";  // Mostrar el rol
+            echo "<td>
+                <button type='button' class='btn btn-success edit-btn' data-id='" . $row['Id_usuario'] . "' data-nombre='" . $row['nombre_completo'] . "' data-email='" . $row['email'] . "' data-usuario='" . $row['nom_usuario'] . "' data-rol='" . $row['rol'] . "' data-toggle='modal' data-target='#editModal'><i class='fas fa-edit'></i></button>
+                <button type='button' class='btn btn-danger delete-btn' data-id='" . $row['Id_usuario'] . "' data-toggle='modal' data-target='#deleteModal'><i class='fas fa-trash-alt'></i></button>
+            </td>";
+            echo "</tr>";
+        }
+    } else {
+        echo "<tr><td colspan='6'>0 resultados</td></tr>";
+    }
+    ?>
+</tbody>
+<tfoot>
+    <tr>
+        <th>ID</th>
+        <th>Nombre Completo</th>
+        <th>Email</th>
+        <th>Nombre de Usuario</th>
+        <th>Rol</th>  <!-- Nueva columna -->
+        <th>Acciones</th>
+    </tr>
+</tfoot>
                                     </table>
                                 </div>
                             </div>
@@ -151,20 +155,24 @@ $conn->close();
                                 </button>
                             </div>
                             <div class="modal-body">
-                                <input type="hidden" name="id_usuario" id="modal_id_usuario">
-                                <div class="form-group">
-                                    <label for="modal_nombre_completo">Nombre Completo:</label>
-                                    <input type="text" name="nombre_completo" id="modal_nombre_completo" class="form-control" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="modal_email">Email:</label>
-                                    <input type="email" name="email" id="modal_email" class="form-control" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="modal_nom_usuario">Nombre de Usuario:</label>
-                                    <input type="text" name="nom_usuario" id="modal_nom_usuario" class="form-control" required>
-                                </div>
-                            </div>
+    <input type="hidden" name="id_usuario" id="modal_id_usuario">
+    <div class="form-group">
+        <label for="modal_nombre_completo">Nombre Completo:</label>
+        <input type="text" name="nombre_completo" id="modal_nombre_completo" class="form-control" required>
+    </div>
+    <div class="form-group">
+        <label for="modal_email">Email:</label>
+        <input type="email" name="email" id="modal_email" class="form-control" required>
+    </div>
+    <div class="form-group">
+        <label for="modal_nom_usuario">Nombre de Usuario:</label>
+        <input type="text" name="nom_usuario" id="modal_nom_usuario" class="form-control" required>
+    </div>
+    <div class="form-group">
+        <label for="modal_rol">Rol:</label>
+        <input type="text" name="rol" id="modal_rol" class="form-control" required>
+    </div>
+</div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
                                 <button type="submit" class="btn btn-primary">Guardar cambios</button>
@@ -198,13 +206,21 @@ $conn->close();
                 </div>
             </div>
 
-            <div class="footer">
-                <div class="copyright">
-                    <p>Copyright © Designed & Developed by <a href="#" target="_blank">Quixlab</a> 2018</p>
-                </div>
-            </div>
         </div>
     </div>
+
+
+     <!--**********************************
+            Footer start
+        ***********************************-->
+        <div class="footer">
+            <div class="copyright">
+                <p>Copyright &copy; Todos Los Derechos Reservados | Esta Pagina esta Hecha solo para fin educativo <br> Hecho por <a href="https://colorlib.com" target="_blank">Brandon</a> y <a href="https://colorlib.com" target="_blank">Maximo</a></p>
+            </div>
+        </div>
+        <!--**********************************
+            Footer end
+        ***********************************-->
 
     <!-- Scripts -->
     <script src="../plantilla/quixlab-master/plugins/common/common.min.js"></script>
@@ -226,18 +242,20 @@ $conn->close();
 
             // Pasar datos al modal de edición
             $('#editModal').on('show.bs.modal', function(event) {
-                var button = $(event.relatedTarget);
-                var id = button.data('id');
-                var nombre = button.data('nombre');
-                var email = button.data('email');
-                var usuario = button.data('usuario');
+    var button = $(event.relatedTarget);
+    var id = button.data('id');
+    var nombre = button.data('nombre');
+    var email = button.data('email');
+    var usuario = button.data('usuario');
+    var rol = button.data('rol');  // Obtener el rol
 
-                var modal = $(this);
-                modal.find('#modal_id_usuario').val(id);
-                modal.find('#modal_nombre_completo').val(nombre);
-                modal.find('#modal_email').val(email);
-                modal.find('#modal_nom_usuario').val(usuario);
-            });
+    var modal = $(this);
+    modal.find('#modal_id_usuario').val(id);
+    modal.find('#modal_nombre_completo').val(nombre);
+    modal.find('#modal_email').val(email);
+    modal.find('#modal_nom_usuario').val(usuario);
+    modal.find('#modal_rol').val(rol);  // Asignar el rol
+});
 
             // Pasar datos al modal de eliminación
             $('#deleteModal').on('show.bs.modal', function(event) {
