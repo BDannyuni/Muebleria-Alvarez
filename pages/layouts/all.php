@@ -35,7 +35,7 @@
                                 <li><a href="catalogo.php">Catalogo</a></li>
                             </span>
                             <span class="input-group-text bg-transparent border-0 pr-2 pr-sm-3" id="basic-addon1">
-                                <li><a href="nosotros.php">Sobre Nosotros</a></li>
+                                <li><a href="aboutus.php">Sobre Nosotros</a></li>
                             </span>
                             <span class="input-group-text bg-transparent border-0 pr-2 pr-sm-3" id="basic-addon1">
                                 <li><a href="contacto.php">Contacto</a></li>

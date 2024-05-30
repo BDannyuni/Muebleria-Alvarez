@@ -176,7 +176,7 @@ $products = $statement->fetchAll(PDO::FETCH_ASSOC);
                     <li><a href="#"></a></li>
                     <li><a href="../index.php">Inicio</a></li>
                     <li><a href="catalogo.php">Catalogo</a></li>
-                    <li><a href="nosotros.php">Sobre Nosotros</a></li>
+                    <li><a href="aboutus.php">Sobre Nosotros</a></li>
                     <li><a href="contacto.php">Contacto</a></li>
                     <?php if (!empty($user) && $user['rol'] == 'admin') : ?>
                     <!-- si hay usuario y es admin -->

@@ -204,9 +204,7 @@ include "../controllers/config.php";
                                                                         echo number_format($total_general, 2); ?></div>
                                 </div>
                                 <form action="" method="POST">
-                                    <div id="paypal-button-container">
-
-                                    </div>
+                                    <div id="paypal-button-container"></div>
 
                                 </form>
                                 <div class="payment_methods mt-4">
@@ -236,9 +234,6 @@ include "../controllers/config.php";
             // Call your server to set up the transaction
             createOrder: function(data, actions) {
                 return actions.order.create({
-                    aplication_context: {
-                        shipping_preference: 'NO_SHIPPING'
-                    },
                     purchase_units: [{
                         amount: {
                             value: '<?php echo number_format($total_general, 2, '.', ''); ?>'
@@ -250,24 +245,7 @@ include "../controllers/config.php";
             // Call your server to finalize the transaction
             onApprove: function(data, actions) {
                 return actions.order.capture().then(function(orderData) {
-                    console.log('Capture result', orderData, JSON.stringify(orderData, null, 2));
-
-                    // Send data to server
-                    return fetch('../controllers/carrito.php', {
-                        method: 'post',
-                        headers: {
-                            'content-type': 'application/json'
-                        },
-                        body: JSON.stringify({
-                            orderID: data.orderID,
-                            orderData: orderData
-                        })
-                    }).then(function(res) {
-                        return res.json();
-                    }).then(function(response) {
-                        console.log('Server response', response);
-                        // Redirect or show a success message
-                    });
+                    registrarCompra(orderData);
                 });
             },
             /*
@@ -277,6 +255,24 @@ include "../controllers/config.php";
             }*/
 
         }).render('#paypal-button-container');
+
+        function registrarCompra(datos) {
+            const url = '../controllers/paypal.php';
+            const http = new XMLHttpRequest();
+
+            http.open('POST', url, true);
+            http.send(JSON.stringify({
+                pedidos: datos,
+                productos: <?php echo json_encode($_SESSION['CARRITO']); ?>
+            }));
+
+            http.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    //console.log(this.responseText);
+                    //window.location = "../index.php";
+                }
+            };
+        }
     </script>
 </body>
 
