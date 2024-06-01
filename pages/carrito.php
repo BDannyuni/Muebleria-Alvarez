@@ -268,8 +268,16 @@ include "../controllers/config.php";
 
             http.onreadystatechange = function() {
                 if (this.readyState == 4 && this.status == 200) {
-                    //console.log(this.responseText);
-                    //window.location = "../index.php";
+                    const response = JSON.parse(this.responseText);
+                    if (response.status === 'success') {
+                        // Redirigir al ticket generado
+                        const ticketPath = '../tickets/ticket_' + datos.id + '.pdf'; 
+                        window.location = ticketPath;
+                    } else {
+                        console.error('Error:', response.message);
+                        // Mostrar mensaje de error
+                        Swal.fire('Error', response.message, 'error');
+                    }
                 }
             };
         }

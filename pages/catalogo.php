@@ -7,6 +7,7 @@ include "../controllers/carrito.php";
 $whereClauses = [];
 $parameters = [];
 
+// Filtro de categorías
 if (isset($_GET['categoria'])) {
     $categorias = $_GET['categoria'];
     $placeholders = rtrim(str_repeat('?,', count($categorias)), ',');
@@ -14,6 +15,38 @@ if (isset($_GET['categoria'])) {
     $parameters = array_merge($parameters, $categorias);
 }
 
+// Filtro de departamentos
+if (isset($_GET['departamento'])) {
+    $departamento_id = $_GET['departamento'];
+    $whereClauses[] = "id_departamento = ?";
+    $parameters[] = $departamento_id;
+}
+
+// Filtro de colores
+if (isset($_GET['color'])) {
+    $color = $_GET['color'];
+    $whereClauses[] = "id_color = ?";
+    $parameters[] = $color;
+}
+
+// Filtro de materiales
+if (isset($_GET['material'])) {
+    $material = $_GET['material'];
+    $whereClauses[] = "id_material = ?";
+    $parameters[] = $material;
+}
+
+// Filtro de tapices
+if (isset($_GET['tapiz'])) {
+    $tapiz = $_GET['tapiz'];
+    $whereClauses[] = "id_tapiz = ?";
+    $parameters[] = $tapiz;
+}
+
+// Filtro de stock
+$whereClauses[] = "stock_prod > 0";
+
+// Construcción de la cláusula WHERE
 $whereSql = "";
 if (count($whereClauses) > 0) {
     $whereSql = "WHERE " . implode(" AND ", $whereClauses);
@@ -24,7 +57,6 @@ $sql = "SELECT * FROM productos $whereSql";
 $statement = $conn->prepare($sql);
 $statement->execute($parameters);
 $products = $statement->fetchAll(PDO::FETCH_ASSOC);
-
 
 // Obtener los departamentos de la base de datos
 $sqlDepartamentos = "SELECT * FROM departamentos";
@@ -49,49 +81,6 @@ $sqlTapices = "SELECT * FROM tapiz";
 $statementTapices = $conn->prepare($sqlTapices);
 $statementTapices->execute();
 $tapices = $statementTapices->fetchAll(PDO::FETCH_ASSOC);
-
-
-// Filtros
-$whereClauses = [];
-$parameters = [];
-
-// Filtro de departamentos
-if (isset($_GET['departamento'])) {
-    $departamento_id = $_GET['departamento'];
-    $whereClauses[] = "id_departamento = ?";
-    $parameters[] = $departamento_id;
-}
-
-if (isset($_GET['color'])) {
-    $color = $_GET['color'];
-    $whereClauses[] = "id_color = ?";
-    $parameters[] = $color;
-}
-
-if (isset($_GET['material'])) {
-    $material = $_GET['material'];
-    $whereClauses[] = "id_material = ?";
-    $parameters[] = $material;
-}
-
-if (isset($_GET['tapiz'])) {
-    $tapiz = $_GET['tapiz'];
-    $whereClauses[] = "id_tapiz = ?";
-    $parameters[] = $tapiz;
-}
-
-$whereSql = "";
-if (count($whereClauses) > 0) {
-    $whereSql = "WHERE " . implode(" AND ", $whereClauses);
-}
-
-// Obtener los productos de la base de datos 
-$sql = "SELECT * FROM productos $whereSql";
-$statement = $conn->prepare($sql);
-$statement->execute($parameters);
-$products = $statement->fetchAll(PDO::FETCH_ASSOC);
-
-
 ?>
 
 <!DOCTYPE html>

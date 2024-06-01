@@ -245,7 +245,7 @@ include 'controllers/carrito.php'
 		<?php 
 			//TRAER PRODUCTOS DE LA BASE DE DATOS  
 
-			$stmt = $conn->query("SELECT * FROM productos limit 3");
+			$stmt = $conn->query("SELECT * FROM productos WHERE stock_prod > 0 LIMIT 3");
 			$stmt->execute();
 			$listaProductos = $stmt->fetchAll(PDO::FETCH_ASSOC);
 		

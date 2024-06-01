@@ -42,14 +42,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $respuesta = "success";
             }
             // Generar el ticket
-            generar_ticket($temp2['id_venta'], $productos, $monto_total, $nombre, $apellido, $email, $direccion, $ciudad, $fecha_venta);
-            // Redireccionar a la página de inicio
-            header("Location: ../index.php");
+            generar_ticket($temp2['id_venta'], $order_id);
 
             // Finalizamos la sesión del carrito
             unset($_SESSION['CARRITO']);
+            // Respuesta de éxito
+            echo json_encode(['status' => 'success', 'message' => 'Compra registrada y ticket generado.']);
         } else {
-            echo "Error al registrar";
+            echo json_encode(['status' => 'error', 'message' => 'Datos de compra no recibidos.']);
         }
     } else {
         echo "Error fatal, no modifiques el JSON";
@@ -120,7 +120,7 @@ function registrar_detalle($id_venta, $id_producto, $cantidad, $precio, $conn)
 }
 
 // Función para generar el ticket
-function generar_ticket($id_venta)
+function generar_ticket($id_venta, $order_id)
 {
     //GENERA TICKET
     // Crear instancia de Dompdf
@@ -136,12 +136,7 @@ function generar_ticket($id_venta)
     $dompdf->render();
 
     // Guardar el PDF en la carpeta ../tickets
-    $ticket_path = '../tickets/ticket_' . $id_venta . '.pdf';
+    $ticket_path = '../tickets/ticket_' . $order_id . '.pdf';
     file_put_contents($ticket_path, $dompdf->output());
 
-    // Enviar el PDF al navegador para que se abra en una nueva pestaña
-    $dompdf->stream('ticket_' . $id_venta . '.pdf', array('Attachment' => 0));
-
-    // Finalizar la sesión del carrito
-    unset($_SESSION['CARRITO']);
 }
