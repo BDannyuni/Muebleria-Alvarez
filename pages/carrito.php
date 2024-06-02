@@ -3,6 +3,36 @@ include "../controllers/user_session.php";
 include '../controllers/carrito.php';
 include "../controllers/config.php";
 
+$isLoggedIn = !empty($_SESSION['user_id']);
+if (!$isLoggedIn) {
+    // Si el usuario no ha iniciado sesión, mostramos solo el Sweet Alert y salimos del script.
+    echo <<<HTML
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <title>Carrito de Compras - Muebleria Alvarez</title>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            Swal.fire({
+                icon: 'error',
+                title: 'Acceso Denegado',
+                text: 'Por favor, inicie sesión primero para ver su carrito.',
+                confirmButtonText: 'OK',
+                position: 'center'
+            }).then(function() {
+                window.location.href = '../login.php';
+            });
+        });
+    </script>
+</body>
+</html>
+HTML;
+
+    exit(); // Salimos del script para evitar que se muestre el resto del contenido de la página.
+}
 ?>
 
 <!doctype html>
@@ -130,6 +160,7 @@ include "../controllers/config.php";
                             <div class="col-lg-8">
                                 <div class="cart_container">
                                     <h1 class="text-center mt-5">Carrito de Compras</h1>
+
                                     <?php $total = 0; ?>
                                     <?php if (!empty($_SESSION['CARRITO'])) : ?>
                                         <?php foreach ($_SESSION['CARRITO'] as $producto) : ?>
@@ -160,6 +191,7 @@ include "../controllers/config.php";
                                                 <p>Precio: $<?php echo number_format($producto['precio'], 2); ?></p>
                                                 <p>Total: $<?php echo number_format($producto['precio'] * $producto['cantidad'], 2); ?></p>
                                             </div>
+
                                             <div class="product_actions">
                                                 <form action="" method="POST">
                                                     <input type="hidden" name="id" value="<?php echo openssl_encrypt($producto['id'], COD, KEY); ?>">
@@ -203,10 +235,13 @@ include "../controllers/config.php";
                                     <div class="order_total_amount">$<?php $total_general = $total + $envio + $impuesto;
                                                                         echo number_format($total_general, 2); ?></div>
                                 </div>
-                                <form action="" method="POST">
-                                    <div id="paypal-button-container"></div>
+                                <?php if (!empty($user)) : ?>
+                                    <form action="" method="POST">
+                                        <div id="paypal-button-container"></div>
 
-                                </form>
+                                    </form>
+
+                                <?php endif; ?>
                                 <div class="payment_methods mt-4">
                                     <p>Aceptamos:</p>
                                     <img src="../assets/images/paypal.png" alt="PayPal" style="width:50px; margin-right:10px;">
@@ -224,6 +259,23 @@ include "../controllers/config.php";
     <br>
     <?php include "layouts/footer2.php"; ?>
     <script src="../assets/js/loader.js"></script>
+    <!-- SweetAlert2 Script for redirection if not logged in -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const isLoggedIn = <?php echo json_encode($isLoggedIn); ?>;
+            if (!isLoggedIn) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Acceso Denegado',
+                    text: 'Por favor, inicie sesión primero para ver su carrito.',
+                    confirmButtonText: 'OK',
+                    position: 'center'
+                }).then(function() {
+                    window.location.href = '../login.php';
+                });
+            }
+        });
+    </script>
 
     <script src="https://www.paypal.com/sdk/js?client-id=<?php echo CLIENTE_ID; ?>&currency=MXN"></script>
 
@@ -271,7 +323,7 @@ include "../controllers/config.php";
                     const response = JSON.parse(this.responseText);
                     if (response.status === 'success') {
                         // Redirigir al ticket generado
-                        const ticketPath = '../tickets/ticket_' + datos.id + '.pdf'; 
+                        const ticketPath = '../tickets/ticket_' + datos.id + '.pdf';
                         window.location = ticketPath;
                     } else {
                         console.error('Error:', response.message);
